@@ -10,7 +10,7 @@
 #define cryptopg_crc24_h
 
 #include <stdio.h>
-//#include "../PGPData/PGPDataTypes.h"
+#include "../PGPData/PGPDataTypes.h"
 
 namespace Utils
 {
