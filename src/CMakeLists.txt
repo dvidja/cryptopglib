@@ -56,4 +56,4 @@ set (CRYPTOPGLIBSOURCES
 
 find_package(OpenSSL REQUIRED)
 add_library( cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
-target_link_libraries(cryptopglib openssl.a cryptolib.a)
+
