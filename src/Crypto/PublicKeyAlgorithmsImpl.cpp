@@ -150,7 +150,7 @@ namespace crypto
     int DSSDHAlgorithm::EncryptWithPrivateKey(SecretKeyPacketPtr secret_key, const CharDataVector& source_data, CharDataVector& result_data)
     {
         //signature
-        /*DSA* dsa_secret_key = DSA_new();
+        DSA* dsa_secret_key = DSA_new();
         
         CharDataVector mpi_x_data(secret_key->GetMPI(0));
         auto priv_key = BN_bin2bn(&mpi_x_data[0], static_cast<int>(mpi_x_data.size()), nullptr);
@@ -162,7 +162,7 @@ namespace crypto
         
         CharDataVector mpi_q_data(public_key->GetMPI(1));
         auto q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
-        int num_bits = BN_num_bits(dsa_secret_key->q);
+        int num_bits = BN_num_bits(q);
         
         CharDataVector mpi_g_data(public_key->GetMPI(2));
         auto g = BN_bin2bn(&mpi_g_data[0], static_cast<int>(mpi_g_data.size()), nullptr);
@@ -171,26 +171,27 @@ namespace crypto
         auto pub_key = BN_bin2bn(&mpi_y_data[0], static_cast<int>(mpi_y_data.size()), nullptr);
 
         DSA_set0_key(dsa_secret_key, pub_key, priv_key);
-        DSA_set0_pqg()
-        
+
         unsigned int dsa_len = DSA_size(dsa_secret_key);
         result_data.resize(dsa_len);
         
         DSA_SIG* dsa_signature = DSA_do_sign(&source_data[0], static_cast<int>(source_data.size()),  dsa_secret_key);
+
+        const BIGNUM *r, *s;
+        DSA_SIG_get0(dsa_signature, &r, &s);
+        CharDataVector mpi_r((BN_num_bytes(r)) * sizeof(char));
+        BN_bn2bin(r, &mpi_r[0]);
         
-        CharDataVector mpi_r((BN_num_bytes(dsa_signature->r)) * sizeof(char));
-        BN_bn2bin(dsa_signature->r, &mpi_r[0]);
-        
-        CharDataVector mpi_s((BN_num_bytes(dsa_signature->s)) * sizeof(char));
-        BN_bn2bin(dsa_signature->s, &mpi_s[0]);
+        CharDataVector mpi_s((BN_num_bytes(s)) * sizeof(char));
+        BN_bn2bin(s, &mpi_s[0]);
         
         CharDataVector encrypted_data;
-        int num_bits_r = BN_num_bits(dsa_signature->r);
+        int num_bits_r = BN_num_bits(r);
         encrypted_data.push_back((num_bits_r >> 8) & 0xFF);
         encrypted_data.push_back(num_bits_r & 0xFF);
         encrypted_data.insert(encrypted_data.end(), mpi_r.begin(), mpi_r.end());
         
-        int num_bits_s = BN_num_bits(dsa_signature->s);
+        int num_bits_s = BN_num_bits(s);
         encrypted_data.push_back((num_bits_s >> 8) & 0xFF);
         encrypted_data.push_back(num_bits_s & 0xFF);
         encrypted_data.insert(encrypted_data.end(), mpi_s.begin(), mpi_s.end());
@@ -198,7 +199,7 @@ namespace crypto
         result_data.assign(encrypted_data.begin(), encrypted_data.end());
         
         
-        DSA_free(dsa_secret_key);*/
+        DSA_free(dsa_secret_key);
         
         return 1;
     }
