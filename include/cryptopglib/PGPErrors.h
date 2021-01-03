@@ -8,6 +8,13 @@
 #include <exception>
 #include <string>
 
+
+const char MESSAGE_CRC_ERROR[] = "Error CRC checksum in message";
+const char PACKAGE_FIRST_BYTE_ERROR[] = "First bit is not 1";
+const char PACKAGE_LENGTH_ERROR[] = "Unknown package length";
+const char PACKAGE_UNKNOWN_TYPE[] = "Unknown package type";
+
+
 class PGPError : public std::exception{
 public:
     explicit PGPError (const std::string& what_arg);

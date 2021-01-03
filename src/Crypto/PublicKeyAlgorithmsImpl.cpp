@@ -8,12 +8,12 @@
 
 #include "PublicKeyAlgorithmsImpl.h"
 extern "C" {
-#include <openssl/bn.h>
-#include <openssl/rsa.h>
-#include <openssl/dsa.h>
-#include <openssl/err.h>
-#include <openssl/dh.h>
-#include <openssl/rand.h>
+#include "openssl/bn.h"
+#include "openssl/rsa.h"
+#include "openssl/dsa.h"
+#include "openssl/err.h"
+#include "openssl/dh.h"
+#include "openssl/rand.h"
 }
 
 namespace
@@ -35,21 +35,24 @@ namespace crypto
     int RSAAlgorithm::EncryptWithPrivateKey(SecretKeyPacketPtr secret_key, const CharDataVector& source_data, CharDataVector& result_data)
     {
         RSA* rsa_secret_key = RSA_new();
-        
+
         CharDataVector mpi_n_data(secret_key->GetPublicKeyPatr()->GetMPI(0));
-        rsa_secret_key->n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
+        auto n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
         
         CharDataVector mpi_e_data(secret_key->GetPublicKeyPatr()->GetMPI(1));
-        rsa_secret_key->e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
+        auto e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
         
         CharDataVector mpi_d_data(secret_key->GetMPI(0));
-        rsa_secret_key->d = BN_bin2bn(&mpi_d_data[0], static_cast<int>(mpi_d_data.size()), nullptr);
+        auto d = BN_bin2bn(&mpi_d_data[0], static_cast<int>(mpi_d_data.size()), nullptr);
         
         CharDataVector mpi_p_data(secret_key->GetMPI(1));
-        rsa_secret_key->p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
+        auto p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
         
         CharDataVector mpi_q_data(secret_key->GetMPI(2));
-        rsa_secret_key->q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
+        auto q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
+
+        RSA_set0_key(rsa_secret_key, n, e, d);
+        RSA_set0_factors(rsa_secret_key, p, q);
         
         result_data.resize(RSA_size(rsa_secret_key));
         int len = RSA_private_encrypt(static_cast<int>(source_data.size()), &source_data[0], &result_data[0], rsa_secret_key, RSA_PKCS1_PADDING);
@@ -64,10 +67,12 @@ namespace crypto
         RSA* rsa_pub_key = RSA_new();
         
         CharDataVector mpi_n_data(public_key->GetMPI(0));
-        rsa_pub_key->n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
+        auto n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
         
         CharDataVector mpi_e_data(public_key->GetMPI(1));
-        rsa_pub_key->e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
+        auto e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
+
+        RSA_set0_key(rsa_pub_key, n, e, nullptr);
         
         int rsa_len = RSA_size(rsa_pub_key);
         result_data.resize(rsa_len);
@@ -83,20 +88,23 @@ namespace crypto
         RSA* rsa_secret_key = RSA_new();
         
         CharDataVector mpi_n_data(secret_key->GetPublicKeyPatr()->GetMPI(0));
-        rsa_secret_key->n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
+        auto n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
         
         CharDataVector mpi_e_data(secret_key->GetPublicKeyPatr()->GetMPI(1));
-        rsa_secret_key->e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
+        auto e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
         
         CharDataVector mpi_d_data(secret_key->GetMPI(0));
-        rsa_secret_key->d = BN_bin2bn(&mpi_d_data[0], static_cast<int>(mpi_d_data.size()), nullptr);
+        auto d = BN_bin2bn(&mpi_d_data[0], static_cast<int>(mpi_d_data.size()), nullptr);
         
         CharDataVector mpi_p_data(secret_key->GetMPI(1));
-        rsa_secret_key->p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
+        auto p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
         
         CharDataVector mpi_q_data(secret_key->GetMPI(2));
-        rsa_secret_key->q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
-        
+        auto q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
+
+        RSA_set0_key(rsa_secret_key, n, e, d);
+        RSA_set0_factors(rsa_secret_key, p, q);
+
         int rsa_private_len = RSA_size(rsa_secret_key);
         result_data.resize(rsa_private_len);
         
@@ -114,11 +122,13 @@ namespace crypto
         RSA* rsa_pub_key = RSA_new();
         
         CharDataVector mpi_n_data(public_key->GetMPI(0));
-        rsa_pub_key->n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
+        auto n = BN_bin2bn(&mpi_n_data[0], static_cast<int>(mpi_n_data.size()), nullptr);
         
         CharDataVector mpi_e_data(public_key->GetMPI(1));
-        rsa_pub_key->e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
-        
+        auto e = BN_bin2bn(&mpi_e_data[0], static_cast<int>(mpi_e_data.size()), nullptr);
+
+        RSA_set0_key(rsa_pub_key, n, e, nullptr);
+
         int rsa_len = RSA_size(rsa_pub_key);
         result_data.resize(rsa_len);
 
@@ -140,25 +150,28 @@ namespace crypto
     int DSSDHAlgorithm::EncryptWithPrivateKey(SecretKeyPacketPtr secret_key, const CharDataVector& source_data, CharDataVector& result_data)
     {
         //signature
-        DSA* dsa_secret_key = DSA_new();
+        /*DSA* dsa_secret_key = DSA_new();
         
         CharDataVector mpi_x_data(secret_key->GetMPI(0));
-        dsa_secret_key->priv_key = BN_bin2bn(&mpi_x_data[0], static_cast<int>(mpi_x_data.size()), nullptr);
+        auto priv_key = BN_bin2bn(&mpi_x_data[0], static_cast<int>(mpi_x_data.size()), nullptr);
         
         PublicKeyPacketPtr public_key = secret_key->GetPublicKeyPatr();
         
         CharDataVector mpi_p_data(public_key->GetMPI(0));
-        dsa_secret_key->p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
+        auto p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
         
         CharDataVector mpi_q_data(public_key->GetMPI(1));
-        dsa_secret_key->q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
+        auto q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
         int num_bits = BN_num_bits(dsa_secret_key->q);
         
         CharDataVector mpi_g_data(public_key->GetMPI(2));
-        dsa_secret_key->g = BN_bin2bn(&mpi_g_data[0], static_cast<int>(mpi_g_data.size()), nullptr);
+        auto g = BN_bin2bn(&mpi_g_data[0], static_cast<int>(mpi_g_data.size()), nullptr);
         
         CharDataVector mpi_y_data(public_key->GetMPI(3));
-        dsa_secret_key->pub_key = BN_bin2bn(&mpi_y_data[0], static_cast<int>(mpi_y_data.size()), nullptr);
+        auto pub_key = BN_bin2bn(&mpi_y_data[0], static_cast<int>(mpi_y_data.size()), nullptr);
+
+        DSA_set0_key(dsa_secret_key, pub_key, priv_key);
+        DSA_set0_pqg()
         
         unsigned int dsa_len = DSA_size(dsa_secret_key);
         result_data.resize(dsa_len);
@@ -185,7 +198,7 @@ namespace crypto
         result_data.assign(encrypted_data.begin(), encrypted_data.end());
         
         
-        DSA_free(dsa_secret_key);
+        DSA_free(dsa_secret_key);*/
         
         return 1;
     }
@@ -363,7 +376,7 @@ namespace crypto
     // check signature
     int DSSDHAlgorithm::DecryptWithPublicKey(PublicKeyPacketPtr public_key, const CharDataVector& source_data, CharDataVector& result_data)
     {
-        DSA* dsa_public_key = DSA_new();
+        /*DSA* dsa_public_key = DSA_new();
         
         CharDataVector mpi_p_data(public_key->GetMPI(0));
         dsa_public_key->p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
@@ -398,7 +411,8 @@ namespace crypto
         DSA_SIG_free(dsa_signature);
         DSA_free(dsa_public_key);
         
-        return res;
+        return res;*/
+        return 1;
     }
     
     PublicKeyAlgorithmPtr GetPublicKeyAlgorithm(PublicKeyAlgorithms algo)

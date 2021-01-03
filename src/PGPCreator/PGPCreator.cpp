@@ -10,8 +10,8 @@
 #include "../PGPData/Packets/SignaturePacket.h"
 #include "../PGPData/Packets/MarkerPacket.h"
 
-#include "../utils/base64.h"
-#include "../utils/crc24.h"
+#include "../Utils/base64.h"
+#include "../Utils/crc24.h"
 
 #include <cmath>
 

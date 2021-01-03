@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 
 project(KryptoPgLib)
 
+set(CMAKE_CXX_STANDARD 17)
 
 SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY
         ${PROJECT_BINARY_DIR}/bin

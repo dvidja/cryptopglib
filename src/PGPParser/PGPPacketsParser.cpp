@@ -23,7 +23,7 @@
 #include "PacketParsers/UserAttributePacketParser.h"
 #include "PacketParsers/ModificationDetectionCodePacketParser.h"
 
-#include "../PGPErrors.h"
+#include "cryptopglib/PGPErrors.h"
 
 
 namespace

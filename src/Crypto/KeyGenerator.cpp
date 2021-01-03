@@ -8,10 +8,10 @@
 
 #include "KeyGenerator.h"
 extern "C" {
-#include <openssl/rsa.h>
-#include <openssl/dsa.h>
-#include <openssl/rand.h>
-#include <openssl/des.h>
+#include "openssl/rsa.h"
+#include "openssl/dsa.h"
+#include "openssl/rand.h"
+#include "openssl/des.h"
 }
 #include "../PGPData/Packets/SecretKeyPacket.h" 
 #include "../PGPData/Packets/PublicKeyPacket.h"
@@ -222,21 +222,24 @@ namespace
     void GetMPIsDataVector(const RSA* rsa_secret_key, CharDataVector& data)
     {
         std::vector<CharDataVector> mpis;
-        
-        CharDataVector mpi_d((BN_num_bytes(rsa_secret_key->d)) * sizeof(char));
-        int res = BN_bn2bin(rsa_secret_key->d, &mpi_d[0]);
+
+        auto d = RSA_get0_d(rsa_secret_key);
+        CharDataVector mpi_d((BN_num_bytes(d)) * sizeof(char));
+        int res = BN_bn2bin(d, &mpi_d[0]);
         mpis.push_back(mpi_d);
-        
-        CharDataVector mpi_p((BN_num_bytes(rsa_secret_key->p)) * sizeof(char));
-        res = BN_bn2bin(rsa_secret_key->p, &mpi_p[0]);
+
+        auto p = RSA_get0_p(rsa_secret_key);
+        CharDataVector mpi_p((BN_num_bytes(p)) * sizeof(char));
+        res = BN_bn2bin(p, &mpi_p[0]);
         mpis.push_back(mpi_p);
-        
-        CharDataVector mpi_q((BN_num_bytes(rsa_secret_key->q)) * sizeof(char));
-        res = BN_bn2bin(rsa_secret_key->q, &mpi_q[0]);
+
+        auto q = RSA_get0_q(rsa_secret_key);
+        CharDataVector mpi_q((BN_num_bytes(q)) * sizeof(char));
+        res = BN_bn2bin(q, &mpi_q[0]);
         mpis.push_back(mpi_q);
         
         BN_CTX* ctx = BN_CTX_new();
-        BIGNUM* u = BN_mod_inverse(NULL, rsa_secret_key->p, rsa_secret_key->q, ctx);
+        BIGNUM* u = BN_mod_inverse(NULL, p, q, ctx);
 
         CharDataVector mpi_iqmp((BN_num_bytes(u)) * sizeof(char));
         res = BN_bn2bin(u, &mpi_iqmp[0]);
@@ -357,13 +360,15 @@ namespace
                 {
                     int rsa_exponent = 65537;
                     RSA* rsa_secret_key = RSA_generate_key(num_bits, rsa_exponent, 0, 0);
-                    
-                    CharDataVector mpi_n((BN_num_bytes(rsa_secret_key->n)) * sizeof(char));
-                    int res = BN_bn2bin(rsa_secret_key->n, &mpi_n[0]);
+
+                    auto n = RSA_get0_n(rsa_secret_key);
+                    CharDataVector mpi_n((BN_num_bytes(n)) * sizeof(char));
+                    int res = BN_bn2bin(n, &mpi_n[0]);
                     public_key_packet_ptr->AddMPI(mpi_n);
-                    
-                    CharDataVector mpi_e((BN_num_bytes(rsa_secret_key->e)) * sizeof(char));
-                    res = BN_bn2bin(rsa_secret_key->e, &mpi_e[0]);
+
+                    auto e = RSA_get0_e(rsa_secret_key);
+                    CharDataVector mpi_e((BN_num_bytes(e)) * sizeof(char));
+                    res = BN_bn2bin(e, &mpi_e[0]);
                     public_key_packet_ptr->AddMPI(mpi_e);
                     
                     /// calculate key id

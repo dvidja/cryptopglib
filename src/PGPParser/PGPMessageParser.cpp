@@ -11,9 +11,9 @@
 #include <vector>
 #include <map>
 
-#include "../PGPErrors.h"
-#include "../utils/base64.h"
-#include "../utils/crc24.h"
+#include "cryptopglib/PGPErrors.h"
+#include "../Utils/base64.h"
+#include "../Utils/crc24.h"
 
 /// TODO:
 /// 1. Parse end line

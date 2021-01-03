@@ -14,7 +14,7 @@
 #include <memory>
 
 #include "../PGPData/PGPPacket.h"
-#include "../utils/DataBuffer.h"
+#include "../Utils/DataBuffer.h"
 #include "PacketParsers/PacketParser.h"
 
 class PGPPacketsParser

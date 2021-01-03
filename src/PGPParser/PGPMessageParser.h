@@ -14,7 +14,7 @@
 #include <memory>
 
 
-#include "../../PGPMessageType.h"
+#include "cryptopglib//PGPMessageType.h"
 #include "../PGPMessageImpl.h"
 
 

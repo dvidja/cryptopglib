@@ -8,7 +8,7 @@
 
 #include "PGPDecrypt.h"
 
-#include "../utils/base64.h"
+#include "../Utils/base64.h"
 
 #include "../PGPMessageImpl.h"
 
@@ -130,7 +130,7 @@ namespace crypto
             PublicKeyAlgorithmPtr public_key_algo_impl = GetPublicKeyAlgorithm(algo);
             if (!public_key_algo_impl)
             {
-                return nullptr;
+                return false;
             }
             
             int len = public_key_algo_impl->DecryptWithPrivateKey(secret_key, pub_key_enc->GetMPI(0), decrypt_data);

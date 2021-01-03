@@ -21,10 +21,10 @@
 #include "Crypto/PGPEncrypt.h"
 #include "Crypto/KeyGenerator.h"
 #include "Crypto/PGPKeyData.h"
-#include "PGPErrors.h"
+#include "cryptopglib/PGPErrors.h"
 
 
-#include "utils/base64.h"
+#include "Utils/base64.h"
 
 #include <sstream>
 
