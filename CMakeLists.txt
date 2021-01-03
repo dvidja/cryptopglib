@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(AutoUnitTests)
+project(KryptoPgLib)
+
 
 SET (CMAKE_LIBRARY_OUTPUT_DIRECTORY
         ${PROJECT_BINARY_DIR}/bin
