@@ -376,19 +376,19 @@ namespace crypto
     // check signature
     int DSSDHAlgorithm::DecryptWithPublicKey(PublicKeyPacketPtr public_key, const CharDataVector& source_data, CharDataVector& result_data)
     {
-        /*DSA* dsa_public_key = DSA_new();
+        DSA* dsa_public_key = DSA_new();
         
         CharDataVector mpi_p_data(public_key->GetMPI(0));
-        dsa_public_key->p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
+        auto p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
         
         CharDataVector mpi_q_data(public_key->GetMPI(1));
-        dsa_public_key->q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
+        auto q = BN_bin2bn(&mpi_q_data[0], static_cast<int>(mpi_q_data.size()), nullptr);
         
         CharDataVector mpi_g_data(public_key->GetMPI(2));
-        dsa_public_key->g = BN_bin2bn(&mpi_g_data[0], static_cast<int>(mpi_g_data.size()), nullptr);
+        auto g = BN_bin2bn(&mpi_g_data[0], static_cast<int>(mpi_g_data.size()), nullptr);
         
         CharDataVector mpi_y_data(public_key->GetMPI(3));
-        dsa_public_key->pub_key = BN_bin2bn(&mpi_y_data[0], static_cast<int>(mpi_y_data.size()), nullptr);
+        auto pub_key = BN_bin2bn(&mpi_y_data[0], static_cast<int>(mpi_y_data.size()), nullptr);
         
         DSA_SIG* dsa_signature = DSA_SIG_new();
         
@@ -398,21 +398,22 @@ namespace crypto
         l = (l + 7) / 8;
         
         CharDataVector mpi_data_r = data_buffer.GetRange(l);
-        dsa_signature->r = BN_bin2bn(&mpi_data_r[0], static_cast<int>(mpi_data_r.size()), nullptr);
+        auto r = BN_bin2bn(&mpi_data_r[0], static_cast<int>(mpi_data_r.size()), nullptr);
         
         l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
         
         CharDataVector mpi_data_s = data_buffer.GetRange(l);
-        dsa_signature->s = BN_bin2bn(&mpi_data_s[0], static_cast<int>(mpi_data_s.size()), nullptr);
-        
+        auto s = BN_bin2bn(&mpi_data_s[0], static_cast<int>(mpi_data_s.size()), nullptr);
+
+        DSA_set0_pqg(dsa_public_key, p, q, g);
+        DSA_SIG_set0(dsa_signature, r, s);
         int res = DSA_do_verify(&source_data[0], static_cast<int>(source_data.size()), dsa_signature, dsa_public_key);
         
         DSA_SIG_free(dsa_signature);
         DSA_free(dsa_public_key);
         
-        return res;*/
-        return 1;
+        return res;
     }
     
     PublicKeyAlgorithmPtr GetPublicKeyAlgorithm(PublicKeyAlgorithms algo)
