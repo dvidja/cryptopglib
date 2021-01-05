@@ -410,7 +410,7 @@ void PGPPacketsParser::ParsePacket()
 
 void PGPPacketsParser::ParsePacket(int packet_type, unsigned long packet_length, bool partial)
 {
-    std::shared_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
+    std::unique_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
     if (packet_parser)
     {
         PGPPacket* packet = nullptr;
@@ -449,9 +449,9 @@ void PGPPacketsParser::SkipPacket(unsigned long packet_length, bool partial)
     data_buffer_.Skip(packet_length);
 }
 
-std::shared_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(int packet_type)
+std::unique_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(int packet_type)
 {
-    std::shared_ptr<PacketParser> packet_parser(nullptr);
+    std::unique_ptr<PacketParser> packet_parser(nullptr);
     
     switch (packet_type)
     {
@@ -459,55 +459,55 @@ std::shared_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(int packet_ty
             throw (PGPError(PACKAGE_UNKNOWN_TYPE));
             break;
         case PT_PUBLIC_KEY_ENCRYPTED_PACKET:
-            packet_parser.reset(new PublicKeyEnctyptedPacketParser);
+            packet_parser = std::make_unique<PublicKeyEnctyptedPacketParser>();
             break;
         case PT_SIGNATURE_PACKET:
-            packet_parser.reset(new SignaturePacketParser);
+            packet_parser = std::make_unique<SignaturePacketParser>();
             break;
         case PT_SYMMETRIC_KEY_ENCRYPTED_SESSION_KEY_PACKET:
-            packet_parser.reset(new SymmetricKeyEncryptedSessionKeyPacketParser);
+            packet_parser = std::make_unique<SymmetricKeyEncryptedSessionKeyPacketParser>();
             break;
         case PT_ONE_PASS_SIGNATURE_PACKET:
-            packet_parser.reset(new OnePassSignaturePacketParser);
+            packet_parser = std::make_unique<OnePassSignaturePacketParser>();
             break;
         case PT_SECRET_KEY_PACKET:
-            packet_parser.reset(new SecretKeyPacketParser);
+            packet_parser = std::make_unique<SecretKeyPacketParser>();
             break;
         case PT_PUBLIC_KEY_PACKET:
-            packet_parser.reset(new PublicKeyPacketParser);
+            packet_parser = std::make_unique<PublicKeyPacketParser>();
             break;
         case PT_SECRET_SUBKEY_PACKET:
-            packet_parser.reset(new SecretKeyPacketParser);
+            packet_parser = std::make_unique<SecretKeyPacketParser>();
             break;
         case PT_COMPRESSED_DATA_PACKET:
-            packet_parser.reset(new CompressedDataPacketParser);
+            packet_parser = std::make_unique<CompressedDataPacketParser>();
             break;
         case PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET:
-            packet_parser.reset(new SymmetricallyEncryptedDataPacketParser);
+            packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>();
             break;
         case PT_MARKER_PACKET:
-            packet_parser.reset(new MarkerPacketParser);
+            packet_parser = std::make_unique<MarkerPacketParser>();
             break;
         case PT_LITERAL_DATA_PACKET:
-            packet_parser.reset(new LiteralDataPacketParser);
+            packet_parser = std::make_unique<LiteralDataPacketParser>();
             break;
         case PT_TRUST_PACKET:
-            packet_parser.reset(new TrustPacketParser);
+            packet_parser = std::make_unique<TrustPacketParser>();
             break;
         case PT_USER_ID_PACKET:
-            packet_parser.reset(new UserIDPacketParser);
+            packet_parser = std::make_unique<UserIDPacketParser>();
             break;
         case PT_PUBLIC_SUBKEY_PACKET:
-            packet_parser.reset(new PublicKeyPacketParser);
+            packet_parser = std::make_unique<PublicKeyPacketParser>();
             break;
         case PT_USER_ATTRIBUTE_PACKET:
-            packet_parser.reset(new UserAttributePacketParser);
+            packet_parser = std::make_unique<UserAttributePacketParser>();
             break;
         case PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET:
-            packet_parser.reset(new SymmetricallyEncryptedDataPacketParser(true));
+            packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>(true);
             break;
         case PT_MODIFICATION_DETECTION_CODE_PACKET:
-            packet_parser.reset(new ModificationDetectionCodePacketParser);
+            packet_parser = std::make_unique<ModificationDetectionCodePacketParser>();
             break;
         default:
             throw (PGPError(PACKAGE_UNKNOWN_TYPE));

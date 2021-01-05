@@ -9,6 +9,10 @@
 
 #include "PacketParser.h"
 
+PacketParser::~PacketParser()
+{
+    
+}
 
 int GetPacketLengthForPartialContent(DataBuffer& data_buffer, bool& partial)
 {

@@ -14,6 +14,8 @@
 class IOpenPGPInfoGetter
 {
 public:
+    virtual ~IOpenPGPInfoGetter() {};
+
     virtual std::string GetPublicKeyByID(const KeyIDData& key_id) = 0;
     virtual std::string GetSecretKeyByID(const KeyIDData& key_id) = 0;
     

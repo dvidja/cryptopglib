@@ -33,7 +33,7 @@ private:
     void ParsePacket(int packet_type, unsigned long packet_length, bool partial);
     void SkipPacket(unsigned long packet_length, bool partial);
     
-    std::shared_ptr<PacketParser> CreatePacketParser(int packet_type);
+    std::unique_ptr<PacketParser> CreatePacketParser(int packet_type);
     
     
 private:

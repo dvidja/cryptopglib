@@ -19,6 +19,7 @@ class PacketParser
 {
 public:
     virtual PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c = 0) = 0;
+    virtual ~PacketParser();
 };
 
 #endif /* defined(__cryptopg__PacketParser__) */
