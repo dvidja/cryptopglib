@@ -42,9 +42,11 @@ namespace crypto
         virtual void Update(const CharDataVector& data) = 0;
         virtual void Final(CharDataVector& result_hash) = 0;
         virtual std::string GetHashAlgorithmName() = 0;
+
+        virtual ~HashAlgorithm() {}
     };
     
-    typedef std::shared_ptr<HashAlgorithm> HashAlgorithmPtr;
+    typedef std::unique_ptr<HashAlgorithm> HashAlgorithmPtr;
     
     class Md5 : public HashAlgorithm
     {

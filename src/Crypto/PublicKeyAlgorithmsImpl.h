@@ -21,6 +21,8 @@ namespace  crypto
     class PublicKeyAlgorithm
     {
     public:
+        virtual ~PublicKeyAlgorithm() {};
+
         virtual int EncryptWithPrivateKey(SecretKeyPacketPtr secret_key, const CharDataVector& source_data, CharDataVector& result_data) = 0;
         virtual int EncryptWithPublicKey(PublicKeyPacketPtr public_key, const CharDataVector& source_data, CharDataVector& result_data) = 0;
         
@@ -28,7 +30,7 @@ namespace  crypto
         virtual int DecryptWithPublicKey(PublicKeyPacketPtr public_key, const CharDataVector& source_data, CharDataVector& result_data) = 0;
     };
     
-    typedef std::shared_ptr<PublicKeyAlgorithm> PublicKeyAlgorithmPtr;
+    typedef std::unique_ptr<PublicKeyAlgorithm> PublicKeyAlgorithmPtr;
     
     
     class RSAAlgorithm : public PublicKeyAlgorithm

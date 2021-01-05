@@ -811,28 +811,28 @@ namespace crypto
             case SKA_PLAIN_TEXT:
                 return nullptr;
             case SKA_IDEA:
-                symmetric_key_algo_impl.reset(new Idea);
+                symmetric_key_algo_impl = std::make_unique<Idea>();
                 break;
             case SKA_TRIPLE_DES:
-                symmetric_key_algo_impl.reset(new TripleDes);
+                symmetric_key_algo_impl = std::make_unique<TripleDes>();
                 break;
             case SKA_CAST5:
-                symmetric_key_algo_impl.reset(new Cast5);
+                symmetric_key_algo_impl = std::make_unique<Cast5>();
                 break;
             case SKA_BLOWFISH:
-                symmetric_key_algo_impl.reset(new BlowFish);
+                symmetric_key_algo_impl = std::make_unique<BlowFish>();
                 break;
             case SKA_AES_128:
-                symmetric_key_algo_impl.reset(new AES128);
+                symmetric_key_algo_impl = std::make_unique<AES128>();
                 break;
             case SKA_AES_192:
-                symmetric_key_algo_impl.reset(new AES192);
+                symmetric_key_algo_impl = std::make_unique<AES192>();
                 break;
             case SKA_AES_256:
-                symmetric_key_algo_impl.reset(new AES256);
+                symmetric_key_algo_impl = std::make_unique<AES256>();
                 break;
             case SKA_TWOFISH:
-                symmetric_key_algo_impl.reset(new TwoFish);
+                symmetric_key_algo_impl = std::make_unique<TwoFish>();
                 break;
 
         }

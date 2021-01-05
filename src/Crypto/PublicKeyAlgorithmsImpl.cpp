@@ -426,15 +426,15 @@ namespace crypto
             case PKA_RSA:
             case PKA_RSA_ENCRYPT_ONLY:
             case PKA_RSA_SIGN_ONLY:
-                public_key_algo_impl.reset(new RSAAlgorithm);
+                public_key_algo_impl = std::make_unique<RSAAlgorithm>();
                 break;
                 
             case PKA_ELGAMAL:
-                public_key_algo_impl.reset(new DSSDHAlgorithm);
+                public_key_algo_impl = std::make_unique<DSSDHAlgorithm>();
                 break;
                 
             case PKA_DSA:
-                public_key_algo_impl.reset(new DSSDHAlgorithm);
+                public_key_algo_impl = std::make_unique<DSSDHAlgorithm>();
                 break;
                 
             default:

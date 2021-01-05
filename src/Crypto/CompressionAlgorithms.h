@@ -29,10 +29,12 @@ namespace crypto
     public:
         virtual bool CompressData(const CharDataVector& source, CharDataVector& dst) = 0;
         virtual bool DecompressData(const CharDataVector& source, CharDataVector& dst) = 0;
+
+        virtual ~CompressionAlgorithm() {}
     };
-    
-    typedef std::shared_ptr<CompressionAlgorithm> CompressionAlgorithmPtr;
-    
+
+    typedef std::unique_ptr<CompressionAlgorithm> CompressionAlgorithmPtr;
+
     class ZipCompressionAlgorithm : public CompressionAlgorithm
     {
     public:

@@ -358,25 +358,25 @@ namespace  crypto
             case HA_NO_HASH:
                 break;
             case HA_MD5:
-                hash_algo_ptr.reset(new crypto::Md5());
+                hash_algo_ptr = std::make_unique<Md5>();
                 break;
             case HA_SHA1:
-                hash_algo_ptr.reset(new crypto::Sha1());
+                hash_algo_ptr = std::make_unique<Sha1>();
                 break;
             case HA_RIPE_MD:
-                hash_algo_ptr.reset(new crypto::RipeMD());
+                hash_algo_ptr = std::make_unique<RipeMD>();
                 break;
             case HA_SHA256:
-                hash_algo_ptr.reset(new crypto::Sha256());
+                hash_algo_ptr = std::make_unique<Sha256>();
                 break;
             case HA_SHA384:
-                hash_algo_ptr.reset(new crypto::Sha384);
+                hash_algo_ptr = std::make_unique<Sha384>();
                 break;
             case HA_SHA512:
-                hash_algo_ptr.reset(new crypto::Sha512);
+                hash_algo_ptr = std::make_unique<Sha512>();
                 break;
             case HA_SHA224:
-                hash_algo_ptr.reset(new crypto::Sha224);
+                hash_algo_ptr = std::make_unique<Sha224>();
                 break;
         }
         

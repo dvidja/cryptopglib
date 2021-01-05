@@ -349,13 +349,13 @@ namespace crypto
         switch (compress_algo)
         {
             case CA_ZIP:
-                compresseion_algo_impl.reset(new ZipCompressionAlgorithm());
+                compresseion_algo_impl = std::make_unique<ZipCompressionAlgorithm>();
                 break;
             case CA_ZLIB:
-                compresseion_algo_impl.reset(new ZLibCompressionAlgorithm());
+                compresseion_algo_impl = std::make_unique<ZLibCompressionAlgorithm>();
                 break;
             case CA_BZIP2:
-                compresseion_algo_impl.reset(new BZip2CompressionAlgorithm());
+                compresseion_algo_impl = std::make_unique<BZip2CompressionAlgorithm>();
                 break;
                 
             default:

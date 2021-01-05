@@ -31,6 +31,8 @@ namespace crypto
     class SymmetricKeyAlgorithm
     {
     public:
+        virtual ~SymmetricKeyAlgorithm() {};
+
         virtual int GetChiperBlockSize() = 0;
         virtual int GetKeyLength() = 0;
         
@@ -67,7 +69,7 @@ namespace crypto
 
     };
     
-    typedef std::shared_ptr<SymmetricKeyAlgorithm> SymmetricKeyAlgorithmPtr;
+    typedef std::unique_ptr<SymmetricKeyAlgorithm> SymmetricKeyAlgorithmPtr;
     
     
     class Idea : public SymmetricKeyAlgorithm

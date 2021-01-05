@@ -23,7 +23,7 @@ class PGPPacket
 {
 public:
     PGPPacket(const PacketType packet_type);
-    virtual ~PGPPacket(){};
+    virtual ~PGPPacket();
     
     PacketType GetPacketType();
     
