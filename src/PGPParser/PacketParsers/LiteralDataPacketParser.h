@@ -17,7 +17,7 @@
 class LiteralDataPacketParser : public PacketParser
 {
 public:
-    LiteralDataPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    LiteralDataPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 private:
     LiteralDataPacket* ParsePartial(DataBuffer& data_buffer, int c);

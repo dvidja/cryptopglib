@@ -16,7 +16,7 @@
 class TrustPacketParser : public PacketParser
 {
 public:
-    TrustPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    TrustPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

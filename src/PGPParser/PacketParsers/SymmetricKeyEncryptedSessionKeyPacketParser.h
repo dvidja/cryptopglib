@@ -17,7 +17,7 @@
 class SymmetricKeyEncryptedSessionKeyPacketParser : public PacketParser
 {
 public:
-    SymmetricKeyEncryptedSessionKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    SymmetricKeyEncryptedSessionKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

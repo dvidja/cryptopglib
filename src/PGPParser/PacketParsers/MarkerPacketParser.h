@@ -16,7 +16,7 @@
 class MarkerPacketParser : public PacketParser
 {
 public:
-    MarkerPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    MarkerPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

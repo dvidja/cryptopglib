@@ -17,7 +17,7 @@
 class SignaturePacketParser : public PacketParser
 {
 public:
-    SignaturePacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    SignaturePacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 private:
     SignaturePacket* ParseV3Packet(DataBuffer& data_buffer, bool partial);

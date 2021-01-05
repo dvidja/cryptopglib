@@ -16,7 +16,7 @@
 class CompressedDataPacketParser : public PacketParser
 {
 public:
-    CompressedDataPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    CompressedDataPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

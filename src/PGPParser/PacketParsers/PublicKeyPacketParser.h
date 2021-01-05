@@ -18,7 +18,7 @@
 class PublicKeyPacketParser : public PacketParser
 {
 public:
-    PublicKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    PublicKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

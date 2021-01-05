@@ -17,7 +17,7 @@ class SymmetricallyEncryptedDataPacketParser : public PacketParser
 public:
     SymmetricallyEncryptedDataPacketParser(bool mdc = false);
     
-    PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 private:
     bool mdc_;

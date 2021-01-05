@@ -16,7 +16,7 @@
 class ModificationDetectionCodePacketParser : public PacketParser
 {
 public:
-    ModificationDetectionCodePacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    ModificationDetectionCodePacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

@@ -15,7 +15,7 @@
 class UserIDPacketParser : public PacketParser
 {
 public:
-    UserIDPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    UserIDPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

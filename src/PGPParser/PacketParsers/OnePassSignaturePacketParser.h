@@ -16,7 +16,7 @@
 class OnePassSignaturePacketParser : public PacketParser
 {
 public:
-    OnePassSignaturePacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    OnePassSignaturePacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
 };
 

@@ -16,6 +16,6 @@
 class SecretKeyPacketParser : public PacketParser
 {
 public:
-    SecretKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c);
+    SecretKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
 };
 #endif /* defined(__cryptopg__SecretKeyPacketParser__) */
