@@ -91,7 +91,7 @@ PGPMessagePtr PGPMessageParser::ParseMessage(const std::string& source)
 {
     state_ = PS_START_LINE;
     
-    message_.reset(new PGPMessageImpl);
+    message_ = std::make_shared<PGPMessageImpl>();
     
     size_t current_position = 0;
     do
