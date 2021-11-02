@@ -14,6 +14,7 @@ ModificationDetectionCodePacket* ModificationDetectionCodePacketParser::Parse(Da
     if (data_buffer.length() != 20)
     {
         // TODO: handle error
+        // 
         return nullptr;
     }
     
