@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef CRYPTOPGLIB_PGPMESSAGETYPE_H
-#define CRYPTOPGLIB_PGPMESSAGETYPE_H
+#pragma once
 
 typedef enum
 {
@@ -20,4 +19,3 @@ typedef enum
     MT_INCORRECT_MESSAGE = 256,
 } PGPMessageType;
 
-#endif //CRYPTOPGLIB_PGPMESSAGETYPE_H
