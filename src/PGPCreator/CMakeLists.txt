@@ -1,0 +1,5 @@
+
+set (CRYPTOPGLIBSOURCES
+        ${CRYPTOPGLIBSOURCES}
+        PGPCreator.cpp
+)
