@@ -6,5 +6,8 @@ set(CMAKE_CXX_STANDARD 23)
 
 include_directories(include)
 
-add_subdirectory( src build/src )
-#add_subdirectory( test build/tests )
+
+include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
+
+add_subdirectory(src build/src)
+add_subdirectory(tests build/tests )

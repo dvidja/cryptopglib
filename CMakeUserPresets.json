@@ -1,9 +1,0 @@
-{
-    "version": 4,
-    "vendor": {
-        "conan": {}
-    },
-    "include": [
-        "/Users/antonsarychev/Projects/cpp/cryptopglib/build/CMakePresets.json"
-    ]
-}

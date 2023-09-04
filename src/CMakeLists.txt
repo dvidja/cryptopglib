@@ -15,6 +15,8 @@ add_subdirectory(PGPParser)
 add_subdirectory(Utils)
 
 add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
+
 find_package(OpenSSL REQUIRED)
+
 target_link_libraries(cryptopglib openssl::openssl)
 

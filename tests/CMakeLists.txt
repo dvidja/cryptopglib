@@ -1,6 +1,6 @@
 project(tests)
 
 # Add test cpp file
-add_executable(runUnitTests main.cpp)
+add_executable(runUnitTests cryptopg_tests.cpp)
 
-target_link_libraries(runUnitTests cryptopglib libssl.a)
+target_link_libraries(runUnitTests cryptopglib)
