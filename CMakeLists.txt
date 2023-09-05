@@ -4,9 +4,6 @@ project(cryptopglib)
 
 set(CMAKE_CXX_STANDARD 23)
 
-include_directories(include)
-
-
 include(${CMAKE_BINARY_DIR}/conan_toolchain.cmake)
 
 add_subdirectory(src build/src)

@@ -2,17 +2,16 @@
 // Created by Anton Sarychev on 1/3/21.
 //
 
-#ifndef CRYPTOPGLIB_PGPERRORS_H
-#define CRYPTOPGLIB_PGPERRORS_H
+#pragma once
 
 #include <exception>
 #include <string>
 
 
-const char MESSAGE_CRC_ERROR[] = "Error CRC checksum in message";
-const char PACKAGE_FIRST_BYTE_ERROR[] = "First bit is not 1";
-const char PACKAGE_LENGTH_ERROR[] = "Unknown package length";
-const char PACKAGE_UNKNOWN_TYPE[] = "Unknown package type";
+const std::string MESSAGE_CRC_ERROR = "Error CRC checksum in message";
+const std::string PACKAGE_FIRST_BYTE_ERROR = "First bit is not 1";
+const std::string PACKAGE_LENGTH_ERROR = "Unknown package length";
+const std::string PACKAGE_UNKNOWN_TYPE = "Unknown package type";
 
 
 class PGPError : public std::exception{
@@ -25,6 +24,3 @@ public:
 private:
     std::string what_;
 };
-
-
-#endif //CRYPTOPGLIB_PGPERRORS_H

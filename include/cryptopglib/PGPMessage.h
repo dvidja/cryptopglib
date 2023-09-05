@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPMessage__
-#define __cryptopg__PGPMessage__
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -30,4 +29,3 @@ public:
     virtual std::string GetCRC() = 0;
 };
 
-#endif /* defined(__cryptopg__PGPMessage__) */

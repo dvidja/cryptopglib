@@ -16,6 +16,8 @@ add_subdirectory(Utils)
 
 add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
 
+target_include_directories(cryptopglib PUBLIC ../include)
+
 find_package(OpenSSL REQUIRED)
 
 target_link_libraries(cryptopglib openssl::openssl)

@@ -134,7 +134,7 @@ PGPMessageType OpenPGPImpl::GetMessageType(const std::string& message)
         return message_ptr->GetMessageType();
     }
     
-    return MT_INCORRECT_MESSAGE;
+    return PGPMessageType::MT_INCORRECT_MESSAGE;
 }
 
 KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message)
@@ -153,7 +153,8 @@ KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message)
     
     if (message_ptr)
     {
-        if ((message_ptr->GetMessageType() != MT_PUBLIC_KEY) && (message_ptr->GetMessageType() != MT_PRIVATE_KEY))
+        if ((message_ptr->GetMessageType() != PGPMessageType::MT_PUBLIC_KEY)
+            && (message_ptr->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY))
         {
             return KeyInfoImpl();
         }
@@ -320,7 +321,7 @@ SignatureKeyInfo OpenPGPImpl::ReadSignatureMessage(const std::string& signature)
         return signature_key_info;
     }
     
-    if (message_ptr->GetMessageType() != MT_SIGNED_MESSAGE)
+    if (message_ptr->GetMessageType() != PGPMessageType::MT_SIGNED_MESSAGE)
     {
         return signature_key_info;
     }
@@ -412,7 +413,7 @@ std::string OpenPGPImpl::SignMessage(const std::string& message, const std::stri
         return std::string();
     }
     
-    if (private_key->GetMessageType() != MT_PRIVATE_KEY)
+    if (private_key->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
     {
         return std::string();
     }
@@ -454,7 +455,7 @@ void OpenPGPImpl::GetSecretKeyIDForCryptoMessage(const std::string& message, std
         return;
     }
     
-    if (message_ptr->GetMessageType() == MT_CRYPTO_MESSAGE)
+    if (message_ptr->GetMessageType() == PGPMessageType::MT_CRYPTO_MESSAGE)
     {
         crypto::PGPDecrypt decryptor(pgp_info_getter_);
         decryptor.GetSecretKeyID(message_ptr, key_ids);
@@ -481,7 +482,7 @@ bool OpenPGPImpl::IsSecretKeyEncrypted(const std::string& message)
         return false;
     }
     
-    if (message_ptr->GetMessageType() == MT_PRIVATE_KEY)
+    if (message_ptr->GetMessageType() == PGPMessageType::MT_PRIVATE_KEY)
     {
         crypto::PGPDecrypt decryptor(pgp_info_getter_);
         return decryptor.IsSecretKeyEncoded(message_ptr);
@@ -516,7 +517,8 @@ DecodedDataInfoPtr OpenPGPImpl::DecryptMessage(const std::string& message, const
         return nullptr;
     }
     
-    if((message_ptr->GetMessageType() == MT_CRYPTO_MESSAGE) && (sec_key_ptr->GetMessageType() == MT_PRIVATE_KEY))
+    if((message_ptr->GetMessageType() == PGPMessageType::MT_CRYPTO_MESSAGE)
+        && (sec_key_ptr->GetMessageType() == PGPMessageType::MT_PRIVATE_KEY))
     {
         crypto::PGPDecrypt decryptor(pgp_info_getter_);
         DecodedDataInfoPtr decoded_data_info = decryptor.DecryptMessage(message_ptr, sec_key_ptr, passphrase);
@@ -580,7 +582,8 @@ DecodedDataInfoPtr OpenPGPImpl::DecryptMessage(const std::string& message, std::
         return nullptr;
     }
     
-    if((message_ptr->GetMessageType() == MT_CRYPTO_MESSAGE) && (sec_key_ptr->GetMessageType() == MT_PRIVATE_KEY))
+    if((message_ptr->GetMessageType() == PGPMessageType::MT_CRYPTO_MESSAGE)
+        && (sec_key_ptr->GetMessageType() == PGPMessageType::MT_PRIVATE_KEY))
     {
         crypto::PGPDecrypt decryptor(pgp_info_getter_);
         DecodedDataInfoPtr decoded_data_info = decryptor.DecryptMessage(message_ptr, sec_key_ptr, passphrase);
@@ -850,7 +853,7 @@ std::string OpenPGPImpl::SignPublicKey(const std::string& public_key, const std:
         return "";
     }
     
-    if (private_key_message->GetMessageType() != MT_PRIVATE_KEY)
+    if (private_key_message->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
     {
         return std::string();
     }
@@ -900,7 +903,7 @@ std::string OpenPGPImpl::ChangePassphrase(const std::string& private_key, const 
         return "";
     }
     
-    if (private_key_message->GetMessageType() != MT_PRIVATE_KEY)
+    if (private_key_message->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
     {
         return std::string();
     }

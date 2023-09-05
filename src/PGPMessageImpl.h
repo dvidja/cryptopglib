@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPMessageImpl__
-#define __cryptopg__PGPMessageImpl__
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -20,12 +19,12 @@ class PGPMessageImpl : public PGPMessage
 {
 public:
     PGPMessageImpl();
-    ~PGPMessageImpl();
+    ~PGPMessageImpl() override;
     
-    PGPMessageType GetMessageType();
-    std::string GetPlainText();
-    std::string GetBase64Data();
-    std::string GetCRC();
+    PGPMessageType GetMessageType() override;
+    std::string GetPlainText() override;
+    std::string GetBase64Data() override;
+    std::string GetCRC() override;
     
     CharDataVector GetRawData();
     
@@ -57,4 +56,4 @@ private:
 
 typedef std::shared_ptr<PGPMessageImpl> PGPMessagePtr;
 
-#endif /* defined(__cryptopg__PGPMessageImpl__) */
+

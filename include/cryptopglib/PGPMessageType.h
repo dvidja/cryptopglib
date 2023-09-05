@@ -8,7 +8,7 @@
 
 #pragma once
 
-typedef enum
+enum class PGPMessageType
 {
     MT_PUBLIC_KEY = 0,
     MT_PRIVATE_KEY,
@@ -17,5 +17,5 @@ typedef enum
     MT_SIMPLE_MESSAGE,
 
     MT_INCORRECT_MESSAGE = 256,
-} PGPMessageType;
+};
 
