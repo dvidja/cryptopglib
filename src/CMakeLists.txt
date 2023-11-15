@@ -3,19 +3,19 @@ project(cryptopglib)
 set (CRYPTOPGLIBSOURCES
         ${CRYPTOPGLIBSOURCES}
         cryptopg.cpp
-        OpenPGPImpl.cpp
-        PGPErrors.cpp
-        PGPMessageImpl.cpp
+        open_pgp_impl.cpp
+        pgp_errors.cpp
+        pgp_message_impl.cpp
         )
 
 
 add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
 
-add_subdirectory(Crypto)
-add_subdirectory(PGPCreator)
-add_subdirectory(PGPData)
-add_subdirectory(PGPParser)
-add_subdirectory(Utils)
+add_subdirectory(crypto)
+add_subdirectory(pgp_creator)
+add_subdirectory(pgp_data)
+add_subdirectory(pgp_parser)
+add_subdirectory(utils)
 
 target_include_directories(cryptopglib PUBLIC
         ../include
