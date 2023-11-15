@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__OpenPGPImpl__
-#define __cryptopg__OpenPGPImpl__
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -91,4 +90,3 @@ private:
     IOpenPGPInfoGetterPtr pgp_info_getter_;
 };
 
-#endif /* defined(__cryptopg__OpenPGPImpl__) */

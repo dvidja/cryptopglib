@@ -308,7 +308,8 @@ PGPMessagePtr PGPParser::ParseMessage(const std::string& source)
         }
         message_ptr->SetPackets(packets);
         
-        if ((message_ptr->GetMessageType() == MT_PUBLIC_KEY) || (message_ptr->GetMessageType() == MT_PRIVATE_KEY))
+        if ((message_ptr->GetMessageType() == PGPMessageType::MT_PUBLIC_KEY)
+            || (message_ptr->GetMessageType() == PGPMessageType::MT_PRIVATE_KEY))
         {
             if (IsKeySigned(packets))
             {

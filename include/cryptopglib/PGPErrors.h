@@ -20,7 +20,7 @@ public:
 
     virtual const char* what() const throw() override;
 
-    virtual ~PGPError() _NOEXCEPT override;
+    virtual ~PGPError() override;
 private:
     std::string what_;
 };

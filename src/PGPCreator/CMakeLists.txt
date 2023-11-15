@@ -1,5 +1,4 @@
 
-set (CRYPTOPGLIBSOURCES
-        ${CRYPTOPGLIBSOURCES}
+target_sources(cryptopglib PUBLIC
         PGPCreator.cpp
 )

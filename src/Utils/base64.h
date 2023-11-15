@@ -6,10 +6,9 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef OpenPGPLib_base64_h
-#define OpenPGPLib_base64_h
+#pragma once
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <set>
 #include "../PGPData/PGPDataTypes.h"
@@ -21,6 +20,3 @@ namespace Utils
 
     CharDataVector Base64Decode(const std::string& input);
 }
-
-
-#endif

@@ -5,8 +5,8 @@
 //  Created by Anton Sarychev on 2.3.13.
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
-#include "crc24.h"
 
+#include "crc24.h"
 
 #define CRC24_INIT 0xB704CE
 #define CRC24_POLY 0x864CFB
@@ -38,5 +38,4 @@ namespace Utils
         
         return crc & 0xFFFFFF;
     }
-
 }

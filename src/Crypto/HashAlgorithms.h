@@ -8,11 +8,11 @@
 
 #ifndef cryptopg_HashAlgorithms_h
 #define cryptopg_HashAlgorithms_h
-extern "C" {
+
 #include <openssl/sha.h>
-#include <openssl/md5.h>
-#include <openssl/ripemd.h>
-}
+#include "openssl/md5.h"
+#include "openssl/ripemd.h"
+
 #include <string>
 
 #include "../PGPData/PGPDataTypes.h"

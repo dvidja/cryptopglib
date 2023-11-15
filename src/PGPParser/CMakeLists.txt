@@ -1,6 +1,5 @@
 
-set (CRYPTOPGLIBSOURCES
-        ${CRYPTOPGLIBSOURCES}
+target_sources(cryptopglib PUBLIC
         PGPMessageParser.cpp
         PGPPacketsParser.cpp
         PGPParser.cpp

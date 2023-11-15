@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef cryptopg_IOpenPGPInfoGetter_h
-#define cryptopg_IOpenPGPInfoGetter_h
+#pragma once
 
 #include "PGPData/PGPDataTypes.h"
 
@@ -28,4 +27,3 @@ public:
 
 typedef std::shared_ptr<IOpenPGPInfoGetter> IOpenPGPInfoGetterPtr;
 
-#endif

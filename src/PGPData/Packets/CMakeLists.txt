@@ -1,6 +1,5 @@
 
-set (CRYPTOPGLIBSOURCES
-        ${CRYPTOPGLIBSOURCES}
+target_sources(cryptopglib PUBLIC
         CompressedDataPacket.cpp
         LiteralDataPacket.cpp
         MarkerPacket.cpp

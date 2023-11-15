@@ -15,6 +15,6 @@ const char* PGPError::what() const throw()
     return what_.c_str();
 }
 
-PGPError::~PGPError() _NOEXCEPT {
+PGPError::~PGPError() {
 
 }

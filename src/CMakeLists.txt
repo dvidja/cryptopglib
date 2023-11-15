@@ -8,17 +8,18 @@ set (CRYPTOPGLIBSOURCES
         PGPMessageImpl.cpp
         )
 
+
+add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
+
 add_subdirectory(Crypto)
 add_subdirectory(PGPCreator)
 add_subdirectory(PGPData)
 add_subdirectory(PGPParser)
 add_subdirectory(Utils)
 
-add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})
+target_include_directories(cryptopglib PUBLIC
+        ../include
+        "${OPENSSL_INCLUDE_DIR}")
 
-target_include_directories(cryptopglib PUBLIC ../include)
-
-find_package(OpenSSL REQUIRED)
-
-target_link_libraries(cryptopglib openssl::openssl)
+target_link_libraries(cryptopglib PUBLIC OPENSSL_CRYPTO_LIBRARY)
 

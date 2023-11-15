@@ -133,7 +133,8 @@ void PGPMessageParser::ParseLine(const std::string& source)
         case PS_ARMOR:
             if (!ParseArmorHeaders(source))
             {
-                if ((message_->GetMessageType() == MT_SIGNED_MESSAGE) && (message_->GetPlainText().empty()))
+                if ((message_->GetMessageType() == PGPMessageType::MT_SIGNED_MESSAGE)
+                    && (message_->GetPlainText().empty()))
                 {
                     state_ = PS_SIGNED_TEXT;
                 }
@@ -180,7 +181,7 @@ bool PGPMessageParser::ParseArmorHeaderLine(const std::string& source)
     size_t pos = source.find(BEGIN);
     if (pos == std::string::npos)
     {
-        message_->SetMessageType(MT_SIMPLE_MESSAGE);
+        message_->SetMessageType(PGPMessageType::MT_SIMPLE_MESSAGE);
         return false;
     }
     
@@ -303,21 +304,21 @@ bool PGPMessageParser::ReadDataLine(const std::string& source)
 void PGPMessageParser::ParseHeaderWord(const std::string& word)
 {
     std::map<std::string, PGPMessageType> words_map;
-    words_map[SIGNED] = MT_SIGNED_MESSAGE;
-    words_map[MESSAGE] = MT_CRYPTO_MESSAGE;
-    words_map[PUBLIC] = MT_PUBLIC_KEY;
-    words_map[PRIVATE] = MT_PRIVATE_KEY;
+    words_map[SIGNED] = PGPMessageType::MT_SIGNED_MESSAGE;
+    words_map[MESSAGE] = PGPMessageType::MT_CRYPTO_MESSAGE;
+    words_map[PUBLIC] = PGPMessageType::MT_PUBLIC_KEY;
+    words_map[PRIVATE] = PGPMessageType::MT_PRIVATE_KEY;
     
     auto iter = words_map.find(word);
     if (iter == words_map.end())
     {
         return;
     }
-    if (iter->second == MT_CRYPTO_MESSAGE)
+    if (iter->second == PGPMessageType::MT_CRYPTO_MESSAGE)
     {
-        if (message_->GetMessageType() != MT_SIGNED_MESSAGE)
+        if (message_->GetMessageType() != PGPMessageType::MT_SIGNED_MESSAGE)
         {
-            message_->SetMessageType(MT_CRYPTO_MESSAGE);
+            message_->SetMessageType(PGPMessageType::MT_CRYPTO_MESSAGE);
         }
     }
     else
