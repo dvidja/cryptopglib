@@ -272,7 +272,7 @@ namespace crypto
         
         for(int n = 0 ; n * hash_impl->GetDigestLength() < sym_key_algo_impl->GetKeyLength(); ++n)
 	    {
-            switch(secret_key->GetStringToKeySpecefier())
+            switch(secret_key->GetStringToKeySpecifier())
             {
                 case 1:
                 {

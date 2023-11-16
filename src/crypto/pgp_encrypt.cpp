@@ -75,8 +75,8 @@ namespace
     PublicKeyEncryptedPacketPtr EncryptData(const CharDataVector& source, PublicKeyPacketPtr public_key_packet, PublicKeyAlgorithms algo)
     {
         PublicKeyEncryptedPacketPtr public_key_encrypted_packet(new PublicKeyEncryptedPacket);
-        
-        public_key_encrypted_packet->SetublicKeyAlgorithm(algo);
+
+        public_key_encrypted_packet->SetPublicKeyAlgorithm(algo);
         
         KeyIDData key_id = public_key_packet->GetKeyID();
         public_key_encrypted_packet->SetKeyID(key_id);

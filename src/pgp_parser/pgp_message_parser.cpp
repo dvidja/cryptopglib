@@ -12,8 +12,8 @@
 #include <map>
 
 #include "cryptopglib/pgp_errors.h"
-#include "../Utils/base64.h"
-#include "../Utils/crc24.h"
+#include "../utils/base64.h"
+#include "../utils/crc24.h"
 
 /// TODO:
 /// 1. Parse end line

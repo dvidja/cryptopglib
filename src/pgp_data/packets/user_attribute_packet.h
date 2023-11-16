@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__UserAttributePacket__
-#define __cryptopg__UserAttributePacket__
+#ifndef cryptopg_UserAttributePacket_
+#define cryptopg_UserAttributePacket_
 
 #include "../pgp_packet.h"
 
@@ -16,10 +16,10 @@ class UserAttributePacket : public PGPPacket
 public:
     UserAttributePacket();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 };
 
 typedef std::shared_ptr<UserAttributePacket> UserAttributePacketPtr;
 
-#endif /* defined(__cryptopg__UserAttributePacket__) */
+#endif /* cryptopg_UserAttributePacket_ */

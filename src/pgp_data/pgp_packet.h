@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPPacket__
-#define __cryptopg__PGPPacket__
+#ifndef cryptopg_PGPPacket_
+#define cryptopg_PGPPacket_
 
 #include "pgp_packet_types.h"
 #include "../utils/data_buffer.h"
@@ -22,8 +22,8 @@ namespace  packet_helper
 class PGPPacket
 {
 public:
-    PGPPacket(const PacketType packet_type);
-    virtual ~PGPPacket();
+    explicit PGPPacket(PacketType packet_type);
+    virtual ~PGPPacket() = default;
     
     PacketType GetPacketType();
     
@@ -37,4 +37,4 @@ private:
 typedef std::shared_ptr<PGPPacket> PGPPacketPtr;
 typedef std::vector<PGPPacketPtr> PGPPacketsArray;
 
-#endif /* defined(__cryptopg__PGPPacket__) */
+#endif /* cryptopg_PGPPacket_ */

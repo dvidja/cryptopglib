@@ -213,7 +213,7 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
         subpacket_length = data_buffer.GetNextFourOctets();
     }
     
-    SignatureSubpacketType subpacket_type = static_cast<SignatureSubpacketType>(data_buffer.GetNextByte());
+    SignatureSubPacketType subpacket_type = static_cast<SignatureSubPacketType>(data_buffer.GetNextByte());
     
     switch (subpacket_type)
     {
@@ -262,7 +262,7 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
         case SST_EMBEDDED_SIGNATURE:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 SignaturePacketParser embeded_signature_parser;
                 embeded_signature_parser.Parse(subpacket_data, false, 0);
             }
@@ -270,7 +270,7 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
         case SST_KEY_EXPIRATION_TIME:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 
                 if (subpacket_data.length() != 4)
                 {
@@ -284,7 +284,7 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
         case SST_SIGNATURE_EXPIRATION_TIME:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 
                 if (subpacket_data.length() != 4)
                 {
@@ -298,7 +298,7 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
         case SST_PREFERRED_HASH_ALGO:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 
                 std::vector<HashAlgorithms> prefered_hash_algo;
                 for (int i = 0; i < subpacket_data.length(); ++i)
@@ -306,14 +306,14 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
                     char t = subpacket_data.GetNextByte();
                     prefered_hash_algo.push_back(static_cast<HashAlgorithms>(t));
                 }
-                
-                packet->SetPreferedHahAlgos(prefered_hash_algo);
+
+                packet->SetPreferredHahAlgorithms(prefered_hash_algo);
             }
             break;
         case SST_PREFERRED_SYMMETRIC_ALGO:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 
                 std::vector<SymmetricKeyAlgorithms> prefered_chiper_algo;
                 for (int i = 0; i < subpacket_data.length(); ++i)
@@ -321,14 +321,14 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
                     char t = subpacket_data.GetNextByte();
                     prefered_chiper_algo.push_back(static_cast<SymmetricKeyAlgorithms>(t));
                 }
-                
-                packet->SetPreferedChiperAlgos(prefered_chiper_algo);
+
+                packet->SetPreferredCipherAlgorithms(prefered_chiper_algo);
             }
             break;
         case SST_PREFERRED_COMPRESSION_ALGO:
             {
                 DataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubpacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
                 
                 std::vector<CompressionAlgorithms> prefered_compression_algo;
                 for (int i = 0; i < subpacket_data.length(); ++i)
@@ -336,13 +336,13 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
                     char t = subpacket_data.GetNextByte();
                     prefered_compression_algo.push_back(static_cast<CompressionAlgorithms>(t));
                 }
-                
-                packet->SetPreferedCompressionAlgos(prefered_compression_algo);
+
+                packet->SetPreferredCompressionAlgorithms(prefered_compression_algo);
             }
             break;
             
         default:
-            packet->AddSubpacketData(subpacket_type, data_buffer.GetRange(subpacket_length - 1), hashed);
+            packet->AddSubPacketData(subpacket_type, data_buffer.GetRange(subpacket_length - 1), hashed);
             break;
     }
     

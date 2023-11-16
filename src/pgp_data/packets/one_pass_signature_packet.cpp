@@ -36,7 +36,7 @@ void OnePassSignaturePacket::SetSignatureType(const int signature_type)
     signature_type_ = signature_type;
 }
 
-void OnePassSignaturePacket::SetHashAlorithm(const HashAlgorithms hash_algo)
+void OnePassSignaturePacket::SetHashAlgorithm(HashAlgorithms hash_algo)
 {
     hash_algo_ = hash_algo;
 }
@@ -66,7 +66,7 @@ int OnePassSignaturePacket::GetSignatureType()
     return signature_type_;
 }
 
-HashAlgorithms OnePassSignaturePacket::GetHashAlorithm()
+HashAlgorithms OnePassSignaturePacket::GetHashAlgorithm()
 {
     return hash_algo_;
 }
@@ -92,7 +92,7 @@ bool OnePassSignaturePacket::GetRawData(CharDataVector& data)
     
     temp_data.push_back(GetVersion());
     temp_data.push_back(GetSignatureType());
-    temp_data.push_back(GetHashAlorithm());
+    temp_data.push_back(GetHashAlgorithm());
     temp_data.push_back(GetPublicKeyAlgorithm());
     
     CharDataVector key_id_data;

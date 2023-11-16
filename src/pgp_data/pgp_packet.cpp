@@ -41,11 +41,6 @@ PGPPacket::PGPPacket(const PacketType packet_type)
     
 }
 
-PGPPacket::~PGPPacket()
-{
-
-}
-
 PacketType PGPPacket::GetPacketType()
 {
     return packet_type_;

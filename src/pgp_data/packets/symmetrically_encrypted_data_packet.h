@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SymmetricallyEncryptedDataPacket__
-#define __cryptopg__SymmetricallyEncryptedDataPacket__
+#ifndef cryptopg_SymmetricallyEncryptedDataPacket_
+#define cryptopg_SymmetricallyEncryptedDataPacket_
 
 #include "../pgp_packet.h"
 
 class SymmetricallyEncryptedDataPacket : public PGPPacket
 {
 public:
-    SymmetricallyEncryptedDataPacket(PacketType packet_type);
+    explicit SymmetricallyEncryptedDataPacket(PacketType packet_type);
     
     void SetEncryptedData(CharDataVector& encrypted_data);
     const CharDataVector& GetEncryptedData();
@@ -22,8 +22,8 @@ public:
     void SetMDCData(CharDataVector& encrypted_data);
     const CharDataVector& GetMDCData();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 
 private:
     CharDataVector encrypted_data_;
@@ -32,4 +32,4 @@ private:
 
 typedef std::shared_ptr<SymmetricallyEncryptedDataPacket> SymmetricallyEncryptedDataPacketPtr;
 
-#endif /* defined(__cryptopg__SymmetricallyEncryptedDataPacket__) */
+#endif /* cryptopg_SymmetricallyEncryptedDataPacket_ */

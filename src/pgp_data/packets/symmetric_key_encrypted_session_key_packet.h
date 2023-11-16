@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SymmetricKeyEncryptedSessionKeyPacket__
-#define __cryptopg__SymmetricKeyEncryptedSessionKeyPacket__
+#ifndef cryptopg_SymmetricKeyEncryptedSessionKeyPacket_
+#define cryptopg_SymmetricKeyEncryptedSessionKeyPacket_
 
 #include "../pgp_packet.h"
 
@@ -16,10 +16,10 @@ class SymmetricKeyEncryptedSessionKeyPacket : public PGPPacket
 public:
     SymmetricKeyEncryptedSessionKeyPacket();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 };
 
 typedef std::shared_ptr<SymmetricKeyEncryptedSessionKeyPacket> SymmetricKeyEncryptedSessionKeyPacketPtr;
 
-#endif /* defined(__cryptopg__SymmetricKeyEncryptedSessionKeyPacket__) */
+#endif /* cryptopg_SymmetricKeyEncryptedSessionKeyPacket_ */

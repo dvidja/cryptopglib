@@ -46,7 +46,7 @@ void PublicKeyEncryptedPacket::SetKeyID(KeyIDData& key_id)
     std::move(key_id.begin(), key_id.end(), key_id_.begin());
 }
 
-void PublicKeyEncryptedPacket::SetublicKeyAlgorithm(PublicKeyAlgorithms algo)
+void PublicKeyEncryptedPacket::SetPublicKeyAlgorithm(PublicKeyAlgorithms algo)
 {
     public_key_algorithm_ = algo;
 }

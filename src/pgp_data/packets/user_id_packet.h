@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__UserIDPacket__
-#define __cryptopg__UserIDPacket__
+#ifndef cryptopg_UserIDPacket_
+#define cryptopg_UserIDPacket_
 
 
 #include "../pgp_packet.h"
@@ -21,8 +21,8 @@ public:
     void SetUserID(const CharDataVector& user_id);
     std::string GetUserID();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 
 private:
     std::string user_id_;
@@ -32,4 +32,4 @@ private:
 typedef std::shared_ptr<UserIDPacket> UserIDPacketPtr;
 
 
-#endif /* defined(__cryptopg__UserIDPacket__) */
+#endif /* cryptopg_UserIDPacket_ */

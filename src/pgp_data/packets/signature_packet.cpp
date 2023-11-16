@@ -80,7 +80,7 @@ void SignaturePacket::SetCreationTime(unsigned int creation_time)
         data.push_back((creation_time >> 8) & 0xff);
         data.push_back(creation_time & 0xff);
 
-        AddSubpacketData(SST_SIGNATURE_CREATION_TIME, data, true);
+        AddSubPacketData(SST_SIGNATURE_CREATION_TIME, data, true);
     }
 }
 
@@ -93,7 +93,7 @@ void SignaturePacket::SetKeyID(KeyIDData& key_id)
     {
         CharDataVector data;
         packet_helper::GetKeyIDData(key_id_, data);
-        AddSubpacketData(SST_ISSUER, data, false);
+        AddSubPacketData(SST_ISSUER, data, false);
     }
 }
 
@@ -123,34 +123,34 @@ void SignaturePacket::SetExpiredSignatureTime(unsigned int expired_signature_tim
     expired_signature_time_ = expired_signature_time;
 }
 
-void SignaturePacket::SetPreferedHahAlgos(std::vector<HashAlgorithms> algos)
+void SignaturePacket::SetPreferredHahAlgorithms(std::vector<HashAlgorithms> algorithms)
 {
-    prefered_hash_algorithms_.assign(algos.begin(), algos.end());
+    preferred_hash_algorithms_.assign(algorithms.begin(), algorithms.end());
 }
 
-void SignaturePacket::SetPreferedChiperAlgos(std::vector<SymmetricKeyAlgorithms> algos)
+void SignaturePacket::SetPreferredCipherAlgorithms(std::vector<SymmetricKeyAlgorithms> algorithms)
 {
-    prefered_chiper_algorithms_.assign(algos.begin(), algos.end());
+    preferred_cipher_algorithms_.assign(algorithms.begin(), algorithms.end());
 }
 
-void SignaturePacket::SetPreferedCompressionAlgos(std::vector<CompressionAlgorithms> algos)
+void SignaturePacket::SetPreferredCompressionAlgorithms(std::vector<CompressionAlgorithms> algorithms)
 {
-    prefered_compression_algorithms_.assign(algos.begin(), algos.end());
+    preferred_compression_algorithms_.assign(algorithms.begin(), algorithms.end());
 }
 
-std::vector<HashAlgorithms> SignaturePacket::GetPreferedHahAlgos()
+std::vector<HashAlgorithms> SignaturePacket::GetPreferredHahAlgorithms()
 {
-    return prefered_hash_algorithms_;
+    return preferred_hash_algorithms_;
 }
 
-std::vector<SymmetricKeyAlgorithms> SignaturePacket::GetPreferedChiperAlgos()
+std::vector<SymmetricKeyAlgorithms> SignaturePacket::GetPreferredCipherAlgorithms()
 {
-    return prefered_chiper_algorithms_;
+    return preferred_cipher_algorithms_;
 }
 
-std::vector<CompressionAlgorithms> SignaturePacket::GetPreferedCompressionAlgos()
+std::vector<CompressionAlgorithms> SignaturePacket::GetPreferredCompressionAlgorithms()
 {
-    return prefered_compression_algorithms_;
+    return preferred_compression_algorithms_;
 }
 
 void SignaturePacket::AddMPI(CharDataVector mpi_data)
@@ -168,9 +168,9 @@ const CharDataVector SignaturePacket::GetMPI(size_t index)
     return CharDataVector();
 }
 
-void SignaturePacket::AddSubpacketData(const SignatureSubpacketType subpacket_type, const CharDataVector& data, bool hashed)
+void SignaturePacket::AddSubPacketData(SignatureSubPacketType sub_packet_type, const CharDataVector& data, bool hashed)
 {
-    hashed == true ? hashed_subpackets_.push_back(Subpacket(subpacket_type, data)) : unhashed_subpackets_.push_back((Subpacket(subpacket_type, data)));
+    hashed == true ? hashed_sub_packets_.push_back(SubPacket(sub_packet_type, data)) : unhashed_sub_packets_.push_back((SubPacket(sub_packet_type, data)));
 }
 
 void SignaturePacket::GetDataForHash(CharDataVector& data)
@@ -190,10 +190,10 @@ void SignaturePacket::GetDataForHash(CharDataVector& data)
     else if (GetPacketVersion() == 4)
     {
         CharDataVector hashed_subpackets_data;
-        for (Subpacket& subpacket : hashed_subpackets_)
+        for (SubPacket& subpacket : hashed_sub_packets_)
         {
             CharDataVector subpacket_data;
-            GetSubpacketBinaryData(subpacket, subpacket_data);
+            GetSubPacketBinaryData(subpacket, subpacket_data);
             
             hashed_subpackets_data.insert(hashed_subpackets_data.end(), subpacket_data.begin(), subpacket_data.end());
         }
@@ -262,37 +262,37 @@ bool SignaturePacket::GetBinaryData(CharDataVector& data)
     return true;
 }
 
-void SignaturePacket::GetSubpacketBinaryData(const Subpacket& subpacket, CharDataVector& subpacket_data)
+void SignaturePacket::GetSubPacketBinaryData(const SubPacket& sub_packet, CharDataVector& sub_packet_data)
 {
-    if ((subpacket.data_.size() + 1 ) < 192)
+    if ((sub_packet.data_.size() + 1 ) < 192)
     {
-        subpacket_data.push_back(subpacket.data_.size() + 1);
-        subpacket_data.push_back(subpacket.subpacket_type_);
-        subpacket_data.insert(subpacket_data.end(), subpacket.data_.begin(), subpacket.data_.end());
+        sub_packet_data.push_back(sub_packet.data_.size() + 1);
+        sub_packet_data.push_back(sub_packet.sub_packet_type_);
+        sub_packet_data.insert(sub_packet_data.end(), sub_packet.data_.begin(), sub_packet.data_.end());
     }
-    else if (((subpacket.data_.size() + 1) >= 192) && ((subpacket.data_.size() + 1) < 8383))
+    else if (((sub_packet.data_.size() + 1) >= 192) && ((sub_packet.data_.size() + 1) < 8383))
     {
-        int length = static_cast<int>(subpacket.data_.size()) + 1 - 192;
-        subpacket_data.push_back((length / 256) + 192);
-        subpacket_data.push_back(length % 256);
+        int length = static_cast<int>(sub_packet.data_.size()) + 1 - 192;
+        sub_packet_data.push_back((length / 256) + 192);
+        sub_packet_data.push_back(length % 256);
 
         
         /*subpacket_data.push_back(((subpacket.data_.size() + 1) >> 8) & 0xff);
         subpacket_data.push_back((subpacket.data_.size() + 1) & 0xff);*/
         
-        subpacket_data.push_back(subpacket.subpacket_type_);
-        subpacket_data.insert(subpacket_data.end(), subpacket.data_.begin(), subpacket.data_.end());
+        sub_packet_data.push_back(sub_packet.sub_packet_type_);
+        sub_packet_data.insert(sub_packet_data.end(), sub_packet.data_.begin(), sub_packet.data_.end());
     }
     else
     {
-        subpacket_data.push_back(0xFF);
-        subpacket_data.push_back(((subpacket.data_.size() + 1) >> 24) & 0xff);
-        subpacket_data.push_back(((subpacket.data_.size() + 1) >> 16) & 0xff);
-        subpacket_data.push_back(((subpacket.data_.size() + 1) >> 8) & 0xff);
-        subpacket_data.push_back((subpacket.data_.size() + 1) & 0xff);
+        sub_packet_data.push_back(0xFF);
+        sub_packet_data.push_back(((sub_packet.data_.size() + 1) >> 24) & 0xff);
+        sub_packet_data.push_back(((sub_packet.data_.size() + 1) >> 16) & 0xff);
+        sub_packet_data.push_back(((sub_packet.data_.size() + 1) >> 8) & 0xff);
+        sub_packet_data.push_back((sub_packet.data_.size() + 1) & 0xff);
 
-        subpacket_data.push_back(subpacket.subpacket_type_);
-        subpacket_data.insert(subpacket_data.end(), subpacket.data_.begin(), subpacket.data_.end());
+        sub_packet_data.push_back(sub_packet.sub_packet_type_);
+        sub_packet_data.insert(sub_packet_data.end(), sub_packet.data_.begin(), sub_packet.data_.end());
     }
 }
 
@@ -362,10 +362,10 @@ bool SignaturePacket::GetRawDataForV4Packet(CharDataVector& data)
     temp_data.push_back(GetHashAlgorithm());
     
     CharDataVector hashed_subpackets_data;
-    for (Subpacket& subpacket : hashed_subpackets_)
+    for (SubPacket& subpacket : hashed_sub_packets_)
     {
         CharDataVector subpacket_data;
-        GetSubpacketBinaryData(subpacket, subpacket_data);
+        GetSubPacketBinaryData(subpacket, subpacket_data);
         
         hashed_subpackets_data.insert(hashed_subpackets_data.end(), subpacket_data.begin(), subpacket_data.end());
     }
@@ -376,10 +376,10 @@ bool SignaturePacket::GetRawDataForV4Packet(CharDataVector& data)
 
     
     CharDataVector unhashed_subpackets_data;
-    for (Subpacket& subpacket : unhashed_subpackets_)
+    for (SubPacket& subpacket : unhashed_sub_packets_)
     {
         CharDataVector subpacket_data;
-        GetSubpacketBinaryData(subpacket, subpacket_data);
+        GetSubPacketBinaryData(subpacket, subpacket_data);
         
         unhashed_subpackets_data.insert(unhashed_subpackets_data.end(), subpacket_data.begin(), subpacket_data.end());
     }

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPCreator__
-#define __cryptopg__PGPCreator__
+#ifndef cryptopg_PGPCreator_
+#define cryptopg_PGPCreator_
 
 #include <vector>
 
@@ -19,7 +19,9 @@
 class PGPCreator
 {
 public:
-    static bool GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl, CharDataVector& data, bool armored = false);
+    static bool GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl,
+                                                 CharDataVector& data,
+                                                 bool armored = false);
 };
 
-#endif /* defined(__cryptopg__PGPCreator__) */
+#endif /* cryptopg_PGPCreator_ */

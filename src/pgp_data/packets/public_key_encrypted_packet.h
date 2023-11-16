@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PublicKeyEncryptedPacket__
-#define __cryptopg__PublicKeyEncryptedPacket__
+#ifndef cryptopg_PublicKeyEncryptedPacket_
+#define cryptopg_PublicKeyEncryptedPacket_
 
 
 #include "../pgp_packet.h"
@@ -24,12 +24,12 @@ public:
     PublicKeyAlgorithms GetPublicKeyAlgorithm();
     CharDataVector GetMPI(size_t index);
     
-    void SetublicKeyAlgorithm(PublicKeyAlgorithms algo);
+    void SetPublicKeyAlgorithm(PublicKeyAlgorithms algo);
     void SetKeyID(KeyIDData& key_id);
     void AddMPI(CharDataVector mpi_data_);
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
     PublicKeyAlgorithms public_key_algorithm_;
@@ -41,4 +41,4 @@ typedef std::shared_ptr<PublicKeyEncryptedPacket> PublicKeyEncryptedPacketPtr;
 
 
 
-#endif /* defined(__cryptopg__PublicKeyEncryptedPacket__) */
+#endif /* cryptopg_PublicKeyEncryptedPacket_ */

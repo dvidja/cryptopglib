@@ -81,7 +81,7 @@ SecretKeyPacket* SecretKeyPacketParser::Parse(DataBuffer& data_buffer, bool part
         secret_key_packet->SetSymmetricKeyAlgorithm(symetric_encrypting_algo);
         
         int string_to_key_specifier_type = data_buffer.GetNextByte();
-        secret_key_packet->SetStringToKeySpecefier(string_to_key_specifier_type);
+        secret_key_packet->SetStringToKeySpecifier(string_to_key_specifier_type);
         
         HashAlgorithms hash_algorithm = static_cast<HashAlgorithms>(data_buffer.GetNextByte());
         secret_key_packet->SetStringToKeyHashAlgorithm(hash_algorithm);

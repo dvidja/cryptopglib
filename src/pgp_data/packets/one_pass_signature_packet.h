@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__OnePassSignaturePacket__
-#define __cryptopg__OnePassSignaturePacket__
+#ifndef cryptopg_OnePassSignaturePacket_
+#define cryptopg_OnePassSignaturePacket_
 
 #include "../pgp_packet.h"
 #include "../../crypto/hash_algorithms.h"
@@ -18,24 +18,24 @@ class OnePassSignaturePacket : public PGPPacket
 {
 public:
     OnePassSignaturePacket();
-    OnePassSignaturePacket(SignaturePacketPtr signature_packet_ptr);
+    explicit OnePassSignaturePacket(SignaturePacketPtr signature_packet_ptr);
     
-    void SetVersion(const int version = 3);
-    void SetSignatureType(const int signature_type);
-    void SetHashAlorithm(const HashAlgorithms hash_algo);
-    void SetPublicKeyAlgorithm(const PublicKeyAlgorithms pub_key_algo);
+    void SetVersion(int version = 3);
+    void SetSignatureType(int signature_type);
+    void SetHashAlgorithm(HashAlgorithms hash_algo);
+    void SetPublicKeyAlgorithm(PublicKeyAlgorithms pub_key_algo);
     void SetKeyID(const KeyIDData& key_id);
-    void SetNested(const int nested);
+    void SetNested(int nested);
  
     int GetVersion();
     int GetSignatureType();
-    HashAlgorithms GetHashAlorithm();
+    HashAlgorithms GetHashAlgorithm();
     PublicKeyAlgorithms GetPublicKeyAlgorithm();
     KeyIDData& GetKeyID();
     int GetNested();
 
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
     int version_;
@@ -49,4 +49,4 @@ private:
 typedef std::shared_ptr<OnePassSignaturePacket> OnePassSignaturePacketPtr;
 
 
-#endif /* defined(__cryptopg__OnePassSignaturePacket__) */
+#endif /* cryptopg_OnePassSignaturePacket_ */

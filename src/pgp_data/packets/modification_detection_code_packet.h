@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__ModificationDetectionCodePacket__
-#define __cryptopg__ModificationDetectionCodePacket__
+#ifndef cryptopg_ModificationDetectionCodePacket_
+#define cryptopg_ModificationDetectionCodePacket_
 
 #include "../pgp_packet.h"
 
@@ -19,8 +19,8 @@ public:
     void SetData(const CharDataVector& data);
     CharDataVector& GetData();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
     
@@ -29,4 +29,4 @@ private:
 
 typedef std::shared_ptr<ModificationDetectionCodePacket> ModificationDetectionCodePacketPtr;
 
-#endif /* defined(__cryptopg__ModificationDetectionCodePacket__) */
+#endif /* cryptopg_ModificationDetectionCodePacket_ */

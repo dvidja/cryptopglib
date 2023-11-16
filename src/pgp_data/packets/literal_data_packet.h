@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__LiteralDataPacket__
-#define __cryptopg__LiteralDataPacket__
+#ifndef cryptopg_LiteralDataPacket_
+#define cryptopg_LiteralDataPacket_
 
 #include "../pgp_packet.h"
 
@@ -23,8 +23,8 @@ public:
     CharDataVector& GetData();
     CharDataVector& GetFileName();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
 
@@ -35,4 +35,4 @@ private:
 
 typedef std::shared_ptr<LiteralDataPacket> LiteralDataPacketPtr;
 
-#endif /* defined(__cryptopg__LiteralDataPacket__) */
+#endif /* cryptopg_LiteralDataPacket_ */

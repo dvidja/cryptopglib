@@ -25,7 +25,7 @@ OnePassSignaturePacket* OnePassSignaturePacketParser::Parse(DataBuffer& data_buf
     packet->SetSignatureType(signature_type);
     
     HashAlgorithms hash_algo = static_cast<HashAlgorithms>(data_buffer.GetNextByte());
-    packet->SetHashAlorithm(hash_algo);
+    packet->SetHashAlgorithm(hash_algo);
     
     PublicKeyAlgorithms pub_key_algo = static_cast<PublicKeyAlgorithms>(data_buffer.GetNextByte());
     packet->SetPublicKeyAlgorithm(pub_key_algo);

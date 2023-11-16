@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__MarkerPacket__
-#define __cryptopg__MarkerPacket__
+#ifndef cryptopg_MarkerPacket_
+#define cryptopg_MarkerPacket_
 
 #include "../pgp_packet.h"
 
@@ -19,8 +19,8 @@ public:
     void SetData(CharDataVector& data);
     CharDataVector& GetData();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
     CharDataVector data_;
@@ -28,4 +28,4 @@ private:
 
 typedef std::shared_ptr<MarkerPacket> MarkerPacketPtr;
 
-#endif /* defined(__cryptopg__MarkerPacket__) */
+#endif /* cryptopg_MarkerPacket_ */

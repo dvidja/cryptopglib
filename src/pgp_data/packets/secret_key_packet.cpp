@@ -96,12 +96,12 @@ const CharDataVector& SecretKeyPacket::GetInitialVector()
     return initial_vector_;
 }
 
-void SecretKeyPacket::SetStringToKeySpecefier(int string_to_key_specifier_type)
+void SecretKeyPacket::SetStringToKeySpecifier(int string_to_key_specifier_type)
 {
     string_to_key_specifier_type_ = string_to_key_specifier_type;
 }
 
-int SecretKeyPacket::GetStringToKeySpecefier()
+int SecretKeyPacket::GetStringToKeySpecifier()
 {
     return string_to_key_specifier_type_;
 }
@@ -146,7 +146,7 @@ bool SecretKeyPacket::GetRawData(CharDataVector& data)
     {
         temp_data.push_back(GetSymmetricKeyAlgorithm());
         
-        temp_data.push_back(GetStringToKeySpecefier());
+        temp_data.push_back(GetStringToKeySpecifier());
         temp_data.push_back(GetStringToKeyHashAlgorithm());
         temp_data.insert(temp_data.end(), salt_.begin(), salt_.end());
         temp_data.push_back(count_);

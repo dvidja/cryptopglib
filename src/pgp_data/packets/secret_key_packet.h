@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SecretKeyPacket__
-#define __cryptopg__SecretKeyPacket__
+#ifndef cryptopg_SecretKeyPacket_
+#define cryptopg_SecretKeyPacket_
 
 
 #include "../pgp_packet.h"
@@ -18,7 +18,7 @@
 class SecretKeyPacket : public PGPPacket
 {
 public:
-    SecretKeyPacket(PublicKeyPacketPtr public_key_packet);
+    explicit SecretKeyPacket(PublicKeyPacketPtr public_key_packet);
     SecretKeyPacket(SecretKeyPacket& secret_key_packet);
     
     PublicKeyPacketPtr GetPublicKeyPatr();
@@ -40,8 +40,8 @@ public:
     void SetInitialVector(CharDataVector& initial_vector);
     const CharDataVector& GetInitialVector();
     
-    void SetStringToKeySpecefier(int string_to_key_specifier_type);
-    int GetStringToKeySpecefier();
+    void SetStringToKeySpecifier(int string_to_key_specifier_type);
+    int GetStringToKeySpecifier();
     
     void SetStringToKeyUsage(int string_to_key_usage);
     int GetStringToKeyUsage();
@@ -51,8 +51,8 @@ public:
     
     void ClearMPIData();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
     
 private:
     PublicKeyPacketPtr public_key_packet_;
@@ -69,4 +69,4 @@ private:
 
 typedef std::shared_ptr<SecretKeyPacket> SecretKeyPacketPtr;
 
-#endif /* defined(__cryptopg__SecretKeyPacket__) */
+#endif /* cryptopg_SecretKeyPacket_ */

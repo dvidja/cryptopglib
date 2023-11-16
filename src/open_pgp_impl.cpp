@@ -278,12 +278,12 @@ KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message)
                         
                         if (p->GetPacketVersion() == 4)
                         {
-                            if (!p->GetPreferedHahAlgos().empty())
-                                key_info.prefered_hash_algorithms_ = p->GetPreferedHahAlgos();
-                            if (!p->GetPreferedChiperAlgos().empty())
-                                key_info.prefered_chipers_ = p->GetPreferedChiperAlgos();
-                            if (!p->GetPreferedCompressionAlgos().empty())
-                                key_info.prefered_compression_algorithms_ = p->GetPreferedCompressionAlgos();
+                            if (!p->GetPreferredHahAlgorithms().empty())
+                                key_info.prefered_hash_algorithms_ = p->GetPreferredHahAlgorithms();
+                            if (!p->GetPreferredCipherAlgorithms().empty())
+                                key_info.prefered_chipers_ = p->GetPreferredCipherAlgorithms();
+                            if (!p->GetPreferredCompressionAlgorithms().empty())
+                                key_info.prefered_compression_algorithms_ = p->GetPreferredCompressionAlgorithms();
                         }
                     }
                     break;

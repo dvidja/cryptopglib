@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PublicKeyPacket__
-#define __cryptopg__PublicKeyPacket__
+#ifndef cryptopg_PublicKeyPacket_
+#define cryptopg_PublicKeyPacket_
 
 
 #include "../pgp_packet.h"
@@ -17,10 +17,10 @@
 class PublicKeyPacket : public PGPPacket
 {
 public:    
-    PublicKeyPacket(int key_version, bool is_subkey = false);
+    explicit PublicKeyPacket(int key_version, bool is_subkey = false);
     PublicKeyPacket(PublicKeyPacket& public_key_packet);
 
-    ~PublicKeyPacket();
+    ~PublicKeyPacket() override;
     
     int GetKeyVersion();
     
@@ -45,8 +45,8 @@ public:
     void SetKeySize(int size);
     int GetKeySize();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 
 private:
     int key_version_;
@@ -61,4 +61,4 @@ private:
 
 typedef std::shared_ptr<PublicKeyPacket> PublicKeyPacketPtr;
 
-#endif /* defined(__cryptopg__PublicKeyPacket__) */
+#endif /* cryptopg_PublicKeyPacket_ */

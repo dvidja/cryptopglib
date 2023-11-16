@@ -380,7 +380,7 @@ namespace
                     {
                         secret_key_packet_ptr->SetStringToKeyUsage(254);
                         secret_key_packet_ptr->SetSymmetricKeyAlgorithm(SKA_AES_256);
-                        secret_key_packet_ptr->SetStringToKeySpecefier(3);
+                        secret_key_packet_ptr->SetStringToKeySpecifier(3);
                         secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HA_SHA1);
                         
                         CharDataVector salt;
@@ -411,7 +411,7 @@ namespace
                     {
                         secret_key_packet_ptr->SetStringToKeyUsage(0);
                         secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HA_NO_HASH);
-                        secret_key_packet_ptr->SetStringToKeySpecefier(0);
+                        secret_key_packet_ptr->SetStringToKeySpecifier(0);
                         
                         CharDataVector mpis;
                         GetMPIsDataVector(rsa_secret_key, mpis);
@@ -506,32 +506,32 @@ namespace crypto
                                             0x64, 0x69, 0x6e, 0x67, 0x40, 0x70, 0x67, 0x70, 0x2e,
                                             0x63, 0x6f, 0x6d, 0x70, 0x67, 0x70, 0x6d, 0x69, 0x6d,
                                             0x65};
-                                        
-            signature_packet_ptr->AddSubpacketData(SST_NOTATION_DATA, notation_data, true);
+
+            signature_packet_ptr->AddSubPacketData(SST_NOTATION_DATA, notation_data, true);
             
             /// Preferred symmetric key algorithm subpacket
             CharDataVector prefered_sym_algos = {0x9, 0x8, 0x7, 0x3, 0x2, 0x1, 0xa};
-            signature_packet_ptr->AddSubpacketData(SST_PREFERRED_SYMMETRIC_ALGO, prefered_sym_algos, true);
+            signature_packet_ptr->AddSubPacketData(SST_PREFERRED_SYMMETRIC_ALGO, prefered_sym_algos, true);
             
             /// primary user id subpacket
             CharDataVector primary_user_id_data = {0x1};
-            signature_packet_ptr->AddSubpacketData(SST_PRIMARY_USER_ID, primary_user_id_data, true);
+            signature_packet_ptr->AddSubPacketData(SST_PRIMARY_USER_ID, primary_user_id_data, true);
             
             //Key flags subpacket
             CharDataVector key_flags_data = {0x3, 0x0, 0x0, 0x0};
-            signature_packet_ptr->AddSubpacketData(SST_KEY_FLAGS, key_flags_data, true);
+            signature_packet_ptr->AddSubPacketData(SST_KEY_FLAGS, key_flags_data, true);
             
             ///Preferred compress algorithms subpacket
             CharDataVector prefered_compress_algos = {0x3, 0x2, 0x1, 0x0};
-            signature_packet_ptr->AddSubpacketData(SST_PREFERRED_COMPRESSION_ALGO, prefered_compress_algos, true);
+            signature_packet_ptr->AddSubPacketData(SST_PREFERRED_COMPRESSION_ALGO, prefered_compress_algos, true);
             
             //Features subpacket
             CharDataVector features_data = {0x1, 0x0, 0x0, 0x0};
-            signature_packet_ptr->AddSubpacketData(SST_FEATURES, features_data, true);
+            signature_packet_ptr->AddSubPacketData(SST_FEATURES, features_data, true);
             
             ///Preferred hash algorithms subpacket
             CharDataVector prefered_hash_algos = {0x8, 0x9, 0xa};
-            signature_packet_ptr->AddSubpacketData(SST_PREFERRED_HASH_ALGO, prefered_hash_algos, true);
+            signature_packet_ptr->AddSubPacketData(SST_PREFERRED_HASH_ALGO, prefered_hash_algos, true);
 
             
             CharDataVector data_for_sign;
@@ -590,7 +590,7 @@ namespace crypto
             
             //Key flags subpacket
             CharDataVector key_flags_data = {0xc, 0x0, 0x0, 0x0};
-            signature_packet_ptr->AddSubpacketData(SST_KEY_FLAGS, key_flags_data, true);
+            signature_packet_ptr->AddSubPacketData(SST_KEY_FLAGS, key_flags_data, true);
 
             
             {
@@ -624,8 +624,8 @@ namespace crypto
                         
                         CharDataVector embeded_packet_data;
                         embedded_signature_packet_ptr->GetBinaryData(embeded_packet_data);
-                        
-                        signature_packet_ptr->AddSubpacketData(SST_EMBEDDED_SIGNATURE, embeded_packet_data, true);
+
+                        signature_packet_ptr->AddSubPacketData(SST_EMBEDDED_SIGNATURE, embeded_packet_data, true);
                     }
                 }
             }

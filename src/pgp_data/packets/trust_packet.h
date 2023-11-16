@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__TrustPacket__
-#define __cryptopg__TrustPacket__
+#ifndef cryptopg_TrustPacket_
+#define cryptopg_TrustPacket_
 
 #include "../pgp_packet.h"
 
@@ -16,10 +16,10 @@ class TrustPacket : public PGPPacket
 public:
     TrustPacket();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 };
 
 typedef std::shared_ptr<TrustPacket> TrustPacketPtr;
 
-#endif /* defined(__cryptopg__TrustPacket__) */
+#endif /* cryptopg_TrustPacket_ */

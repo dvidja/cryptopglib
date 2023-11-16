@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__CompressedDataPacket__
-#define __cryptopg__CompressedDataPacket__
+#ifndef cryptopg_CompressedDataPacket_
+#define cryptopg_CompressedDataPacket_
 
 #include "../pgp_packet.h"
 #include "../../crypto/compression_algorithms.h"
@@ -24,8 +24,8 @@ public:
     CompressionAlgorithms GetCompressAlgorithm();
     CharDataVector& GetData();
     
-    virtual bool GetRawData(CharDataVector& data);
-    virtual bool GetBinaryData(CharDataVector& data);
+    bool GetRawData(CharDataVector& data) override;
+    bool GetBinaryData(CharDataVector& data) override;
 
 private:
     CompressionAlgorithms compress_algo_;
@@ -34,4 +34,4 @@ private:
 
 typedef std::shared_ptr<CompressedDataPacket> CompressedDataPacketPtr;
 
-#endif /* defined(__cryptopg__CompressedDataPacket__) */
+#endif /* cryptopg_CompressedDataPacket_ */

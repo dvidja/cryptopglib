@@ -37,7 +37,7 @@ PublicKeyEncryptedPacket* PublicKeyEnctyptedPacketParser::Parse(DataBuffer& data
     packet->SetKeyID(key_id);
     
     PublicKeyAlgorithms public_key_algo = static_cast<PublicKeyAlgorithms>(data_buffer.GetNextByteNotEOF());
-    packet->SetublicKeyAlgorithm(public_key_algo);
+    packet->SetPublicKeyAlgorithm(public_key_algo);
 
     switch (public_key_algo)
     {
