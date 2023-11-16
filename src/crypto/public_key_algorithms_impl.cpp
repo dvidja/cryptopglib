@@ -283,7 +283,7 @@ namespace crypto
         BN_bn2bin(b, &mpi_b[0]);
 
         
-        result_data.empty();
+        //result_data.empty();
         int num_bits_a = BN_num_bits(a);
         result_data.push_back((num_bits_a >> 8) & 0xFF);
         result_data.push_back(num_bits_a & 0xFF);
@@ -358,7 +358,7 @@ namespace crypto
         {
             if (result_data[0] != 2)
             {
-                result_data.empty();
+                //result_data.empty();
                 return 0;
             }
             

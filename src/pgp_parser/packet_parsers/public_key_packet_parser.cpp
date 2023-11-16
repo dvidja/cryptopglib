@@ -8,8 +8,7 @@
 
 #include "public_key_packet_parser.h"
 
-#include "../../Crypto/public_key_algorithms.h"
-#include "../../Crypto/hash_algorithms.h"
+#include "../../crypto/hash_algorithms.h"
 
 #include <sstream>
 
@@ -55,7 +54,7 @@ PublicKeyPacket* PublicKeyPacketParser::Parse(DataBuffer& data_buffer, bool part
         return nullptr;
     }
     
-    PublicKeyPacket* packet = new PublicKeyPacket(version);
+    auto* packet = new PublicKeyPacket(version);
 
     unsigned int timestamp = data_buffer.GetNextFourOctets();
     packet->SetTimestamp(timestamp);
@@ -67,10 +66,10 @@ PublicKeyPacket* PublicKeyPacketParser::Parse(DataBuffer& data_buffer, bool part
         packet->SetKeyExpiredTime(packet->GetTimestamp() + expired_seconds);
     }
     
-    PublicKeyAlgorithms algorithm = (PublicKeyAlgorithms)data_buffer.GetNextByteNotEOF();
+    auto algorithm = (PublicKeyAlgorithms)data_buffer.GetNextByteNotEOF();
     
     packet->SetPublicKeyAlgorithm(algorithm);
-    
+
     int rest_length = data_buffer.rest_length();
 
     switch (algorithm)

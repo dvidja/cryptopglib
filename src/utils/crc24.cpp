@@ -19,7 +19,7 @@ namespace Utils
         long crc = CRC24_INIT;
         size_t len = data.size();
         
-        CharDataVector::const_iterator iter = data.begin();
+        auto iter = data.begin();
         
         int i;
         while (len--)

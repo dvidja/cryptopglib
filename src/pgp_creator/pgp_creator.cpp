@@ -8,8 +8,8 @@
 
 #include "pgp_creator.h"
 
-#include "../Utils/base64.h"
-#include "../Utils/crc24.h"
+#include "../utils/base64.h"
+#include "../utils/crc24.h"
 
 namespace
 {
@@ -131,7 +131,7 @@ namespace
         {
             if ((*iter) == nullptr)
             {
-                data.empty();
+                //data.empty();
                 return false;
             }
             
@@ -185,7 +185,7 @@ namespace
         {
             if ((*iter) == nullptr)
             {
-                data.empty();
+                //data.empty();
                 return false;
             }
 
@@ -239,7 +239,7 @@ namespace
         {
             if ((*iter) == nullptr)
             {
-                data.empty();
+                //data.empty();
                 return false;
             }
 

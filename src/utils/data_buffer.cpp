@@ -8,6 +8,8 @@
 
 #include "data_buffer.h"
 
+#include <utility>
+
 
 DataBuffer::DataBuffer()
     : current_position_(0)
@@ -19,9 +21,9 @@ DataBuffer::DataBuffer(const int size)
 {
 }
 
-DataBuffer::DataBuffer(const CharDataVector& data)
+DataBuffer::DataBuffer(CharDataVector  data)
     : current_position_(0)
-    , data_(data)
+    , data_(std::move(data))
 {
     
 }
@@ -59,7 +61,7 @@ CharDataVector DataBuffer::GetRange(size_t length)
     size_t end = length + current_position_;
     if (current_position_ >= end)
     {
-        return CharDataVector();
+        return {};
     }
     
     if (end > data_.size())
@@ -79,7 +81,7 @@ CharDataVector DataBuffer::GetRange(size_t start_pos, size_t last_pos)
 {
     if (last_pos >= data_.size())
     {
-        return CharDataVector();
+        return {};
     }
     
     CharDataVector result(data_.begin() + start_pos, data_.begin() + last_pos);
@@ -105,7 +107,7 @@ unsigned int DataBuffer::GetNextFourOctets()
 
 bool DataBuffer::HasNextByte()
 {
-    return !(current_position_ >= (data_.size() - 1));
+    return current_position_ < (data_.size() - 1);
 }
 
 void DataBuffer::ResetCurrentPosition()

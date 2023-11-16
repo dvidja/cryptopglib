@@ -12,8 +12,8 @@
 //If you want to use an alternate alphabet, change the characters here
 namespace
 {
-    const static char encodeLookup[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    const static char padCharacter = '=';
+    const char encodeLookup[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    const char padCharacter = '=';
 }
 
 namespace Utils
@@ -24,8 +24,8 @@ namespace Utils
         std::string encodedString;
         encodedString.reserve(((inputBuffer.size() / 3) + (inputBuffer.size() % 3 > 0)) * 4);
         
-        long temp = 0;
-        CharDataVector::iterator cursor = inputBuffer.begin();
+        long temp;
+        auto cursor = inputBuffer.begin();
         
         for(size_t idx = 0; idx < inputBuffer.size() / 3; idx++)
         {
@@ -77,7 +77,7 @@ namespace Utils
                 padding++;
         }
         
-        //Setup a vector to hold the result
+        //set up a vector to hold the result
         CharDataVector decodedBytes;
         decodedBytes.reserve(((input.length() / 4)*3) - padding);
         

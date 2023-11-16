@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__DataBuffer__
-#define __cryptopg__DataBuffer__
+#ifndef cryptopg_DataBuffer_
+#define cryptopg_DataBuffer_
 
 #include <iostream>
 
@@ -18,8 +18,8 @@ class DataBuffer
 {
 public:
     DataBuffer();
-    DataBuffer(const int size);
-    DataBuffer(const CharDataVector& data);
+    explicit DataBuffer(int size);
+    DataBuffer(CharDataVector data);
     
     unsigned char GetNextByte();
     unsigned char GetNextByteNotEOF();
@@ -38,11 +38,11 @@ public:
     bool empty() { return data_.empty(); }
     size_t length() { return data_.size(); }
     size_t rest_length() { return data_.size() - current_position_; };
-    size_t current_position(){ return current_position_; };
+    size_t current_position() const{ return current_position_; };
     
 private:
     CharDataVector data_;
     size_t current_position_;
 };
 
-#endif /* defined(__cryptopg__DataBuffer__) */
+#endif /* cryptopg_DataBuffer_ */

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <stdio.h>
+#include <cstdio>
 #include "../pgp_data/pgp_data_types.h"
 
 namespace Utils
