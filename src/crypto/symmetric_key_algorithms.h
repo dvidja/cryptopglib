@@ -31,9 +31,9 @@ namespace crypto
     class SymmetricKeyAlgorithm
     {
     public:
-        virtual ~SymmetricKeyAlgorithm() {};
+        virtual ~SymmetricKeyAlgorithm() = default;
 
-        virtual int GetChiperBlockSize() = 0;
+        virtual int GetCipherBlockSize() = 0;
         virtual int GetKeyLength() = 0;
         
         virtual bool EncryptBlock(const CharDataVector& input_data,
@@ -75,205 +75,205 @@ namespace crypto
     class Idea : public SymmetricKeyAlgorithm
     {
     public:        
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
 
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
 
     };
     
     class TripleDes : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
 
-        virtual bool DecryptInCFBMode(const CharDataVector& initial_vector,
+        bool DecryptInCFBMode(const CharDataVector& initial_vector,
                              const CharDataVector& input_data,
                              const CharDataVector& session_key,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
     };
 
     class Cast5 : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
     };
 
     class BlowFish : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
 
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
 
     };
 
     class AES128 : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
     };
     
     class AES192 : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
 
     };
 
     class AES256 : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
     };
 
     class TwoFish : public SymmetricKeyAlgorithm
     {
     public:
-        virtual int GetChiperBlockSize();
-        virtual int GetKeyLength();
+        int GetCipherBlockSize() override;
+        int GetKeyLength() override;
         
-        virtual bool EncryptBlock(const CharDataVector& input_data,
+        bool EncryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool DecryptBlock(const CharDataVector& input_data,
+        bool DecryptBlock(const CharDataVector& input_data,
                                   const CharDataVector& session_key,
-                                  CharDataVector& result_data);
+                                  CharDataVector& result_data) override;
         
-        virtual bool EncryptInCFBMode(const CharDataVector& input_data,
+        bool EncryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
         
-        virtual bool DecryptInCFBMode(const CharDataVector& input_data,
+        bool DecryptInCFBMode(const CharDataVector& input_data,
                              const CharDataVector& session_key,
                              const CharDataVector& initial_vector,
-                             CharDataVector& result_data);
+                             CharDataVector& result_data) override;
     };
     
     

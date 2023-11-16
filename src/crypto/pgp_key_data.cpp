@@ -422,7 +422,7 @@ namespace crypto
         
         crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(secret_key->GetSymmetricKeyAlgorithm());
         CharDataVector initial_vector;
-        crypto::GenerateSessionKey(sym_key_algo_impl->GetChiperBlockSize(), initial_vector, -1);
+        crypto::GenerateSessionKey(sym_key_algo_impl->GetCipherBlockSize(), initial_vector, -1);
         secret_key->SetInitialVector(initial_vector);
         
         CharDataVector mpis_data_vector;

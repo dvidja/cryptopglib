@@ -52,7 +52,7 @@ namespace crypto
                                  bool flag)
 
     {
-        unsigned int block_size = GetChiperBlockSize();
+        unsigned int block_size = GetCipherBlockSize();
         
         // 1
         CharDataVector FR(block_size, 0);
@@ -138,7 +138,7 @@ namespace crypto
                                   CharDataVector& result_data,
                                   bool flag)
     {
-        unsigned int block_size = GetChiperBlockSize();
+        unsigned int block_size = GetCipherBlockSize();
         
         // 1
         CharDataVector FR(block_size, 0);
@@ -195,7 +195,7 @@ namespace crypto
         return true;
     }
     
-    int Idea::GetChiperBlockSize()
+    int Idea::GetCipherBlockSize()
     {
         return IDEA_BLOCK;
     }
@@ -278,7 +278,7 @@ namespace crypto
         return true;
     }
     
-    int TripleDes::GetChiperBlockSize()
+    int TripleDes::GetCipherBlockSize()
     {
         return 8;
     }
@@ -405,7 +405,7 @@ namespace crypto
         return true;
     }
     
-    int Cast5::GetChiperBlockSize()
+    int Cast5::GetCipherBlockSize()
     {
         return CAST_BLOCK;
     }
@@ -478,7 +478,7 @@ namespace crypto
         return true;
     }
 
-    int BlowFish::GetChiperBlockSize()
+    int BlowFish::GetCipherBlockSize()
     {
         return BF_BLOCK;
     }
@@ -550,7 +550,7 @@ namespace crypto
         return true;
     }
 
-    int AES128::GetChiperBlockSize()
+    int AES128::GetCipherBlockSize()
     {
         return AES_BLOCK_SIZE;
     }
@@ -619,7 +619,7 @@ namespace crypto
         return true;
     }
 
-    int AES192::GetChiperBlockSize()
+    int AES192::GetCipherBlockSize()
     {
         return AES_BLOCK_SIZE;
     }
@@ -691,7 +691,7 @@ namespace crypto
         return true;
     }
 
-    int AES256::GetChiperBlockSize()
+    int AES256::GetCipherBlockSize()
     {
         return AES_BLOCK_SIZE;
     }
@@ -760,7 +760,7 @@ namespace crypto
         return true;
     }
     
-    int TwoFish::GetChiperBlockSize()
+    int TwoFish::GetCipherBlockSize()
     {
         return 16;
     }

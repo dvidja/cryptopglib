@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__KeyGenerator__
-#define __cryptopg__KeyGenerator__
+#ifndef cryptopg_KeyGenerator_
+#define cryptopg_KeyGenerator_
 
 #include "public_key_algorithms.h"
 #include "../pgp_message_impl.h"
@@ -27,4 +27,4 @@ namespace crypto
     void GenerateSessionKey(int key_length, CharDataVector& session_key, int algo);
 }
 
-#endif /* defined(__cryptopg__KeyGenerator__) */
+#endif /* cryptopg_KeyGenerator_ */

@@ -227,7 +227,7 @@ namespace crypto
         SymmetricKeyAlgorithms algo = static_cast<SymmetricKeyAlgorithms>(session_key_data[0]);
         crypto::SymmetricKeyAlgorithmPtr algo_impl = crypto::GetSymmetricKeyAlgorithm(algo);
         
-        CharDataVector initial_vector(algo_impl->GetChiperBlockSize(), 0);
+        CharDataVector initial_vector(algo_impl->GetCipherBlockSize(), 0);
         
         CharDataVector session_key(session_key_data.begin() + 1, session_key_data.begin() + algo_impl->GetKeyLength() + 1);
         CharDataVector result_data;
@@ -236,26 +236,26 @@ namespace crypto
         {
             if (algo_impl->DecryptInOpenPGPCFBMode(encrypted_data, session_key, result_data, flag))
             {
-                if (!IsDataDecryptedCorrect(result_data, algo_impl->GetChiperBlockSize()))
+                if (!IsDataDecryptedCorrect(result_data, algo_impl->GetCipherBlockSize()))
                 {
                     // TODO: handle error
                     return;
                 }
                 
                 //CharDataVector decrypted_data(result_data.begin() + algo_impl->GetChiperBlockSize() + 2, result_data.end());
-                HandleDecryptedData(result_data, algo_impl->GetChiperBlockSize() + 2);
+                HandleDecryptedData(result_data, algo_impl->GetCipherBlockSize() + 2);
             }
         }
         else if (algo_impl->DecryptInCFBMode(encrypted_data, session_key, initial_vector, result_data))
         {
-            if (!IsDataDecryptedCorrect(result_data, algo_impl->GetChiperBlockSize()))
+            if (!IsDataDecryptedCorrect(result_data, algo_impl->GetCipherBlockSize()))
             {
                 // TODO: handle error
                 return;
             }
             
             //CharDataVector decrypted_data(result_data.begin() + algo_impl->GetChiperBlockSize() + 2, result_data.end());
-            HandleDecryptedData(result_data, algo_impl->GetChiperBlockSize() + 2);
+            HandleDecryptedData(result_data, algo_impl->GetCipherBlockSize() + 2);
         }
     }
         

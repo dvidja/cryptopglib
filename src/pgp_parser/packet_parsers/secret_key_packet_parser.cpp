@@ -123,7 +123,7 @@ SecretKeyPacket* SecretKeyPacketParser::Parse(DataBuffer& data_buffer, bool part
     {
         std::shared_ptr<crypto::SymmetricKeyAlgorithm>symmetric_key_algo_impl(crypto::GetSymmetricKeyAlgorithm(secret_key_packet->GetSymmetricKeyAlgorithm()));
 
-        int length = symmetric_key_algo_impl != nullptr ? symmetric_key_algo_impl->GetChiperBlockSize() : 0;
+        int length = symmetric_key_algo_impl != nullptr ? symmetric_key_algo_impl->GetCipherBlockSize() : 0;
         if (length != 0)
         {
             CharDataVector initial_vector = data_buffer.GetRange(length);

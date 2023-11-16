@@ -392,7 +392,7 @@ namespace
                         
                         crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(SKA_AES_256);
                         CharDataVector initial_vector;
-                        crypto::GenerateSessionKey(sym_key_algo_impl->GetChiperBlockSize(), initial_vector, -1);
+                        crypto::GenerateSessionKey(sym_key_algo_impl->GetCipherBlockSize(), initial_vector, -1);
                         secret_key_packet_ptr->SetInitialVector(initial_vector);
                         
                         CharDataVector mpis_data_vector;

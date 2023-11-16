@@ -105,17 +105,17 @@ namespace
         SymmetricallyEncryptedDataPacketPtr symmetricaly_encrypted_data_packet(new SymmetricallyEncryptedDataPacket(PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET));
         
         crypto::SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(algo);
-        CharDataVector initial_vector(symmetric_key_algo_impl->GetChiperBlockSize(), 0);
+        CharDataVector initial_vector(symmetric_key_algo_impl->GetCipherBlockSize(), 0);
         
         CharDataVector random_data;
-        crypto::GenerateSessionKey(symmetric_key_algo_impl->GetChiperBlockSize(), random_data, -1);
-        if (random_data.size() != symmetric_key_algo_impl->GetChiperBlockSize())
+        crypto::GenerateSessionKey(symmetric_key_algo_impl->GetCipherBlockSize(), random_data, -1);
+        if (random_data.size() != symmetric_key_algo_impl->GetCipherBlockSize())
         {
             return nullptr;
         }
         
-        random_data.push_back(random_data[symmetric_key_algo_impl->GetChiperBlockSize() - 2]);
-        random_data.push_back(random_data[symmetric_key_algo_impl->GetChiperBlockSize() - 1]);
+        random_data.push_back(random_data[symmetric_key_algo_impl->GetCipherBlockSize() - 2]);
+        random_data.push_back(random_data[symmetric_key_algo_impl->GetCipherBlockSize() - 1]);
         source.insert(source.begin(), random_data.begin(), random_data.end());
         
         source.push_back(0xd3);
@@ -127,7 +127,7 @@ namespace
         
         source.insert(source.end(), dst.begin(), dst.end());
         
-        CharDataVector ivec(symmetric_key_algo_impl->GetChiperBlockSize(), 0);
+        CharDataVector ivec(symmetric_key_algo_impl->GetCipherBlockSize(), 0);
         CharDataVector encrypted_data;
         symmetric_key_algo_impl->EncryptInCFBMode(source, session_key, ivec, encrypted_data);
         ///

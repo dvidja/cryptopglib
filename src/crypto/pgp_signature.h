@@ -30,10 +30,9 @@ struct SignatureResultInfo
 {
 public:
     SignatureResultInfo()
-    : create_signature_time_(0)
-    , expired_signature_time_(0)
+        : create_signature_time_(0)
+        , expired_signature_time_(0)
     {
-        
     }
     CheckSignatureResult signature_result_;
     unsigned int create_signature_time_;

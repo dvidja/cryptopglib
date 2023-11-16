@@ -43,7 +43,7 @@ namespace crypto
         virtual void Final(CharDataVector& result_hash) = 0;
         virtual std::string GetHashAlgorithmName() = 0;
 
-        virtual ~HashAlgorithm() {}
+        virtual ~HashAlgorithm() = default;
     };
     
     typedef std::unique_ptr<HashAlgorithm> HashAlgorithmPtr;
@@ -51,29 +51,28 @@ namespace crypto
     class Md5 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         MD5_CTX context_;
-
     };
         
     class Sha1 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         SHA_CTX context_;
@@ -82,13 +81,13 @@ namespace crypto
     class RipeMD : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
     
     private:
         RIPEMD160_CTX context_;
@@ -97,13 +96,13 @@ namespace crypto
     class Sha256 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         SHA256_CTX context_;
@@ -112,13 +111,13 @@ namespace crypto
     class Sha384 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         SHA512_CTX context_;
@@ -127,13 +126,13 @@ namespace crypto
     class Sha512 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         SHA512_CTX context_;
@@ -142,13 +141,13 @@ namespace crypto
     class Sha224 : public HashAlgorithm
     {
     public:
-        virtual bool Hash(const CharDataVector& source, CharDataVector& dest);
-        virtual int GetDigestLength();
-        virtual const CharDataVector& GetHashPrefix();
-        virtual void Init();
-        virtual void Update(const CharDataVector& data);
-        virtual void Final(CharDataVector& result_hash);
-        virtual std::string GetHashAlgorithmName();
+        bool Hash(const CharDataVector& source, CharDataVector& dest) override;
+        int GetDigestLength() override;
+        const CharDataVector& GetHashPrefix() override;
+        void Init() override;
+        void Update(const CharDataVector& data) override;
+        void Final(CharDataVector& result_hash) override;
+        std::string GetHashAlgorithmName() override;
         
     private:
         SHA256_CTX context_;

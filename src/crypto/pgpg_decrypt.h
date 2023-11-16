@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPDecrypt__
-#define __cryptopg__PGPDecrypt__
+#ifndef cryptopg_PGPDecrypt_
+#define cryptopg_PGPDecrypt_
 
 #include <string>
 #include "../pgp_message_impl.h"
@@ -63,7 +63,7 @@ namespace crypto
     class PGPDecrypt
     {
     public:
-        PGPDecrypt(OpenPGPInfoGetterPtr pgp_info_getter);
+        explicit PGPDecrypt(OpenPGPInfoGetterPtr pgp_info_getter);
         
         void GetSecretKeyID(PGPMessagePtr crypt_msg, std::vector<KeyIDData>& key_id);
         bool IsSecretKeyEncoded(PGPMessagePtr sec_key_ptr);
@@ -82,4 +82,4 @@ namespace crypto
     };
 }
 
-#endif /* defined(__cryptopg__PGPDecrypt__) */
+#endif /* cryptopg_PGPDecrypt_ */
