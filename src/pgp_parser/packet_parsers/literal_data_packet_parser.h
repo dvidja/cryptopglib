@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__LiteralDataPacketParser__
-#define __cryptopg__LiteralDataPacketParser__
+#ifndef cryptopg_LiteralDataPacketParser_
+#define cryptopg_LiteralDataPacketParser_
 
 
 #include "packet_parser.h"
@@ -25,4 +25,4 @@ private:
 };
 
 
-#endif /* defined(__cryptopg__LiteralDataPacketParser__) */
+#endif /* cryptopg_LiteralDataPacketParser_ */

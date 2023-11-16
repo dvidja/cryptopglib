@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PacketParser__
-#define __cryptopg__PacketParser__
+#ifndef cryptopg_PacketParser_
+#define cryptopg_PacketParser_
 
 #include "../../pgp_data/pgp_packet.h"
 
@@ -18,8 +18,8 @@ int GetPacketLengthForPartialContent(DataBuffer& data_buffer, bool& partial);
 class PacketParser
 {
 public:
-    virtual PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c = 0) = 0;
+    virtual PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c) = 0;
     virtual ~PacketParser();
 };
 
-#endif /* defined(__cryptopg__PacketParser__) */
+#endif /* cryptopg_PacketParser_ */

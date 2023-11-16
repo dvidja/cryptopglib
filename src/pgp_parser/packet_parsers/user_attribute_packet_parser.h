@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__UserAttributePacketParser__
-#define __cryptopg__UserAttributePacketParser__
+#ifndef cryptopg_UserAttributePacketParser_
+#define cryptopg_UserAttributePacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/user_attribute_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__UserAttributePacketParser__) */
+#endif /* cryptopg_UserAttributePacketParser_ */

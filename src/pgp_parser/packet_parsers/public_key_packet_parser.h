@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PublicKeyPacketParser__
-#define __cryptopg__PublicKeyPacketParser__
+#ifndef cryptopg_PublicKeyPacketParser_
+#define cryptopg_PublicKeyPacketParser_
 
 #include <iostream>
 #include "packet_parser.h"
@@ -22,4 +22,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__PublicKeyPacketParser__) */
+#endif /* cryptopg_PublicKeyPacketParser_ */

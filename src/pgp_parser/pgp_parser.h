@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPParser__
-#define __cryptopg__PGPParser__
+#ifndef cryptopg_PGPParser_
+#define cryptopg_PGPParser_
 
 #include <iostream>
 #include <memory>
@@ -25,4 +25,4 @@ public:
     PGPMessagePtr ParseMessage(const std::string& message);
 };
 
-#endif /* defined(__cryptopg__PGPParser__) */
+#endif /* cryptopg_PGPParser_ */

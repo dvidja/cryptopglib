@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__OnePassSignaturePacketParser__
-#define __cryptopg__OnePassSignaturePacketParser__
+#ifndef cryptopg_OnePassSignaturePacketParser_
+#define cryptopg_OnePassSignaturePacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/one_pass_signature_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__OnePassSignaturePacketParser__) */
+#endif /* cryptopg_OnePassSignaturePacketParser_ */

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__MarkerPacketParser__
-#define __cryptopg__MarkerPacketParser__
+#ifndef cryptopg_MarkerPacketParser_
+#define cryptopg_MarkerPacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/marker_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__MarkerPacketParser__) */
+#endif /* cryptopg_MarkerPacketParser_ */

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPPacketsParser__
-#define __cryptopg__PGPPacketsParser__
+#ifndef cryptopg_PGPPacketsParser_
+#define cryptopg_PGPPacketsParser_
 
 #include <iostream>
 #include <vector>
@@ -20,13 +20,13 @@
 class PGPPacketsParser
 {
 public:
-    PGPPacketsParser(const CharDataVector &data);
+    explicit PGPPacketsParser(const CharDataVector &data);
     
     PGPPacketsArray ParsePackets();
     
-    void GetUserIDPacketsRawData(CharDataVector& user_id_data, const int user_id_number);
-    void GetKeyPacketsRawData(CharDataVector& key_data, const int key_number);
-    void GetV4HashedSignatureData(CharDataVector& signature_data, const int signature_number);
+    void GetUserIDPacketsRawData(CharDataVector& user_id_data, int user_id_number);
+    void GetKeyPacketsRawData(CharDataVector& key_data, int key_number);
+    void GetV4HashedSignatureData(CharDataVector& signature_data, int signature_number);
     
 private:
     void ParsePacket();
@@ -41,4 +41,4 @@ private:
     PGPPacketsArray packets_;
 };
 
-#endif /* defined(__cryptopg__PGPPacketsParser__) */
+#endif /* cryptopg_PGPPacketsParser_ */

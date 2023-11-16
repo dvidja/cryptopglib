@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__CompressedDataPacketParser__
-#define __cryptopg__CompressedDataPacketParser__
+#ifndef cryptopg_CompressedDataPacketParser_
+#define cryptopg_CompressedDataPacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/compressed_data_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__CompressedDataPacketParser__) */
+#endif /* cryptopg_CompressedDataPacketParser_ */

@@ -8,7 +8,7 @@
 
 #include "pgp_packets_parser.h"
 
-#include "packet_parsers/public_key_enctypted_packet_parser.h"
+#include "packet_parsers/public_key_encrypted_packet_parser.h"
 #include "packet_parsers/signature_packet_parser.h"
 #include "packet_parsers/public_key_packet_parser.h"
 #include "packet_parsers/secret_key_packet_parser.h"
@@ -421,7 +421,7 @@ void PGPPacketsParser::ParsePacket(int packet_type, unsigned long packet_length,
         else
         {
             DataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
-            packet = packet_parser->Parse(temp_buffer, partial);
+            packet = packet_parser->Parse(temp_buffer, partial, 0);
         }
         
         if (packet != nullptr)
@@ -459,7 +459,7 @@ std::unique_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(int packet_ty
             throw (PGPError(PACKAGE_UNKNOWN_TYPE));
             break;
         case PT_PUBLIC_KEY_ENCRYPTED_PACKET:
-            packet_parser = std::make_unique<PublicKeyEnctyptedPacketParser>();
+            packet_parser = std::make_unique<PublicKeyEncryptedPacketParser>();
             break;
         case PT_SIGNATURE_PACKET:
             packet_parser = std::make_unique<SignaturePacketParser>();

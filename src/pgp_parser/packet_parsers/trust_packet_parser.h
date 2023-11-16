@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__TrustPacketParser__
-#define __cryptopg__TrustPacketParser__
+#ifndef cryptopg_TrustPacketParser_
+#define cryptopg_TrustPacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/trust_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__TrustPacketParser__) */
+#endif /* cryptopg_TrustPacketParser_ */

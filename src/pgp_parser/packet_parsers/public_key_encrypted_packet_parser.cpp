@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#include "public_key_enctypted_packet_parser.h"
+#include "public_key_encrypted_packet_parser.h"
 #include "../../crypto/public_key_algorithms.h"
 #include "../../pgp_data/pgp_data_types.h"
 
 
-PublicKeyEncryptedPacket* PublicKeyEnctyptedPacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)
+PublicKeyEncryptedPacket* PublicKeyEncryptedPacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)
 {
     if (data_buffer.rest_length() < 12)
     {

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__PGPMessageParser__
-#define __cryptopg__PGPMessageParser__
+#ifndef cryptopg_PGPMessageParser_
+#define cryptopg_PGPMessageParser_
 
 #include <iostream>
 #include <map>
@@ -54,4 +54,4 @@ private:
     PGPMessagePtr message_;
 };
 
-#endif /* defined(__cryptopg__PGPMessageParser__) */
+#endif /* cryptopg_PGPMessageParser_ */

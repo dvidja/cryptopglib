@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SignaturePacketParser__
-#define __cryptopg__SignaturePacketParser__
+#ifndef cryptopg_SignaturePacketParser_
+#define cryptopg_SignaturePacketParser_
 
 #include <iostream>
 #include "packet_parser.h"
@@ -23,7 +23,7 @@ private:
     SignaturePacket* ParseV3Packet(DataBuffer& data_buffer, bool partial);
     SignaturePacket* ParseV4Packet(DataBuffer& data_buffer, bool partial);
     
-    void ParseSubpacket(DataBuffer data_buffer, SignaturePacket* packet, bool hashed);
+    void ParseSubPacket(DataBuffer data_buffer, SignaturePacket* packet, bool hashed);
 };
 
-#endif /* defined(__cryptopg__SignaturePacketParser__) */
+#endif /* cryptopg_SignaturePacketParser_ */

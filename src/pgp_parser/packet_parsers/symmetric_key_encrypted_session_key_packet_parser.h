@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SymmetricKeyEncryptedSessionKeyPacketParser__
-#define __cryptopg__SymmetricKeyEncryptedSessionKeyPacketParser__
+#ifndef cryptopg_SymmetricKeyEncryptedSessionKeyPacketParser_
+#define cryptopg_SymmetricKeyEncryptedSessionKeyPacketParser_
 
 
 #include "packet_parser.h"
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif /* defined(__cryptopg__SymmetricKeyEncryptedSessionKeyPacketParser__) */
+#endif /* cryptopg_SymmetricKeyEncryptedSessionKeyPacketParser_ */

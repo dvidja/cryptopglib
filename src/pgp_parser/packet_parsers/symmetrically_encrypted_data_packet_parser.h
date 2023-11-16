@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SymmetricallyEncryptedDataPacketParser__
-#define __cryptopg__SymmetricallyEncryptedDataPacketParser__
+#ifndef cryptopg_SymmetricallyEncryptedDataPacketParser_
+#define cryptopg_SymmetricallyEncryptedDataPacketParser_
 
 #include <iostream>
 #include "packet_parser.h"
@@ -15,7 +15,7 @@
 class SymmetricallyEncryptedDataPacketParser : public PacketParser
 {
 public:
-    SymmetricallyEncryptedDataPacketParser(bool mdc = false);
+    explicit SymmetricallyEncryptedDataPacketParser(bool mdc = false);
     
     PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
     
@@ -23,4 +23,4 @@ private:
     bool mdc_;
 };
 
-#endif /* defined(__cryptopg__SymmetricallyEncryptedDataPacketParser__) */
+#endif /* cryptopg_SymmetricallyEncryptedDataPacketParser_ */

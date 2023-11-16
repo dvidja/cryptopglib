@@ -135,7 +135,7 @@ SignaturePacket* SignaturePacketParser::ParseV4Packet(DataBuffer& data_buffer, b
     if (n)
     {
         //Hashed subpacket data
-        ParseSubpacket(data_buffer.GetRange(n), packet, true);
+        ParseSubPacket(data_buffer.GetRange(n), packet, true);
     }
     
     n = data_buffer.GetNextTwoOctets();
@@ -147,7 +147,7 @@ SignaturePacket* SignaturePacketParser::ParseV4Packet(DataBuffer& data_buffer, b
     if (n)
     {
         // Unhashed subpasket data
-        ParseSubpacket(data_buffer.GetRange(n), packet, false);
+        ParseSubPacket(data_buffer.GetRange(n), packet, false);
     }
     
     if (data_buffer.rest_length() < 5)
@@ -191,7 +191,7 @@ SignaturePacket* SignaturePacketParser::ParseV4Packet(DataBuffer& data_buffer, b
     return nullptr;
 }
 
-void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePacket* packet, bool hashed)
+void SignaturePacketParser::ParseSubPacket(DataBuffer data_buffer, SignaturePacket* packet, bool hashed)
 {   
     if (data_buffer.length() < 2)
     {
@@ -348,6 +348,6 @@ void SignaturePacketParser::ParseSubpacket(DataBuffer data_buffer, SignaturePack
     
     if (data_buffer.rest_length() != 0)
     {
-        ParseSubpacket(data_buffer.GetRange(data_buffer.rest_length()), packet, hashed);
+        ParseSubPacket(data_buffer.GetRange(data_buffer.rest_length()), packet, hashed);
     }
 }

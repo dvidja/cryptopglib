@@ -6,7 +6,7 @@ target_sources(cryptopglib PUBLIC
         modification_detection_code_packet_parser.cpp
         one_pass_signature_packet_parser.cpp
         packet_parser.cpp
-        public_key_enctypted_packet_parser.cpp
+        public_key_encrypted_packet_parser.cpp
         public_key_packet_parser.cpp
         secret_key_packet_parser.cpp
         signature_packet_parser.cpp

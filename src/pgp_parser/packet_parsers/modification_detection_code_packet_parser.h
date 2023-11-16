@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__ModificationDetectionCodePacketParser__
-#define __cryptopg__ModificationDetectionCodePacketParser__
+#ifndef cryptopg_ModificationDetectionCodePacketParser_
+#define cryptopg_ModificationDetectionCodePacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/modification_detection_code_packet.h"
@@ -20,4 +20,4 @@ public:
     
 };
 
-#endif /* defined(__cryptopg__ModificationDetectionCodePacketParser__) */
+#endif /* cryptopg_ModificationDetectionCodePacketParser_ */

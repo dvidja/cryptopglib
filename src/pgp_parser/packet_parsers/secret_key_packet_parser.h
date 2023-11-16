@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef __cryptopg__SecretKeyPacketParser__
-#define __cryptopg__SecretKeyPacketParser__
+#ifndef cryptopg_SecretKeyPacketParser_
+#define cryptopg_SecretKeyPacketParser_
 
 #include "packet_parser.h"
 #include "../../pgp_data/packets/secret_key_packet.h"
@@ -18,4 +18,4 @@ class SecretKeyPacketParser : public PacketParser
 public:
     SecretKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
 };
-#endif /* defined(__cryptopg__SecretKeyPacketParser__) */
+#endif /* cryptopg_SecretKeyPacketParser_ */
