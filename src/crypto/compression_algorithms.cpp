@@ -25,8 +25,8 @@ namespace crypto
         CharDataVector new_source(source);
         
         z_stream strm;
-        strm.zalloc = 0;
-        strm.zfree = 0;
+        strm.zalloc = nullptr;
+        strm.zfree = nullptr;
         strm.next_in = &new_source[0];
         strm.avail_in = static_cast<unsigned int>(new_source.size());
         strm.next_out = temp_buffer;
@@ -86,9 +86,9 @@ namespace crypto
         int bufferSize = 128 * 1024;
         
         z_stream strm;
-        strm.zalloc = NULL;
-        strm.zfree = NULL;
-        strm.opaque = NULL;
+        strm.zalloc = nullptr;
+        strm.zfree = nullptr;
+        strm.opaque = nullptr;
         
         int ret = inflateInit2(&strm, -15);
         if(ret != Z_OK)
@@ -129,18 +129,18 @@ namespace crypto
     {
         std::vector<uint8_t> buffer;
         
-        const size_t BUFSIZE = 128 * 1024;
-        uint8_t temp_buffer[BUFSIZE];
+        const size_t bufsize = 128 * 1024;
+        uint8_t temp_buffer[bufsize];
         
         CharDataVector new_source(source);
         
         z_stream strm;
-        strm.zalloc = 0;
-        strm.zfree = 0;
+        strm.zalloc = nullptr;
+        strm.zfree = nullptr;
         strm.next_in = &new_source[0];
         strm.avail_in = static_cast<unsigned int>(new_source.size());
         strm.next_out = temp_buffer;
-        strm.avail_out = BUFSIZE;
+        strm.avail_out = bufsize;
         
         int res = deflateInit(&strm, Z_DEFAULT_COMPRESSION);
         if(res != Z_OK)
@@ -158,9 +158,9 @@ namespace crypto
          
             if (strm.avail_out == 0)
             {
-                buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+                buffer.insert(buffer.end(), temp_buffer, temp_buffer + bufsize);
                 strm.next_out = temp_buffer;
-                strm.avail_out = BUFSIZE;
+                strm.avail_out = bufsize;
             }
         }
         
@@ -169,9 +169,9 @@ namespace crypto
         {
             if (strm.avail_out == 0)
             {
-                buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE);
+                buffer.insert(buffer.end(), temp_buffer, temp_buffer + bufsize);
                 strm.next_out = temp_buffer;
-                strm.avail_out = BUFSIZE;
+                strm.avail_out = bufsize;
             }
             
             deflate_res = deflate(&strm, Z_FINISH);
@@ -182,7 +182,7 @@ namespace crypto
             return false;
         }
         
-        buffer.insert(buffer.end(), temp_buffer, temp_buffer + BUFSIZE - strm.avail_out);
+        buffer.insert(buffer.end(), temp_buffer, temp_buffer + bufsize - strm.avail_out);
         deflateEnd(&strm);
         
         dst.swap(buffer);
@@ -195,9 +195,9 @@ namespace crypto
         int bufferSize = 128 * 1024;
         
         z_stream strm;
-        strm.zalloc = NULL;
-        strm.zfree = NULL;
-        strm.opaque = NULL;
+        strm.zalloc = nullptr;
+        strm.zfree = nullptr;
+        strm.opaque = nullptr;
         
         int ret = inflateInit(&strm);
         if(ret != Z_OK)
@@ -244,8 +244,8 @@ namespace crypto
         CharDataVector new_source(source);
         
         bz_stream strm;
-        strm.bzalloc = 0;
-        strm.bzfree = 0;
+        strm.bzalloc = nullptr;
+        strm.bzfree = nullptr;
         strm.next_in = (char*)&new_source[0];
         strm.avail_in = static_cast<unsigned int>(new_source.size());
         strm.next_out = temp_buffer;
@@ -306,9 +306,9 @@ namespace crypto
         int bufferSize = 10240;
         
         bz_stream strm;
-        strm.bzalloc = NULL;
-        strm.bzfree = NULL;
-        strm.opaque = NULL;
+        strm.bzalloc = nullptr;
+        strm.bzfree = nullptr;
+        strm.opaque = nullptr;
 
         strm.next_in = (char*)&source[0];
         strm.avail_in = static_cast<unsigned int>(source.size());
@@ -360,7 +360,6 @@ namespace crypto
                 
             default:
                 return nullptr;
-                break;
         }
         
         return compresseion_algo_impl;

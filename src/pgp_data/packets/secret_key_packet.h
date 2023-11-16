@@ -12,8 +12,8 @@
 
 #include "../pgp_packet.h"
 #include "public_key_packet.h"
-#include "../../Crypto/hash_algorithms.h"
-#include "../../Crypto/symmetric_key_algorithms.h"
+#include "../../crypto/hash_algorithms.h"
+#include "../../crypto/symmetric_key_algorithms.h"
 
 class SecretKeyPacket : public PGPPacket
 {

@@ -7,8 +7,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(OpenSSL REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(BZip2 REQUIRED)
 
+message("HELLO WORDL")
+message("${ZLIB_LIBRARIES}")
+message("${ZLIB_INCLUDE_DIRS}")
 message("${OPENSSL_INCLUDE_DIR}")
 
-add_subdirectory(src build/src)
-add_subdirectory(tests build/tests )
+add_subdirectory(src)
+add_subdirectory(cryptopg_app)

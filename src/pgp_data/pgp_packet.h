@@ -10,7 +10,7 @@
 #define __cryptopg__PGPPacket__
 
 #include "pgp_packet_types.h"
-#include "../Utils/data_buffer.h"
+#include "../utils/data_buffer.h"
 
 
 namespace  packet_helper

@@ -11,7 +11,7 @@
 
 
 #include "../pgp_packet.h"
-#include "../../Crypto/public_key_algorithms.h"
+#include "../../crypto/public_key_algorithms.h"
 
 
 class PublicKeyEncryptedPacket : public PGPPacket

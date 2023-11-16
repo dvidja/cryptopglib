@@ -19,7 +19,12 @@ add_subdirectory(utils)
 
 target_include_directories(cryptopglib PUBLIC
         ../include
-        "${OPENSSL_INCLUDE_DIR}")
+        ${OPENSSL_INCLUDE_DIR}
+)
 
-target_link_libraries(cryptopglib PUBLIC OPENSSL_CRYPTO_LIBRARY)
+target_link_libraries(cryptopglib PUBLIC
+        ${OPENSSL_CRYPTO_LIBRARY}
+        ${ZLIB_LIBRARIES}
+        ${BZIP2_LIBRARIES}
+)
 

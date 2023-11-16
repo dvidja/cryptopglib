@@ -7,10 +7,10 @@
 //
 
 #include "signature_packet_parser.h"
-#include "../../Crypto/public_key_algorithms.h"
-#include "../../Crypto/hash_algorithms.h"
-#include "../../Crypto/symmetric_key_algorithms.h"
-#include "../../Crypto/compression_algorithms.h"
+#include "../../crypto/public_key_algorithms.h"
+#include "../../crypto/hash_algorithms.h"
+#include "../../crypto/symmetric_key_algorithms.h"
+#include "../../crypto/compression_algorithms.h"
 
 
 SignaturePacket* SignaturePacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)

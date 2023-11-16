@@ -738,7 +738,8 @@ namespace crypto
             bool correct = public_key_algo_impl->DecryptWithPublicKey(public_key_packet_ptr, digest_data, crypted_signature);
             if (!correct)
             {
-                digest_data.empty();
+                return;
+                //digest_data.empty();
             }
         }
         else

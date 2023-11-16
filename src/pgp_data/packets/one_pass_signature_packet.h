@@ -10,8 +10,8 @@
 #define __cryptopg__OnePassSignaturePacket__
 
 #include "../pgp_packet.h"
-#include "../../Crypto/hash_algorithms.h"
-#include "../../Crypto/public_key_algorithms.h"
+#include "../../crypto/hash_algorithms.h"
+#include "../../crypto/public_key_algorithms.h"
 #include "signature_packet.h"
 
 class OnePassSignaturePacket : public PGPPacket

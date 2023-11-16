@@ -30,7 +30,7 @@ namespace crypto
         virtual bool CompressData(const CharDataVector& source, CharDataVector& dst) = 0;
         virtual bool DecompressData(const CharDataVector& source, CharDataVector& dst) = 0;
 
-        virtual ~CompressionAlgorithm() {}
+        virtual  ~CompressionAlgorithm() = default;
     };
 
     typedef std::unique_ptr<CompressionAlgorithm> CompressionAlgorithmPtr;
@@ -38,22 +38,22 @@ namespace crypto
     class ZipCompressionAlgorithm : public CompressionAlgorithm
     {
     public:
-        virtual bool CompressData(const CharDataVector& source, CharDataVector& dst);
-        virtual bool DecompressData(const CharDataVector& source, CharDataVector& dst);
+        bool CompressData(const CharDataVector& source, CharDataVector& dst) override;
+        bool DecompressData(const CharDataVector& source, CharDataVector& dst) override;
     };
 
     class ZLibCompressionAlgorithm  : public CompressionAlgorithm
     {
     public:
-        virtual bool CompressData(const CharDataVector& source, CharDataVector& dst);
-        virtual bool DecompressData(const CharDataVector& source, CharDataVector& dst);
+        bool CompressData(const CharDataVector& source, CharDataVector& dst) override;
+        bool DecompressData(const CharDataVector& source, CharDataVector& dst) override;
     };
 
     class BZip2CompressionAlgorithm : public CompressionAlgorithm
     {
     public:
-        virtual bool CompressData(const CharDataVector& source, CharDataVector& dst);
-        virtual bool DecompressData(const CharDataVector& source, CharDataVector& dst);
+        bool CompressData(const CharDataVector& source, CharDataVector& dst) override;
+        bool DecompressData(const CharDataVector& source, CharDataVector& dst) override;
     };
 
     

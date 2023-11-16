@@ -7,7 +7,7 @@
 //
 
 #include "compressed_data_packet_parser.h"
-#include "../../Crypto/compression_algorithms.h"
+#include "../../crypto/compression_algorithms.h"
 
 
 CompressedDataPacket* CompressedDataPacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)

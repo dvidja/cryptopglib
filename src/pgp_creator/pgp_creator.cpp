@@ -7,21 +7,12 @@
 //
 
 #include "pgp_creator.h"
-#include "../pgp_data/packets/signature_packet.h"
-#include "../pgp_data/packets/marker_packet.h"
 
 #include "../Utils/base64.h"
 #include "../Utils/crc24.h"
 
-#include <cmath>
-
 namespace
 {
-    double log2(double n)
-    {
-        return log(n) / log(2.0);
-    }
-
     void PushStringToData(const std::string& str, CharDataVector& data)
     {
         data.insert(data.end(), str.begin(), str.end());
@@ -44,7 +35,7 @@ namespace
         key_id_data.push_back(key_id[1] & 0xFF);
     }
     
-    void GetPacketData(SignaturePacketPtr packet, CharDataVector& data)
+    void GetPacketData(const SignaturePacketPtr& packet, CharDataVector& data)
     {        
         CharDataVector signature_data;
         packet->GetBinaryData(signature_data);

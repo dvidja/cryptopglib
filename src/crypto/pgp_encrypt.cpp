@@ -142,7 +142,8 @@ namespace
     
     CompressedDataPacketPtr CompressData(const CharDataVector& source, CompressionAlgorithms algo)
     {
-        crypto::CompressionAlgorithmPtr compress_algo_impl = crypto::GetCompressionAlgorithmImpl(algo);
+        crypto::CompressionAlgorithmPtr compress_algo_impl =
+                crypto::GetCompressionAlgorithmImpl(algo);
         
         if (compress_algo_impl == nullptr)
         {

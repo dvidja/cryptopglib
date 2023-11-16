@@ -10,7 +10,7 @@
 #define __cryptopg__CompressedDataPacket__
 
 #include "../pgp_packet.h"
-#include "../../Crypto/compression_algorithms.h"
+#include "../../crypto/compression_algorithms.h"
 
 
 class CompressedDataPacket : public PGPPacket

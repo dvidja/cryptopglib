@@ -12,8 +12,8 @@
 #include <vector>
 #include "cryptopglib/pgp_message_type.h"
 #include "openpgp_info_getter.h"
-#include "Crypto/pgp_signature.h"
-#include "Crypto/pgpg_decrypt.h"
+#include "crypto/pgp_signature.h"
+#include "crypto/pgpg_decrypt.h"
 
 
 
@@ -54,7 +54,7 @@ struct KeyPairImpl
 class OpenPGPImpl
 {
 public:
-    OpenPGPImpl(OpenPGPInfoGetter* pgp_info_getter);
+    explicit OpenPGPImpl(OpenPGPInfoGetter* pgp_info_getter);
     ~OpenPGPImpl();
     
     KeyInfoImpl GetKeyInfo(const std::string& message);
