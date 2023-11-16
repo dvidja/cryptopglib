@@ -21,7 +21,7 @@ public:
     typedef std::map<std::string, std::string> ArmorHeadersMap;
     
 public:
-    virtual ~PGPMessage(){};
+    virtual ~PGPMessage()= default;
     
     virtual PGPMessageType GetMessageType() = 0;
     virtual std::string GetPlainText() = 0;

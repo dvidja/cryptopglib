@@ -106,7 +106,7 @@ namespace
     }
 }
 
-OpenPGPImpl::OpenPGPImpl(IOpenPGPInfoGetter* pgp_info_getter)
+OpenPGPImpl::OpenPGPImpl(OpenPGPInfoGetter* pgp_info_getter)
 {
     pgp_info_getter_.reset(pgp_info_getter);
 }

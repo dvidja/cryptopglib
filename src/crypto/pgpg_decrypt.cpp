@@ -15,7 +15,7 @@
 #include "../pgp_parser/pgp_parser.h"
 #include "../pgp_parser/pgp_packets_parser.h"
 
-#include "../iopenpgp_info_getter.h"
+#include "../openpgp_info_getter.h"
 
 #include "symmetric_key_algorithms.h"
 #include "pgp_signature.h"
@@ -154,7 +154,7 @@ namespace crypto
         return true;
     }
 
-    PGPDecrypt::PGPDecrypt(IOpenPGPInfoGetterPtr pgp_info_getter)
+    PGPDecrypt::PGPDecrypt(OpenPGPInfoGetterPtr pgp_info_getter)
         : pgp_info_getter_(pgp_info_getter)
     {
     }

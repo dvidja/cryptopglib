@@ -18,9 +18,9 @@ class PGPError : public std::exception{
 public:
     explicit PGPError (const std::string& what_arg);
 
-    virtual const char* what() const throw() override;
+    const char* what() const throw() override;
 
-    virtual ~PGPError() override;
+    ~PGPError() override;
 private:
     std::string what_;
 };

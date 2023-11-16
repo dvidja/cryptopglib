@@ -21,7 +21,7 @@
 #include "../pgp_data/packets/signature_packet.h"
 #include "../pgp_data/packets/modification_detection_code_packet.h"
 
-#include "../iopenpgp_info_getter.h"
+#include "../openpgp_info_getter.h"
 #include "pgp_signature.h"
 
 struct DecodedDataInfo;
@@ -63,7 +63,7 @@ namespace crypto
     class PGPDecrypt
     {
     public:
-        PGPDecrypt(IOpenPGPInfoGetterPtr pgp_info_getter);
+        PGPDecrypt(OpenPGPInfoGetterPtr pgp_info_getter);
         
         void GetSecretKeyID(PGPMessagePtr crypt_msg, std::vector<KeyIDData>& key_id);
         bool IsSecretKeyEncoded(PGPMessagePtr sec_key_ptr);
@@ -76,7 +76,7 @@ namespace crypto
         void CheckSignature(SignaturePacketPtr signature_packet_ptr);
         
     private:
-        IOpenPGPInfoGetterPtr pgp_info_getter_;
+        OpenPGPInfoGetterPtr pgp_info_getter_;
         DecodedDataInfoPtr decoded_data_info_;
         
     };

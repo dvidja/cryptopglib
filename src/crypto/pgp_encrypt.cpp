@@ -186,7 +186,7 @@ namespace crypto
     {
     }
     
-    PGPMessagePtr PGPEncrypt::EncryptMessage(const std::string& plain_text, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, IOpenPGPInfoGetterPtr pgp_info_getter_)
+    PGPMessagePtr PGPEncrypt::EncryptMessage(const std::string& plain_text, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, OpenPGPInfoGetterPtr pgp_info_getter_)
     {
         PGPMessagePtr encrypted_message(new PGPMessageImpl);
         encrypted_message->SetPlainText(plain_text);
@@ -271,7 +271,7 @@ namespace crypto
         return encrypted_message;
     }
     
-    PGPMessagePtr PGPEncrypt::EncryptRawData(const CharDataVector& data, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, IOpenPGPInfoGetterPtr pgp_info_getter_)
+    PGPMessagePtr PGPEncrypt::EncryptRawData(const CharDataVector& data, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, OpenPGPInfoGetterPtr pgp_info_getter_)
     {
         PGPMessagePtr encrypted_message(new PGPMessageImpl);
         // -- Create PGPMarkerPacket --

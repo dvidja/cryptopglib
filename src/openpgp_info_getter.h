@@ -10,10 +10,10 @@
 
 #include "pgp_data/pgp_data_types.h"
 
-class IOpenPGPInfoGetter
+class OpenPGPInfoGetter
 {
 public:
-    virtual ~IOpenPGPInfoGetter() {};
+    virtual ~OpenPGPInfoGetter() = default;
 
     virtual std::string GetPublicKeyByID(const KeyIDData& key_id) = 0;
     virtual std::string GetSecretKeyByID(const KeyIDData& key_id) = 0;
@@ -25,5 +25,5 @@ public:
     virtual int GetSymmetricKeyAlgorithm() = 0;
 };
 
-typedef std::shared_ptr<IOpenPGPInfoGetter> IOpenPGPInfoGetterPtr;
+typedef std::shared_ptr<OpenPGPInfoGetter> OpenPGPInfoGetterPtr;
 

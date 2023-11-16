@@ -14,7 +14,7 @@
 #include "hash_algorithms.h"
 #include "public_key_algorithms.h"
 #include "../pgp_data/packets/signature_packet.h"
-#include "../iopenpgp_info_getter.h"
+#include "../openpgp_info_getter.h"
 #include "../pgp_data/packets/secret_key_packet.h"
 
 

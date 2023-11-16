@@ -10,7 +10,7 @@
 #define __cryptopg__PGPEncrypt__
 
 #include "../pgp_message_impl.h"
-#include "../iopenpgp_info_getter.h"
+#include "../openpgp_info_getter.h"
 
 namespace crypto
 {
@@ -19,8 +19,8 @@ namespace crypto
     public:
         PGPEncrypt();
         
-        PGPMessagePtr EncryptMessage(const std::string& plain_text, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, IOpenPGPInfoGetterPtr pgp_info_getter_);
-        PGPMessagePtr EncryptRawData(const CharDataVector& data, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, IOpenPGPInfoGetterPtr pgp_info_getter_);
+        PGPMessagePtr EncryptMessage(const std::string& plain_text, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, OpenPGPInfoGetterPtr pgp_info_getter_);
+        PGPMessagePtr EncryptRawData(const CharDataVector& data, std::vector<PGPMessagePtr>& addressers_pub_keys_ptr, PGPMessagePtr own_key_ptr, OpenPGPInfoGetterPtr pgp_info_getter_);
         
     };
 }
