@@ -1,4 +1,4 @@
-project(app)
+project(cryptopg_app)
 
 # Add test cpp file
 add_executable(cryptopg_app main.cpp)

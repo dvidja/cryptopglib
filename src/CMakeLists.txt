@@ -6,7 +6,8 @@ set (CRYPTOPGLIBSOURCES
         open_pgp_impl.cpp
         pgp_errors.cpp
         pgp_message_impl.cpp
-        )
+        ../cryptopg_rest_service/cryptopg_rest_service.cpp
+)
 
 
 add_library(cryptopglib STATIC ${CRYPTOPGLIBSOURCES})

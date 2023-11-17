@@ -16,3 +16,4 @@ message("${OPENSSL_INCLUDE_DIR}")
 
 add_subdirectory(src)
 add_subdirectory(cryptopg_app)
+add_subdirectory(cryptopg_rest_service)
