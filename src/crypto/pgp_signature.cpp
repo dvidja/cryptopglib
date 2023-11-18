@@ -666,7 +666,7 @@ namespace crypto
         }
         
         PGPMessagePtr sign_message(new PGPMessageImpl);
-        sign_message->SetMessageType(PGPMessageType::MT_SIGNED_MESSAGE);
+        sign_message->SetMessageType(PGPMessageType::kSignedMessage);
         sign_message->SetPlainText(message);
         
         SignaturePacketPtr packet(new SignaturePacket(3));

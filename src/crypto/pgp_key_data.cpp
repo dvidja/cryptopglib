@@ -165,7 +165,7 @@ namespace crypto
 {
     bool PGPKeyDataEncrypt(PGPMessagePtr private_key, const std::string& passphrase)
     {
-        if (private_key->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
+        if (private_key->GetMessageType() != PGPMessageType::kPrivateKey)
         {
             // TODO: handle error data is not private key
             return false;
@@ -192,7 +192,7 @@ namespace crypto
     
     bool PGPKeyDataDecrypt(PGPMessagePtr private_key, const std::string& passphrase)
     {
-        if (private_key->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
+        if (private_key->GetMessageType() != PGPMessageType::kPrivateKey)
         {
             // TODO: handle error data is not private key
             return false;
@@ -221,7 +221,7 @@ namespace crypto
     
     bool PGPGKeyIsEncrypted(PGPMessagePtr private_key)
     {
-        if (private_key->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY)
+        if (private_key->GetMessageType() != PGPMessageType::kPrivateKey)
         {
             // TODO: handle error data is not private key
             return false;

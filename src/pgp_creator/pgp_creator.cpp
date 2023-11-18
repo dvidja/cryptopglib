@@ -286,16 +286,16 @@ bool PGPCreator::GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl, Ch
 {
     switch (message_impl->GetMessageType())
     {
-        case PGPMessageType::MT_CRYPTO_MESSAGE:
+        case PGPMessageType::kEncryptedMessage:
             return GetBinaryRepresentationOfEncryptedMessage(message_impl, data);
             break;
-        case PGPMessageType::MT_PRIVATE_KEY:
+        case PGPMessageType::kPrivateKey:
             return GetBinaryRepresentationOfPrivateKeyMessage(message_impl, data);
             break;
-        case PGPMessageType::MT_PUBLIC_KEY:
+        case PGPMessageType::kPublicKey:
             return GetBinaryRepresentationOfPublicKeyMessage(message_impl, data);
             break;
-        case PGPMessageType::MT_SIGNED_MESSAGE:
+        case PGPMessageType::kSignedMessage:
             return GetBinaryRepresentationOfSignatureMessage(message_impl, data, armored);
             break;
         default:

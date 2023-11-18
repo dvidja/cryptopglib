@@ -57,7 +57,7 @@ namespace
                 if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET)
                     || ((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
                 {
-                    if (message_type == PGPMessageType::MT_PUBLIC_KEY)
+                    if (message_type == PGPMessageType::kPublicKey)
                     {
                         public_key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(*iter);
                     }
@@ -191,7 +191,7 @@ namespace crypto
     {
         PGPMessagePtr encrypted_message(new PGPMessageImpl);
         encrypted_message->SetPlainText(plain_text);
-        encrypted_message->SetMessageType(PGPMessageType::MT_CRYPTO_MESSAGE);
+        encrypted_message->SetMessageType(PGPMessageType::kEncryptedMessage);
         
         // -- Create PGPMarkerPacket --
         encrypted_message->AddPacket(GeneratePGPMarkerPacket());
@@ -276,7 +276,7 @@ namespace crypto
     {
         PGPMessagePtr encrypted_message(new PGPMessageImpl);
         // -- Create PGPMarkerPacket --
-        encrypted_message->SetMessageType(PGPMessageType::MT_CRYPTO_MESSAGE);
+        encrypted_message->SetMessageType(PGPMessageType::kEncryptedMessage);
         encrypted_message->AddPacket(GeneratePGPMarkerPacket());
         
         // -- Gnerate session key

@@ -86,13 +86,13 @@ void PGPMessageImpl::SetPackets(PGPPacketsArray& packets)
     {
         switch (packets[0]->GetPacketType()) {
             case PT_PUBLIC_KEY_PACKET:
-                message_type_ = PGPMessageType::MT_PUBLIC_KEY;
+                message_type_ = PGPMessageType::kPublicKey;
                 break;
             case PT_SECRET_KEY_PACKET:
-                message_type_ = PGPMessageType::MT_PRIVATE_KEY;
+                message_type_ = PGPMessageType::kPrivateKey;
                 break;
             case PT_SIGNATURE_PACKET:
-                message_type_ = PGPMessageType::MT_SIGNED_MESSAGE;
+                message_type_ = PGPMessageType::kSignedMessage;
                 break;
             default:
                 break;

@@ -122,7 +122,7 @@ void PGPMessageParser::ParseLine(const std::string& source)
         case PS_ARMOR:
             if (!ParseArmorHeaders(source))
             {
-                if ((message_->GetMessageType() == PGPMessageType::MT_SIGNED_MESSAGE)
+                if ((message_->GetMessageType() == PGPMessageType::kSignedMessage)
                     && (message_->GetPlainText().empty()))
                 {
                     state_ = PS_SIGNED_TEXT;
@@ -170,7 +170,7 @@ bool PGPMessageParser::ParseArmorHeaderLine(const std::string& source)
     size_t pos = source.find(BEGIN);
     if (pos == std::string::npos)
     {
-        message_->SetMessageType(PGPMessageType::MT_SIMPLE_MESSAGE);
+        message_->SetMessageType(PGPMessageType::kPlainTextMessage);
         return false;
     }
     
@@ -293,21 +293,21 @@ bool PGPMessageParser::ReadDataLine(const std::string& source)
 void PGPMessageParser::ParseHeaderWord(const std::string& word)
 {
     std::map<std::string, PGPMessageType> words_map;
-    words_map[SIGNED] = PGPMessageType::MT_SIGNED_MESSAGE;
-    words_map[MESSAGE] = PGPMessageType::MT_CRYPTO_MESSAGE;
-    words_map[PUBLIC] = PGPMessageType::MT_PUBLIC_KEY;
-    words_map[PRIVATE] = PGPMessageType::MT_PRIVATE_KEY;
+    words_map[SIGNED] = PGPMessageType::kSignedMessage;
+    words_map[MESSAGE] = PGPMessageType::kEncryptedMessage;
+    words_map[PUBLIC] = PGPMessageType::kPublicKey;
+    words_map[PRIVATE] = PGPMessageType::kPrivateKey;
     
     auto iter = words_map.find(word);
     if (iter == words_map.end())
     {
         return;
     }
-    if (iter->second == PGPMessageType::MT_CRYPTO_MESSAGE)
+    if (iter->second == PGPMessageType::kEncryptedMessage)
     {
-        if (message_->GetMessageType() != PGPMessageType::MT_SIGNED_MESSAGE)
+        if (message_->GetMessageType() != PGPMessageType::kSignedMessage)
         {
-            message_->SetMessageType(PGPMessageType::MT_CRYPTO_MESSAGE);
+            message_->SetMessageType(PGPMessageType::kEncryptedMessage);
         }
     }
     else

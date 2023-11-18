@@ -462,9 +462,9 @@ namespace crypto
         }
         
         PGPMessagePtr secret_key_message(new PGPMessageImpl);
-        secret_key_message->SetMessageType(PGPMessageType::MT_PRIVATE_KEY);
+        secret_key_message->SetMessageType(PGPMessageType::kPrivateKey);
         PGPMessagePtr public_key_message(new PGPMessageImpl);
-        public_key_message->SetMessageType(PGPMessageType::MT_PUBLIC_KEY);
+        public_key_message->SetMessageType(PGPMessageType::kPublicKey);
         secret_key_message->AddPacket(secret_key_packet_ptr);
         public_key_message->AddPacket(secret_key_packet_ptr->GetPublicKeyPatr());
         

@@ -21,10 +21,7 @@ void PrintKeyInfo(const std::filesystem::path& file_path) {
     auto pgp_key_info =cryptopglib::GetPPGKeyInfo(std::move(file_data));
 
     std::cout << pgp_key_info.key_fingerprint << std::endl;
-    for (auto user : pgp_key_info.users_id) {
+    for (const auto& user : pgp_key_info.users_id) {
         std::cout << user;
     }
-
-
-
 }

@@ -10,12 +10,12 @@
 
 enum class PGPMessageType
 {
-    MT_PUBLIC_KEY = 0,
-    MT_PRIVATE_KEY,
-    MT_CRYPTO_MESSAGE,
-    MT_SIGNED_MESSAGE,
-    MT_SIMPLE_MESSAGE,
+    kPublicKey = 0,
+    kPrivateKey,
+    kEncryptedMessage,
+    kSignedMessage,
+    kPlainTextMessage,
 
-    MT_INCORRECT_MESSAGE = 256,
+    kIncorrectMessage = 256,
 };
 
