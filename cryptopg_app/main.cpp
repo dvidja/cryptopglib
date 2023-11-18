@@ -31,7 +31,7 @@ int main(int ac, char** av)
             auto key_file = vm["key_info"].as<std::filesystem::path>();
             std::cout << "Get information for the pgp key: "
                  << key_file << ".\n";
-            GetKeyInfo(key_file);
+            PrintKeyInfo(key_file);
         } else {
             std::cout << "Path to the key was not set.\n";
         }

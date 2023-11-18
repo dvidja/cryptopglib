@@ -1,18 +1,15 @@
 #include "../include/cryptopglib/cryptopg.h"
 #include "pgp_parser/pgp_parser.h"
+#include "open_pgp_impl.h"
 
 
 namespace cryptopglib
 {
-    void GetPPGKeyInfo(std::string&& pgp_key_data) {
+    PGPKeyInfo GetPPGKeyInfo(std::string&& pgp_key_data) {
+        OpenPGPImpl open_pgp(nullptr);
 
-        auto message = PGPParser().ParseMessage(pgp_key_data);
-        if (message->GetMessageType() != PGPMessageType::MT_PRIVATE_KEY ||
-            message->GetMessageType() != PGPMessageType::MT_PUBLIC_KEY)
-        {
-            return;
-        }
+        auto key_info_impl = open_pgp.GetKeyInfo(pgp_key_data);
 
-
+        return PGPKeyInfo {key_info_impl.key_fingerprint_, key_info_impl.users_id_};
     }
 }

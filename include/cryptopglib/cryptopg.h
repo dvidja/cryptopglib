@@ -1,8 +1,11 @@
+#pragma once
 
 #include <string>
 
+#include "pgp_key_info.h"
+
 
 namespace cryptopglib {
-    void GetPPGKeyInfo(std::string&& pgp_key_data);
+    PGPKeyInfo GetPPGKeyInfo(std::string&& pgp_key_data);
 
 }
