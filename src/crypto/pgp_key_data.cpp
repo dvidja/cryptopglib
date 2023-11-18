@@ -7,7 +7,7 @@
 //
 
 #include "pgp_key_data.h"
-#include "../Crypto/key_generator.h"
+#include "../crypto/key_generator.h"
 
 namespace
 {

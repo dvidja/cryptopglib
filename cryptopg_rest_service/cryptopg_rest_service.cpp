@@ -6,6 +6,7 @@
 
 #include <cpprest/http_client.h>
 
+
 int main() {
     web::http::client::http_client client("http://google.com");
     web::http::http_request req(web::http::methods::GET);

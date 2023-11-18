@@ -30,8 +30,8 @@ public:
     KeyIdType public_key_id_;
     std::string key_fingerprint_;
     std::vector<std::string> users_id_;
-    std::vector<KeyIdType> public_subkeys_id_;
-    std::vector<std::string> subkey_fingerprint_;
+    std::vector<KeyIdType> public_sub_keys_id_;
+    std::vector<std::string> sub_key_fingerprint_;
     std::vector<SignatureKeyInfo> signature_keys_info_;
     
     PublicKeyAlgorithms key_type_;

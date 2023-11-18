@@ -76,17 +76,6 @@ namespace
 }
 
 
-PGPMessageParser::PGPMessageParser()
-{
-    
-}
-
-PGPMessageParser::~PGPMessageParser()
-{
-    
-    
-}
-
 PGPMessagePtr PGPMessageParser::ParseMessage(const std::string& source)
 {
     state_ = PS_START_LINE;

@@ -8,7 +8,7 @@
 
 #include "pgpg_decrypt.h"
 
-#include "../Utils/base64.h"
+#include "../utils/base64.h"
 
 #include "../pgp_message_impl.h"
 

@@ -32,9 +32,6 @@ enum ParserState
 class PGPMessageParser
 {
 public:
-    PGPMessageParser();
-    ~PGPMessageParser();
-    
     PGPMessagePtr ParseMessage(const std::string& source);
 
 private:

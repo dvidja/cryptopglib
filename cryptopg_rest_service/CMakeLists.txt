@@ -1,7 +1,8 @@
 project(cryptopg_rest_service)
 
 # Add test cpp file
-add_executable(cryptopg_rest_service cryptopg_rest_service.cpp)
+add_executable(cryptopg_rest_service cryptopg_rest_service.cpp
+)
 
 find_package(cpprestsdk REQUIRED)
 if(NOT cpprestsdk_FOUND)

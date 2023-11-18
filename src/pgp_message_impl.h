@@ -28,7 +28,7 @@ public:
     
     CharDataVector GetRawData();
     
-    void SetMessageType(const PGPMessageType message_type);
+    void SetMessageType(PGPMessageType message_type);
     void SetPlainText(const std::string& plain_text);
     void SetBase64Data(const std::string& data);
     void SetCRC(const std::string& crc);

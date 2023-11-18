@@ -192,8 +192,8 @@ KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message)
                         }
                         else
                         {
-                            key_info.public_subkeys_id_.push_back(p->GetKeyID());
-                            key_info.subkey_fingerprint_.push_back(p->GetFingerprint());
+                            key_info.public_sub_keys_id_.push_back(p->GetKeyID());
+                            key_info.sub_key_fingerprint_.push_back(p->GetFingerprint());
                         }
                         
                         unsigned int expired = p->GetKeyExpiredTime();
@@ -214,8 +214,8 @@ KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message)
 						}
 						else
 						{
-							key_info.public_subkeys_id_.push_back(p->GetKeyID());
-							key_info.subkey_fingerprint_.push_back(p->GetPublicKeyPatr()->GetFingerprint());
+							key_info.public_sub_keys_id_.push_back(p->GetKeyID());
+							key_info.sub_key_fingerprint_.push_back(p->GetPublicKeyPatr()->GetFingerprint());
 						}
 
 						PublicKeyPacketPtr publicPart = p->GetPublicKeyPatr();
