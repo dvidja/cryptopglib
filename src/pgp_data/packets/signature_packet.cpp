@@ -168,7 +168,7 @@ namespace cryptopglib::pgp_data::packets {
             data.push_back(0x04);
             data.push_back(signature_type_);
             data.push_back(public_key_algo_);
-            data.push_back(hash_algo_);
+            data.push_back((unsigned char)hash_algo_);
 
             data.push_back((hashed_subpackets_data.size() >> 8) & 0xff);
             data.push_back(hashed_subpackets_data.size() & 0xff);
@@ -270,7 +270,7 @@ namespace cryptopglib::pgp_data::packets {
         }
 
         temp_data.push_back(GetPublicKeyAlgorithm());
-        temp_data.push_back(GetHashAlgorithm());
+        temp_data.push_back((unsigned char) GetHashAlgorithm());
 
         // Set digest start for check
         temp_data.push_back(GetDigestStart()[0]);
@@ -303,7 +303,7 @@ namespace cryptopglib::pgp_data::packets {
         temp_data.push_back(4); //packet version
         temp_data.push_back(GetSignatureType());
         temp_data.push_back(GetPublicKeyAlgorithm());
-        temp_data.push_back(GetHashAlgorithm());
+        temp_data.push_back((unsigned char) GetHashAlgorithm());
 
         CharDataVector hashed_subpackets_data;
         for (SubPacket &subpacket: hashed_sub_packets_) {

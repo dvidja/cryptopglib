@@ -12,7 +12,7 @@
 namespace
 {
     using cryptopglib::CharDataVector;
-    
+
     CharDataVector HP_MD5 =         {0x30, 0x20, 0x30, 0x0C, 0x06, 0x08, 0x2A, 0x86,
                                                  0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05, 0x05, 0x00,
                                                  0x04, 0x10};
@@ -357,27 +357,27 @@ namespace  cryptopglib::crypto
         HashAlgorithmPtr hash_algo_ptr(nullptr);
         switch (algo)
         {
-            case HA_NO_HASH:
+            case HashAlgorithms::kNoHash:
                 break;
-            case HA_MD5:
+            case HashAlgorithms::kMD5:
                 hash_algo_ptr = std::make_unique<Md5>();
                 break;
-            case HA_SHA1:
+            case HashAlgorithms::kSHA1:
                 hash_algo_ptr = std::make_unique<Sha1>();
                 break;
-            case HA_RIPE_MD:
+            case HashAlgorithms::kRipeMD:
                 hash_algo_ptr = std::make_unique<RipeMD>();
                 break;
-            case HA_SHA256:
+            case HashAlgorithms::kSHA256:
                 hash_algo_ptr = std::make_unique<Sha256>();
                 break;
-            case HA_SHA384:
+            case HashAlgorithms::kSHA384:
                 hash_algo_ptr = std::make_unique<Sha384>();
                 break;
-            case HA_SHA512:
+            case HashAlgorithms::kSHA512:
                 hash_algo_ptr = std::make_unique<Sha512>();
                 break;
-            case HA_SHA224:
+            case HashAlgorithms::kSHA224:
                 hash_algo_ptr = std::make_unique<Sha224>();
                 break;
         }

@@ -28,7 +28,7 @@ namespace
     
     bool EncryptData(const CharDataVector& encoded_data, const std::string& passphrase, const CharDataVector& salt, CharDataVector& initial_vector, int count, CharDataVector& result_data)
     {
-        HashAlgorithmPtr hash_impl = GetHashImpl(HA_SHA1);
+        HashAlgorithmPtr hash_impl = GetHashImpl(HashAlgorithms::kSHA1);
         SymmetricKeyAlgorithmPtr sym_key_algo_impl = GetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
         if (!hash_impl && !sym_key_algo_impl)
         {
@@ -40,7 +40,7 @@ namespace
         for(int n = 0 ;  n * hash_impl->GetDigestLength() < sym_key_algo_impl->GetKeyLength(); ++n)
         {
             hashes.push_back(CharDataVector());
-            hashes_impl.push_back(GetHashImpl(HA_SHA1));
+            hashes_impl.push_back(GetHashImpl(HashAlgorithms::kSHA1));
             hashes_impl[n]->Init();
             for(int i = 0 ; i < n ; ++i)
             {
@@ -437,7 +437,7 @@ namespace cryptopglib::crypto
         
         //GetMPIsDataVector(secret_key, mpis_data_vector);
         
-        crypto::HashAlgorithmPtr hash_algo_impl = crypto::GetHashImpl(HA_SHA1);
+        crypto::HashAlgorithmPtr hash_algo_impl = crypto::GetHashImpl(HashAlgorithms::kSHA1);
         CharDataVector hash_checksum;
         hash_algo_impl->Hash(mpis_data_vector, hash_checksum);
         mpis_data_vector.insert(mpis_data_vector.end(), hash_checksum.begin(), hash_checksum.end());

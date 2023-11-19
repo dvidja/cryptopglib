@@ -845,7 +845,7 @@ namespace cryptopglib::crypto
             return nullptr;
         }
         
-        HashAlgorithms hash_algo = HashAlgorithms::HA_SHA256;
+        HashAlgorithms hash_algo = HashAlgorithms::kSHA256;
         
         SignaturePacketPtr signature_packet_ptr(new SignaturePacket(3));
         signature_packet_ptr->SetSignatureType(25);

@@ -75,7 +75,7 @@ namespace cryptopglib::pgp_data::packets {
 
         temp_data.push_back(GetVersion());
         temp_data.push_back(GetSignatureType());
-        temp_data.push_back(GetHashAlgorithm());
+        temp_data.push_back((unsigned char)GetHashAlgorithm());
         temp_data.push_back(GetPublicKeyAlgorithm());
 
         CharDataVector key_id_data;

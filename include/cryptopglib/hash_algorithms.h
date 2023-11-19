@@ -5,15 +5,15 @@
 #pragma once
 
 namespace cryptopglib {
-    enum HashAlgorithms {
-        HA_NO_HASH = 0,
-        HA_MD5 = 1,
-        HA_SHA1 = 2,
-        HA_RIPE_MD = 3,
+    enum class HashAlgorithms {
+        kNoHash = 0,
+        kMD5 = 1,
+        kSHA1 = 2,
+        kRipeMD = 3,
 
-        HA_SHA256 = 8,
-        HA_SHA384 = 9,
-        HA_SHA512 = 10,
-        HA_SHA224 = 11,
+        kSHA256 = 8,
+        kSHA384 = 9,
+        kSHA512 = 10,
+        kSHA224 = 11,
     };
 }

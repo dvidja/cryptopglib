@@ -267,7 +267,7 @@ namespace
     
     bool EncryptData(const CharDataVector& encoded_data, const std::string& passphrase, const CharDataVector& salt, CharDataVector& initial_vector, int count, CharDataVector& result_data)
     {
-        crypto::HashAlgorithmPtr hash_impl = crypto::GetHashImpl(HA_SHA1);
+        crypto::HashAlgorithmPtr hash_impl = crypto::GetHashImpl(HashAlgorithms::kSHA1);
         crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
         if (!hash_impl && !sym_key_algo_impl)
         {
@@ -279,7 +279,7 @@ namespace
         for(int n = 0 ;  n * hash_impl->GetDigestLength() < sym_key_algo_impl->GetKeyLength(); ++n)
 	    {
             hashes.push_back(CharDataVector());
-            hashes_impl.push_back(crypto::GetHashImpl(HA_SHA1));
+            hashes_impl.push_back(crypto::GetHashImpl(HashAlgorithms::kSHA1));
             hashes_impl[n]->Init();
             for(int i = 0 ; i < n ; ++i)
             {
@@ -384,7 +384,7 @@ namespace
                         secret_key_packet_ptr->SetStringToKeyUsage(254);
                         secret_key_packet_ptr->SetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
                         secret_key_packet_ptr->SetStringToKeySpecifier(3);
-                        secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HA_SHA1);
+                        secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HashAlgorithms::kSHA1);
                         
                         CharDataVector salt;
                         crypto::GenerateSessionKey(8, salt, -1);
@@ -401,7 +401,7 @@ namespace
                         CharDataVector mpis_data_vector;
                         GetMPIsDataVector(rsa_secret_key, mpis_data_vector);
                         
-                        crypto::HashAlgorithmPtr hash_algo_impl = crypto::GetHashImpl(HA_SHA1);
+                        crypto::HashAlgorithmPtr hash_algo_impl = crypto::GetHashImpl(HashAlgorithms::kSHA1);
                         CharDataVector hash_checksum;
                         hash_algo_impl->Hash(mpis_data_vector, hash_checksum);
                         mpis_data_vector.insert(mpis_data_vector.end(), hash_checksum.begin(), hash_checksum.end());
@@ -413,7 +413,7 @@ namespace
                     else
                     {
                         secret_key_packet_ptr->SetStringToKeyUsage(0);
-                        secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HA_NO_HASH);
+                        secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HashAlgorithms::kNoHash);
                         secret_key_packet_ptr->SetStringToKeySpecifier(0);
                         
                         CharDataVector mpis;
@@ -494,7 +494,7 @@ namespace cryptopglib::crypto
 
             SignaturePacketPtr signature_packet_ptr(new SignaturePacket(4));
             signature_packet_ptr->SetCreationTime(static_cast<unsigned int>(time(NULL)));
-            signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
+            signature_packet_ptr->SetHashAlgorithm(HashAlgorithms::kSHA256);
             signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
             KeyIDData key_id = secret_key_packet_ptr->GetKeyID();
             signature_packet_ptr->SetKeyID(key_id);
@@ -585,7 +585,7 @@ namespace cryptopglib::crypto
             
             SignaturePacketPtr signature_packet_ptr(new SignaturePacket(4));
             signature_packet_ptr->SetCreationTime(static_cast<int>(time(NULL)));
-            signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
+            signature_packet_ptr->SetHashAlgorithm(HashAlgorithms::kSHA256);
             signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
             KeyIDData key_id = key_for_self_signature->GetKeyID();
             signature_packet_ptr->SetKeyID(key_id);
@@ -599,7 +599,7 @@ namespace cryptopglib::crypto
             {
                 SignaturePacketPtr embedded_signature_packet_ptr(new SignaturePacket(4));
                 embedded_signature_packet_ptr->SetCreationTime(static_cast<int>(time(NULL)));
-                embedded_signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
+                embedded_signature_packet_ptr->SetHashAlgorithm(HashAlgorithms::kSHA256);
                 embedded_signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
                 KeyIDData key_id = temp_secret_key->GetKeyID();
                 embedded_signature_packet_ptr->SetKeyID(key_id);
