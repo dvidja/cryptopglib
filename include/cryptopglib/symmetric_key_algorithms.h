@@ -5,7 +5,7 @@
 #pragma once
 
 namespace cryptopglib {
-    enum SymmetricKeyAlgorithms {
+    enum class SymmetricKeyAlgorithms {
         kPlainText = 0,
         kIdea = 1,
         tTripleDES = 2,

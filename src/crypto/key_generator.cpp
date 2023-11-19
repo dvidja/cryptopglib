@@ -268,7 +268,7 @@ namespace
     bool EncryptData(const CharDataVector& encoded_data, const std::string& passphrase, const CharDataVector& salt, CharDataVector& initial_vector, int count, CharDataVector& result_data)
     {
         crypto::HashAlgorithmPtr hash_impl = crypto::GetHashImpl(HA_SHA1);
-        crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(kAES256);
+        crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
         if (!hash_impl && !sym_key_algo_impl)
         {
             return false;
@@ -382,7 +382,7 @@ namespace
                     if (!passphrase.empty())
                     {
                         secret_key_packet_ptr->SetStringToKeyUsage(254);
-                        secret_key_packet_ptr->SetSymmetricKeyAlgorithm(kAES256);
+                        secret_key_packet_ptr->SetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
                         secret_key_packet_ptr->SetStringToKeySpecifier(3);
                         secret_key_packet_ptr->SetStringToKeyHashAlgorithm(HA_SHA1);
                         
@@ -393,7 +393,7 @@ namespace
                         int count = 168;
                         secret_key_packet_ptr->SetCount(count);// one byte = 168 from another key
                         
-                        crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(kAES256);
+                        crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
                         CharDataVector initial_vector;
                         crypto::GenerateSessionKey(sym_key_algo_impl->GetCipherBlockSize(), initial_vector, -1);
                         secret_key_packet_ptr->SetInitialVector(initial_vector);
@@ -670,7 +670,7 @@ namespace cryptopglib::crypto
     {
         session_key.empty();
         
-        if (algo == tTripleDES)
+        if (algo == (int)SymmetricKeyAlgorithms::tTripleDES)
         {
             for (int i = 0; i < 3; ++i)
             {

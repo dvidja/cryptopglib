@@ -43,7 +43,7 @@ namespace
         int checksum = std::accumulate(session_key.begin(), session_key.end(), 0);
         checksum = checksum % 65536;
 
-        session_key.insert(session_key.begin(), algo);
+        session_key.insert(session_key.begin(), (unsigned char)algo);
         session_key.push_back((checksum >> 8) & 0xFF);
         session_key.push_back(checksum & 0xFF);
     }
@@ -204,7 +204,7 @@ namespace cryptopglib::crypto
         // -- Gnerate session key
         CharDataVector session_key;
         SymmetricKeyAlgorithms symmetric_key_algo = static_cast<SymmetricKeyAlgorithms>(pgp_info_getter_->GetSymmetricKeyAlgorithm());
-        if (symmetric_key_algo != kPlainText)
+        if (symmetric_key_algo != SymmetricKeyAlgorithms::kPlainText)
         {
             SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(symmetric_key_algo);
             if (!symmetric_key_algo_impl)
@@ -262,7 +262,7 @@ namespace cryptopglib::crypto
    
             CompressedDataPacketPtr compressed_data_packet = CompressData(source_for_compress, compress_algo);
             
-            if (symmetric_key_algo != kPlainText)
+            if (symmetric_key_algo != SymmetricKeyAlgorithms::kPlainText)
             {
                 CharDataVector source_for_encrypt;
                 compressed_data_packet->GetBinaryData(source_for_encrypt);
@@ -287,7 +287,7 @@ namespace cryptopglib::crypto
         // -- Gnerate session key
         CharDataVector session_key;
         SymmetricKeyAlgorithms symmetric_key_algo = static_cast<SymmetricKeyAlgorithms>(pgp_info_getter_->GetSymmetricKeyAlgorithm());
-        if (symmetric_key_algo != kPlainText)
+        if (symmetric_key_algo != SymmetricKeyAlgorithms::kPlainText)
         {
             SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(symmetric_key_algo);
             if (!symmetric_key_algo_impl)
@@ -295,7 +295,7 @@ namespace cryptopglib::crypto
                 return nullptr;
             }
             
-            GenerateSessionKey(symmetric_key_algo_impl->GetKeyLength(), session_key, symmetric_key_algo);
+            GenerateSessionKey(symmetric_key_algo_impl->GetKeyLength(), session_key, (unsigned char)symmetric_key_algo);
             if (session_key.empty())
             {
                 return nullptr;

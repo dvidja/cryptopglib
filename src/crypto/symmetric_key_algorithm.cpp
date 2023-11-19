@@ -812,30 +812,30 @@ namespace cryptopglib::crypto
         
         switch (algo)
         {
-            case kPlainText:
+            case SymmetricKeyAlgorithms::kPlainText:
                 return nullptr;
-            case kIdea:
+            case SymmetricKeyAlgorithms::kIdea:
                 symmetric_key_algo_impl = std::make_unique<Idea>();
                 break;
-            case tTripleDES:
+            case SymmetricKeyAlgorithms::tTripleDES:
                 symmetric_key_algo_impl = std::make_unique<TripleDes>();
                 break;
-            case kCast5:
+            case SymmetricKeyAlgorithms::kCast5:
                 symmetric_key_algo_impl = std::make_unique<Cast5>();
                 break;
-            case kBlowfish:
+            case SymmetricKeyAlgorithms::kBlowfish:
                 symmetric_key_algo_impl = std::make_unique<BlowFish>();
                 break;
-            case kAES128:
+            case SymmetricKeyAlgorithms::kAES128:
                 symmetric_key_algo_impl = std::make_unique<AES128>();
                 break;
-            case kAES192:
+            case SymmetricKeyAlgorithms::kAES192:
                 symmetric_key_algo_impl = std::make_unique<AES192>();
                 break;
-            case kAES256:
+            case SymmetricKeyAlgorithms::kAES256:
                 symmetric_key_algo_impl = std::make_unique<AES256>();
                 break;
-            case kTwofish:
+            case SymmetricKeyAlgorithms::kTwofish:
                 symmetric_key_algo_impl = std::make_unique<TwoFish>();
                 break;
 

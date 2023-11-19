@@ -112,7 +112,7 @@ namespace cryptopglib::crypto
     {
         PublicKeyAlgorithms algo = pub_key_enc->GetPublicKeyAlgorithm();
         
-        if (secret_key->GetSymmetricKeyAlgorithm() != kPlainText)
+        if (secret_key->GetSymmetricKeyAlgorithm() != SymmetricKeyAlgorithms::kPlainText)
         {
             if (passphrase.empty())
             {
@@ -185,7 +185,7 @@ namespace cryptopglib::crypto
             if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
             {
                 SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
-                if (key_packet->GetSymmetricKeyAlgorithm() != kPlainText)
+                if (key_packet->GetSymmetricKeyAlgorithm() != SymmetricKeyAlgorithms::kPlainText)
                 {
                     return true;
                 }

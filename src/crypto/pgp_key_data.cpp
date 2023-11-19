@@ -29,7 +29,7 @@ namespace
     bool EncryptData(const CharDataVector& encoded_data, const std::string& passphrase, const CharDataVector& salt, CharDataVector& initial_vector, int count, CharDataVector& result_data)
     {
         HashAlgorithmPtr hash_impl = GetHashImpl(HA_SHA1);
-        SymmetricKeyAlgorithmPtr sym_key_algo_impl = GetSymmetricKeyAlgorithm(kAES256);
+        SymmetricKeyAlgorithmPtr sym_key_algo_impl = GetSymmetricKeyAlgorithm(SymmetricKeyAlgorithms::kAES256);
         if (!hash_impl && !sym_key_algo_impl)
         {
             return false;
