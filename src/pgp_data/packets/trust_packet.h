@@ -11,15 +11,17 @@
 
 #include "../pgp_packet.h"
 
-class TrustPacket : public PGPPacket
-{
-public:
-    TrustPacket();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-};
+namespace cryptopglib::pgp_data::packets {
+    class TrustPacket : public PGPPacket {
+    public:
+        TrustPacket();
 
-typedef std::shared_ptr<TrustPacket> TrustPacketPtr;
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+    };
+
+    typedef std::shared_ptr<TrustPacket> TrustPacketPtr;
+}
 
 #endif /* cryptopg_TrustPacket_ */

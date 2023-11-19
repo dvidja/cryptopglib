@@ -12,7 +12,7 @@ extern "C" {
 #include <bzlib.h>
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     
     bool ZipCompressionAlgorithm::CompressData(const CharDataVector& source, CharDataVector& dst)
@@ -21,7 +21,7 @@ namespace crypto
         
         const size_t BUFSIZE = 128 * 1024;
         uint8_t temp_buffer[BUFSIZE];
-        
+
         CharDataVector new_source(source);
         
         z_stream strm;
@@ -95,11 +95,11 @@ namespace crypto
         {
             return false;
         }
-        
+
         CharDataVector new_source(source);
         strm.next_in = &new_source[0];
         strm.avail_in = static_cast<unsigned int>(new_source.size());
-        
+
         CharDataVector buf(bufferSize);
         
         while (Z_OK == ret)
@@ -131,7 +131,7 @@ namespace crypto
         
         const size_t bufsize = 128 * 1024;
         uint8_t temp_buffer[bufsize];
-        
+
         CharDataVector new_source(source);
         
         z_stream strm;
@@ -204,11 +204,11 @@ namespace crypto
         {
             return false;
         }
-        
+
         CharDataVector new_source(source);
         strm.next_in = &new_source[0];
         strm.avail_in = static_cast<unsigned int>(new_source.size());
-        
+
         CharDataVector buf(bufferSize);
         
         while (Z_OK == ret)
@@ -240,7 +240,7 @@ namespace crypto
         
         const size_t BUFSIZE = 128 * 1024;
         char temp_buffer[BUFSIZE];
-        
+
         CharDataVector new_source(source);
         
         bz_stream strm;

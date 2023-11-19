@@ -8,8 +8,8 @@
 
 #include "user_attribute_packet_parser.h"
 
-
-UserAttributePacket* UserAttributePacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)
-{
-    return nullptr;
+namespace cryptopglib::pgp_parser::packet_parsers {
+    UserAttributePacket *UserAttributePacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+        return nullptr;
+    }
 }

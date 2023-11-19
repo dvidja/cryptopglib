@@ -12,10 +12,11 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/secret_key_packet.h"
 
-
-class SecretKeyPacketParser : public PacketParser
-{
-public:
-    SecretKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-};
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::SecretKeyPacket;
+    class SecretKeyPacketParser : public PacketParser {
+    public:
+        SecretKeyPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+    };
+}
 #endif /* cryptopg_SecretKeyPacketParser_ */

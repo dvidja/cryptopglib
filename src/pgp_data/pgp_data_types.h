@@ -11,7 +11,9 @@
 
 #include <vector>
 
-typedef std::vector<unsigned int> KeyIDData;
-typedef std::vector<unsigned char> CharDataVector;
+namespace cryptopglib {
+    typedef std::vector<unsigned int> KeyIDData;
+    typedef std::vector<unsigned char> CharDataVector;
+}
 
 #endif

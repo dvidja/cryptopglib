@@ -11,28 +11,30 @@
 
 #include "../pgp_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    class LiteralDataPacket : public PGPPacket {
+    public:
+        LiteralDataPacket();
 
-class LiteralDataPacket : public PGPPacket
-{
-public:
-    LiteralDataPacket();
-    
-    void SetData(const CharDataVector& data);
-    void SetFileName(const CharDataVector& file_name);
-    
-    CharDataVector& GetData();
-    CharDataVector& GetFileName();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-    
-private:
+        void SetData(const CharDataVector &data);
 
-    CharDataVector data_;
-    CharDataVector file_name_;
-};
+        void SetFileName(const CharDataVector &file_name);
+
+        CharDataVector &GetData();
+
+        CharDataVector &GetFileName();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+
+        CharDataVector data_;
+        CharDataVector file_name_;
+    };
 
 
-typedef std::shared_ptr<LiteralDataPacket> LiteralDataPacketPtr;
-
+    typedef std::shared_ptr<LiteralDataPacket> LiteralDataPacketPtr;
+}
 #endif /* cryptopg_LiteralDataPacket_ */

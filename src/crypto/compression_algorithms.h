@@ -22,7 +22,7 @@ enum CompressionAlgorithms
     CA_BZIP2 = 3,
 };
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     class CompressionAlgorithm
     {

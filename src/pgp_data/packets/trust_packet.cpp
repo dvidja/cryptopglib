@@ -8,19 +8,17 @@
 
 #include "trust_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    TrustPacket::TrustPacket()
+            : PGPPacket(PT_TRUST_PACKET) {
 
-TrustPacket::TrustPacket()
-    : PGPPacket(PT_TRUST_PACKET)
-{
-    
-}
+    }
 
-bool TrustPacket::GetRawData(CharDataVector& data)
-{
-    return false;
-}
+    bool TrustPacket::GetRawData(CharDataVector &data) {
+        return false;
+    }
 
-bool TrustPacket::GetBinaryData(CharDataVector& data)
-{
-    return false;
+    bool TrustPacket::GetBinaryData(CharDataVector &data) {
+        return false;
+    }
 }

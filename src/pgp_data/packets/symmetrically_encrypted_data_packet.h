@@ -10,26 +10,29 @@
 #define cryptopg_SymmetricallyEncryptedDataPacket_
 
 #include "../pgp_packet.h"
+namespace cryptopglib::pgp_data::packets {
+    class SymmetricallyEncryptedDataPacket : public PGPPacket {
+    public:
+        explicit SymmetricallyEncryptedDataPacket(PacketType packet_type);
 
-class SymmetricallyEncryptedDataPacket : public PGPPacket
-{
-public:
-    explicit SymmetricallyEncryptedDataPacket(PacketType packet_type);
-    
-    void SetEncryptedData(CharDataVector& encrypted_data);
-    const CharDataVector& GetEncryptedData();
-    
-    void SetMDCData(CharDataVector& encrypted_data);
-    const CharDataVector& GetMDCData();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
+        void SetEncryptedData(CharDataVector &encrypted_data);
 
-private:
-    CharDataVector encrypted_data_;
-    CharDataVector mdc_data_;
-};
+        const CharDataVector &GetEncryptedData();
 
-typedef std::shared_ptr<SymmetricallyEncryptedDataPacket> SymmetricallyEncryptedDataPacketPtr;
+        void SetMDCData(CharDataVector &encrypted_data);
+
+        const CharDataVector &GetMDCData();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+        CharDataVector encrypted_data_;
+        CharDataVector mdc_data_;
+    };
+
+    typedef std::shared_ptr<SymmetricallyEncryptedDataPacket> SymmetricallyEncryptedDataPacketPtr;
+}
 
 #endif /* cryptopg_SymmetricallyEncryptedDataPacket_ */

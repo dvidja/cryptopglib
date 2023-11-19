@@ -8,29 +8,25 @@
 
 #include "modification_detection_code_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    ModificationDetectionCodePacket::ModificationDetectionCodePacket()
+            : PGPPacket(PT_MODIFICATION_DETECTION_CODE_PACKET) {
 
-ModificationDetectionCodePacket::ModificationDetectionCodePacket()
-    : PGPPacket(PT_MODIFICATION_DETECTION_CODE_PACKET)
-{
-    
-}
+    }
 
-void ModificationDetectionCodePacket::SetData(const CharDataVector& data)
-{
-    data_.assign(data.begin(), data.end());
-}
+    void ModificationDetectionCodePacket::SetData(const CharDataVector &data) {
+        data_.assign(data.begin(), data.end());
+    }
 
-CharDataVector& ModificationDetectionCodePacket::GetData()
-{
-    return data_;
-}
+    CharDataVector &ModificationDetectionCodePacket::GetData() {
+        return data_;
+    }
 
-bool ModificationDetectionCodePacket::GetRawData(CharDataVector &data)
-{
-    return false;
-}
+    bool ModificationDetectionCodePacket::GetRawData(CharDataVector &data) {
+        return false;
+    }
 
-bool ModificationDetectionCodePacket::GetBinaryData(CharDataVector& data)
-{
-    return false;
+    bool ModificationDetectionCodePacket::GetBinaryData(CharDataVector &data) {
+        return false;
+    }
 }

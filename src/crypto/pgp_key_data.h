@@ -12,8 +12,10 @@
 #include "../pgp_message_impl.h"
 #include "../pgp_data/packets/secret_key_packet.h"
 
-namespace  crypto
+namespace  cryptopglib::crypto
 {
+    using pgp_data::packets::SecretKeyPacketPtr;
+
     bool PGPKeyDataEncrypt(PGPMessagePtr private_key, const std::string& passphrase);
     bool PGPKeyDataDecrypt(PGPMessagePtr private_key, const std::string& passphrase);
     bool PGPGKeyIsEncrypted(PGPMessagePtr private_key);

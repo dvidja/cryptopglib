@@ -23,7 +23,7 @@
 
 namespace
 {
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    size_t GetMPIDataLength(cryptopglib::DataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -70,15 +70,15 @@ namespace
         }
     }
     
-    bool CalculateSignature(PGPMessagePtr message, CharDataVector& hash)
+    bool CalculateSignature(cryptopglib::PGPMessagePtr message, cryptopglib::CharDataVector& hash)
     {
-        const PGPPacketsArray& message_packets = message->GetPackets();
+        const cryptopglib::PGPPacketsArray& message_packets = message->GetPackets();
         
         std::string plain_text = message->GetPlainText();
         ReplaceEndLine(plain_text);
-        CharDataVector data(plain_text.begin(), plain_text.end());
+        cryptopglib::CharDataVector data(plain_text.begin(), plain_text.end());
         
-        SignaturePacketPtr sig_packet = std::dynamic_pointer_cast<SignaturePacket>(message_packets[0]);
+        cryptopglib::crypto::SignaturePacketPtr sig_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SignaturePacket>(message_packets[0]);
         if (sig_packet->GetPacketVersion() < 4)
         {
         
@@ -93,7 +93,7 @@ namespace
         else
         {
 
-            CharDataVector signature_packet_hashed_data;
+            cryptopglib::CharDataVector signature_packet_hashed_data;
             sig_packet->GetDataForHash(signature_packet_hashed_data);
             
             data.insert(data.end(), signature_packet_hashed_data.begin(), signature_packet_hashed_data.end());
@@ -107,7 +107,7 @@ namespace
             data.push_back(size & 0xFF);
         }
         
-        crypto::HashAlgorithmPtr hash_impl(crypto::GetHashImpl(sig_packet->GetHashAlgorithm()));
+        cryptopglib::crypto::HashAlgorithmPtr hash_impl(cryptopglib::crypto::GetHashImpl(sig_packet->GetHashAlgorithm()));
         if (!hash_impl)
         {
             return false;
@@ -120,8 +120,8 @@ namespace
         
         std::vector<int> digest_start = {hash[0], hash[1]};
         sig_packet->SetDigestStart(digest_start);
-        
-        if (sig_packet->GetPublicKeyAlgorithm() != PKA_DSA)
+
+        if (sig_packet->GetPublicKeyAlgorithm() != cryptopglib::PKA_DSA)
         {
             hash.insert(hash.begin(), hash_impl->GetHashPrefix().begin(), hash_impl->GetHashPrefix().end());
         }
@@ -129,9 +129,9 @@ namespace
         return true;
     }
     
-    bool CalculateSignature(const CharDataVector& data, SignaturePacketPtr signature_packet_ptr, CharDataVector& hash)
+    bool CalculateSignature(const cryptopglib::CharDataVector& data, cryptopglib::crypto::SignaturePacketPtr signature_packet_ptr, cryptopglib::CharDataVector& hash)
     {
-        CharDataVector temp_data(data);
+        cryptopglib::CharDataVector temp_data(data);
 
         if (signature_packet_ptr->GetPacketVersion() < 4)
         {
@@ -147,7 +147,7 @@ namespace
         else
         {
             
-            CharDataVector signature_packet_hashed_data;
+            cryptopglib::CharDataVector signature_packet_hashed_data;
             signature_packet_ptr->GetDataForHash(signature_packet_hashed_data);
             
             temp_data.insert(temp_data.end(), signature_packet_hashed_data.begin(), signature_packet_hashed_data.end());
@@ -161,7 +161,7 @@ namespace
             temp_data.push_back(size & 0xFF);
         }
         
-        crypto::HashAlgorithmPtr hash_impl = crypto::GetHashImpl(signature_packet_ptr->GetHashAlgorithm());
+        cryptopglib::crypto::HashAlgorithmPtr hash_impl = cryptopglib::crypto::GetHashImpl(signature_packet_ptr->GetHashAlgorithm());
         if (!hash_impl)
         {
             std::cout << "hash algorithm not exist" << std::endl;
@@ -177,7 +177,7 @@ namespace
         std::vector<int> digest_start = {hash[0], hash[1]};
         signature_packet_ptr->SetDigestStart(digest_start);
 
-        if (signature_packet_ptr->GetPublicKeyAlgorithm() != PKA_DSA)
+        if (signature_packet_ptr->GetPublicKeyAlgorithm() != cryptopglib::PKA_DSA)
         {
             hash.insert(hash.begin(), hash_impl->GetHashPrefix().begin(), hash_impl->GetHashPrefix().end());
         }
@@ -185,16 +185,16 @@ namespace
         return true;
     }
     
-    PublicKeyPacketPtr GetKeyPacket(PGPMessagePtr pub_key_ptr, const KeyIDData& key_id)
+    cryptopglib::crypto::PublicKeyPacketPtr GetKeyPacket(cryptopglib::PGPMessagePtr pub_key_ptr, const cryptopglib::KeyIDData& key_id)
     {
-        const PGPPacketsArray& pub_key_packets = pub_key_ptr->GetPackets();
+        const cryptopglib::PGPPacketsArray& pub_key_packets = pub_key_ptr->GetPackets();
         
         for (auto iter = pub_key_packets.begin(); iter != pub_key_packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_SUBKEY_PACKET))
             {
-                PublicKeyPacketPtr key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(*iter);
-                KeyIDData sig_id = key_packet->GetKeyID();
+                cryptopglib::crypto::PublicKeyPacketPtr key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyPacket>(*iter);
+                cryptopglib::KeyIDData sig_id = key_packet->GetKeyID();
                 
                 if (key_id.size() == sig_id.size())
                 {
@@ -204,11 +204,11 @@ namespace
                     }
                 }
             }
-            
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+
+            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>(*iter);
-                KeyIDData sig_id = key_packet->GetKeyID();
+                cryptopglib::crypto::SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(*iter);
+                cryptopglib::KeyIDData sig_id = key_packet->GetKeyID();
                 
                 if (key_id.size() == sig_id.size())
                 {
@@ -223,19 +223,19 @@ namespace
         return nullptr;
     }
     
-    bool DecodeSignature(SignaturePacketPtr sig_packet, PGPMessagePtr pub_key_ptr, CharDataVector& hash, CharDataVector& current_hash)
+    bool DecodeSignature(cryptopglib::crypto::SignaturePacketPtr sig_packet, cryptopglib::PGPMessagePtr pub_key_ptr, cryptopglib::CharDataVector& hash, cryptopglib::CharDataVector& current_hash)
     {
-        KeyIDData sig_id = sig_packet->GetKeyID();
-        PublicKeyPacketPtr pub_key_packet = GetKeyPacket(pub_key_ptr, sig_id);
+        cryptopglib::KeyIDData sig_id = sig_packet->GetKeyID();
+        cryptopglib::crypto::PublicKeyPacketPtr pub_key_packet = GetKeyPacket(pub_key_ptr, sig_id);
         if (pub_key_packet == nullptr)
         {
             //TODO: handle error
             return false;
         }
     
-        PublicKeyAlgorithms algo = sig_packet->GetPublicKeyAlgorithm();
+        cryptopglib::PublicKeyAlgorithms algo = sig_packet->GetPublicKeyAlgorithm();
         
-        std::shared_ptr<crypto::HashAlgorithm> hash_impl(crypto::GetHashImpl(sig_packet->GetHashAlgorithm()));
+        std::shared_ptr<cryptopglib::crypto::HashAlgorithm> hash_impl(cryptopglib::crypto::GetHashImpl(sig_packet->GetHashAlgorithm()));
         if (!hash_impl)
         {
             //TODO: handle error
@@ -244,9 +244,9 @@ namespace
         
         hash.resize(hash_impl->GetDigestLength() + hash_impl->GetHashPrefix().size());
         
-        crypto::PublicKeyAlgorithmPtr public_key_algo_impl = crypto::GetPublicKeyAlgorithm(algo);
-        CharDataVector crypted_signature = (sig_packet->GetMPI(0));
-        if (algo == PKA_DSA)
+        cryptopglib::crypto::PublicKeyAlgorithmPtr public_key_algo_impl = cryptopglib::crypto::GetPublicKeyAlgorithm(algo);
+        cryptopglib::CharDataVector crypted_signature = (sig_packet->GetMPI(0));
+        if (algo == cryptopglib::PKA_DSA)
         {
             bool correct = public_key_algo_impl->DecryptWithPublicKey(pub_key_packet, current_hash, crypted_signature);
             if (correct)
@@ -261,7 +261,7 @@ namespace
         
         if (sig_packet->GetDigestStart().size() == 2)
         {
-            if (algo == PKA_DSA)
+            if (algo == cryptopglib::PKA_DSA)
             {
                if ((sig_packet->GetDigestStart()[0] != hash[0]) ||
                     (sig_packet->GetDigestStart()[1] != hash[1]))
@@ -286,10 +286,10 @@ namespace
     }
     
     
-    bool CryptSignature(const CharDataVector& current_hash, SecretKeyPacketPtr secret_key, CharDataVector& enctypt_hash)
+    bool CryptSignature(const cryptopglib::CharDataVector& current_hash, cryptopglib::crypto::SecretKeyPacketPtr secret_key, cryptopglib::CharDataVector& enctypt_hash)
     {
-        PublicKeyAlgorithms pub_key_algo = secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm();
-        crypto::PublicKeyAlgorithmPtr public_key_algo_impl = crypto::GetPublicKeyAlgorithm(pub_key_algo);
+        cryptopglib::PublicKeyAlgorithms pub_key_algo = secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm();
+        cryptopglib::crypto::PublicKeyAlgorithmPtr public_key_algo_impl = cryptopglib::crypto::GetPublicKeyAlgorithm(pub_key_algo);
         
         int len = public_key_algo_impl->EncryptWithPrivateKey(secret_key, current_hash, enctypt_hash);
         if (len <= 0)
@@ -300,9 +300,9 @@ namespace
         return  true;
     }
     
-    bool HashData(HashAlgorithms hash_algo, const CharDataVector& data, CharDataVector& session_key)
+    bool HashData(cryptopglib::HashAlgorithms hash_algo, const cryptopglib::CharDataVector& data, cryptopglib::CharDataVector& session_key)
     {
-        std::shared_ptr<crypto::HashAlgorithm> hash_impl(crypto::GetHashImpl(hash_algo));
+        std::shared_ptr<cryptopglib::crypto::HashAlgorithm> hash_impl(cryptopglib::crypto::GetHashImpl(hash_algo));
         if (!hash_impl)
         {
             return false;
@@ -317,24 +317,24 @@ namespace
     }
     
 
-    SecretKeyPacketPtr GetPrivateKeyForSignature(const PGPPacketsArray& packets)
+    cryptopglib::crypto::SecretKeyPacketPtr GetPrivateKeyForSignature(const cryptopglib::PGPPacketsArray& packets)
     {
-        return std::dynamic_pointer_cast<SecretKeyPacket>(packets[0]);
+        return std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(packets[0]);
     }
     
-    PublicKeyPacketPtr GetPublicKeyByID(const PGPPacketsArray& packets, const KeyIDData& key_id)
+    cryptopglib::crypto::PublicKeyPacketPtr GetPublicKeyByID(const cryptopglib::PGPPacketsArray& packets, const cryptopglib::KeyIDData& key_id)
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_SUBKEY_PACKET))
             {
-                PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<PublicKeyPacket>(*iter);
+                cryptopglib::crypto::PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyPacket>(*iter);
                 if (!public_key_packet_ptr)
                 {
                     return nullptr;
                 }
                 
-                KeyIDData current_id = public_key_packet_ptr->GetKeyID();
+                cryptopglib::KeyIDData current_id = public_key_packet_ptr->GetKeyID();
                 if (key_id.size() == current_id.size())
                 {
                     if (std::equal(key_id.begin(), key_id.end(), current_id.begin()))
@@ -344,15 +344,15 @@ namespace
                 }
             }
             
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<SecretKeyPacket>(*iter);
+                cryptopglib::crypto::SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(*iter);
                 if (!secret_key_packet_ptr)
                 {
                     return nullptr;
                 }
                 
-                KeyIDData current_id = secret_key_packet_ptr->GetKeyID();
+                cryptopglib::KeyIDData current_id = secret_key_packet_ptr->GetKeyID();
                 if (key_id.size() == current_id.size())
                 {
                     if (std::equal(key_id.begin(), key_id.end(), current_id.begin()))
@@ -367,11 +367,11 @@ namespace
         return nullptr;
     }
     
-    bool GetDataForKeySignature(SignaturePacketPtr signature_packet, PublicKeyPacketPtr signed_public_key_packet, UserIDPacketPtr signed_user_id_packet, CharDataVector& data)
+    bool GetDataForKeySignature(cryptopglib::crypto::SignaturePacketPtr signature_packet, cryptopglib::crypto::PublicKeyPacketPtr signed_public_key_packet, cryptopglib::pgp_data::packets::UserIDPacketPtr signed_user_id_packet, cryptopglib::CharDataVector& data)
     {
-        CharDataVector data_for_sign;
+        cryptopglib::CharDataVector data_for_sign;
         
-        CharDataVector key_data;
+        cryptopglib::CharDataVector key_data;
         signed_public_key_packet->GetRawData(key_data);
         
         data_for_sign.push_back(0x99);
@@ -381,7 +381,7 @@ namespace
         
         data_for_sign.insert(data_for_sign.end(), key_data.begin(), key_data.end());
         
-        CharDataVector user_id_data;
+        cryptopglib::CharDataVector user_id_data;
         signed_user_id_packet->GetRawData(user_id_data);
         if (signature_packet->GetPacketVersion() == 3)
         {
@@ -403,7 +403,7 @@ namespace
             return false;
         }
         
-        CharDataVector signature_packet_data;
+        cryptopglib::CharDataVector signature_packet_data;
         signature_packet->GetDataForHash(signature_packet_data);
         
         if (signature_packet->GetPacketVersion() == 3)
@@ -435,8 +435,9 @@ namespace
     }
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
+    using namespace  pgp_data::packets;
     SignatureKeyInfo GetSignatureKeyID(PGPMessagePtr message_ptr)
     {
         // TODO : check if it correct work always
@@ -469,7 +470,7 @@ namespace crypto
         }
         
         std::string public_key_data = public_key;
-        PGPParser parser;
+        pgp_parser::PGPParser parser;
         PGPMessagePtr pub_key_ptr = parser.ParseMessage(public_key_data);
         if (pub_key_ptr == nullptr)
         {
@@ -524,7 +525,7 @@ namespace crypto
     
     CheckSignatureResult CheckSignature(CharDataVector data, SignaturePacketPtr signature_packet, const std::string& public_key)
     {
-        PGPParser parser;
+        pgp_parser::PGPParser parser;
         PGPMessagePtr pub_key_ptr = parser.ParseMessage(public_key);
         if (pub_key_ptr == nullptr)
         {
@@ -555,7 +556,7 @@ namespace crypto
     
     CheckSignatureResult CheckKeySignature(const std::string& signed_key_data, const std::string& verification_key_data)
     {
-        PGPParser parser;
+        pgp_parser::PGPParser parser;
         PGPMessagePtr verification_key_ptr = parser.ParseMessage(verification_key_data);
         if (verification_key_ptr == nullptr)
         {
@@ -569,7 +570,7 @@ namespace crypto
         }
 
         PublicKeyPacketPtr signed_public_key_packet;
-        UserIDPacketPtr signed_user_id_packet;
+        pgp_data::packets::UserIDPacketPtr signed_user_id_packet;
         
         PGPPacketsArray signed_key_packets = signed_key_ptr->GetPackets();
         PGPPacketsArray verification_key_packets = verification_key_ptr->GetPackets();

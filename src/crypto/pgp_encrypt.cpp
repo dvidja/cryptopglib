@@ -22,11 +22,13 @@
 #include "../pgp_data/packets/compressed_data_packet.h"
 
 #include "../pgp_parser/pgp_packets_parser.h"
-#include "cryptopglib/SymmetricKeyAlgorithms.h"
+#include "cryptopglib/symmetric_key_algorithms.h"
 
 
 namespace
 {
+    using  namespace cryptopglib;
+    using namespace packets;
     PGPPacketPtr GeneratePGPMarkerPacket()
     {
         MarkerPacketPtr marker_packet(new   MarkerPacket);
@@ -182,8 +184,10 @@ namespace
     }
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
+    using namespace packets;
+
     PGPEncrypt::PGPEncrypt()
     {
     }

@@ -13,16 +13,16 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/literal_data_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::LiteralDataPacket;
+    class LiteralDataPacketParser : public PacketParser {
+    public:
+        LiteralDataPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
-class LiteralDataPacketParser : public PacketParser
-{
-public:
-    LiteralDataPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-private:
-    LiteralDataPacket* ParsePartial(DataBuffer& data_buffer, int c);
-    
-};
+    private:
+        LiteralDataPacket *ParsePartial(DataBuffer &data_buffer, int c);
 
+    };
+}
 
 #endif /* cryptopg_LiteralDataPacketParser_ */

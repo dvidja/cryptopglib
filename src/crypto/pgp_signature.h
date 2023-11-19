@@ -11,44 +11,47 @@
 
 #include "../pgp_message_impl.h"
 
-#include "hash_algorithms.h"
+#include "hash_algorithm.h"
 #include "public_key_algorithms.h"
 #include "../pgp_data/packets/signature_packet.h"
 #include "../openpgp_info_getter.h"
 #include "../pgp_data/packets/secret_key_packet.h"
 
-
-typedef enum
+namespace cryptopglib::crypto
 {
-    SR_NONE_SIGNATURE = 0,
-    SR_SIGNATURE_VERIFIED,
-    SR_SIGNATURE_FAILURE,
-    SR_KEY_NOT_FOUND
-} CheckSignatureResult;
+    using pgp_data::packets::SignaturePacketPtr;
+    using pgp_data::packets::SecretKeyPacketPtr;
+    using pgp_data::packets::PublicKeyPacketPtr;
 
-struct SignatureResultInfo
-{
-public:
-    SignatureResultInfo()
-        : create_signature_time_(0)
-        , expired_signature_time_(0)
+    typedef enum
     {
-    }
-    CheckSignatureResult signature_result_;
-    unsigned int create_signature_time_;
-    unsigned int expired_signature_time_;
-};
+        SR_NONE_SIGNATURE = 0,
+        SR_SIGNATURE_VERIFIED,
+        SR_SIGNATURE_FAILURE,
+        SR_KEY_NOT_FOUND
+    } CheckSignatureResult;
 
-class SignatureKeyInfo
-{
-public:
-    KeyIDData keyID;
-    unsigned int createdTime;
-    unsigned int expirationTime;
-};
+    struct SignatureResultInfo
+    {
+    public:
+        SignatureResultInfo()
+            : create_signature_time_(0)
+            , expired_signature_time_(0)
+        {
+        }
+        CheckSignatureResult signature_result_;
+        unsigned int create_signature_time_;
+        unsigned int expired_signature_time_;
+    };
 
-namespace crypto
-{
+    class SignatureKeyInfo
+    {
+    public:
+        KeyIDData keyID;
+        unsigned int createdTime;
+        unsigned int expirationTime;
+    };
+
     SignatureKeyInfo GetSignatureKeyID(PGPMessagePtr message_ptr);
     
     SignatureResultInfo CheckSignature(PGPMessagePtr message_ptr, const std::string& public_key);

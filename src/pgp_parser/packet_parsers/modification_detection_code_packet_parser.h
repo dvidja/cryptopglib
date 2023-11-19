@@ -12,12 +12,12 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/modification_detection_code_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::ModificationDetectionCodePacket;
+    class ModificationDetectionCodePacketParser : public PacketParser {
+    public:
+        ModificationDetectionCodePacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
-class ModificationDetectionCodePacketParser : public PacketParser
-{
-public:
-    ModificationDetectionCodePacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-};
-
+    };
+}
 #endif /* cryptopg_ModificationDetectionCodePacketParser_ */

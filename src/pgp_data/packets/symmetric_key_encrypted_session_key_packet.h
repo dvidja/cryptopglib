@@ -11,15 +11,17 @@
 
 #include "../pgp_packet.h"
 
-class SymmetricKeyEncryptedSessionKeyPacket : public PGPPacket
-{
-public:
-    SymmetricKeyEncryptedSessionKeyPacket();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-};
+namespace cryptopglib::pgp_data::packets {
+    class SymmetricKeyEncryptedSessionKeyPacket : public PGPPacket {
+    public:
+        SymmetricKeyEncryptedSessionKeyPacket();
 
-typedef std::shared_ptr<SymmetricKeyEncryptedSessionKeyPacket> SymmetricKeyEncryptedSessionKeyPacketPtr;
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+    };
+
+    typedef std::shared_ptr<SymmetricKeyEncryptedSessionKeyPacket> SymmetricKeyEncryptedSessionKeyPacketPtr;
+}
 
 #endif /* cryptopg_SymmetricKeyEncryptedSessionKeyPacket_ */

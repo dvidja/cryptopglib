@@ -12,7 +12,7 @@
 #define CRC24_POLY 0x864CFB
 
 
-namespace Utils
+namespace cryptopglib::utils
 {
     long CRC24(const CharDataVector& data)
     {

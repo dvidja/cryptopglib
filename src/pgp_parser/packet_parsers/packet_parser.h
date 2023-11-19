@@ -11,15 +11,16 @@
 
 #include "../../pgp_data/pgp_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using cryptopglib::pgp_data::PGPPacket;
+    int GetPacketLengthForPartialContent(DataBuffer &data_buffer, bool &partial);
 
-int GetPacketLengthForPartialContent(DataBuffer& data_buffer, bool& partial);
 
+    class PacketParser {
+    public:
+        virtual PGPPacket *Parse(DataBuffer &data_buffer, bool partial, int c) = 0;
 
-class PacketParser
-{
-public:
-    virtual PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c) = 0;
-    virtual ~PacketParser();
-};
-
+        virtual ~PacketParser();
+    };
+}
 #endif /* cryptopg_PacketParser_ */

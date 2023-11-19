@@ -30,7 +30,7 @@ namespace
 }
 
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     int RSAAlgorithm::EncryptWithPrivateKey(SecretKeyPacketPtr secret_key, const CharDataVector& source_data, CharDataVector& result_data)
     {

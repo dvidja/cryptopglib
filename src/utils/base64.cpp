@@ -16,7 +16,7 @@ namespace
     const char padCharacter = '=';
 }
 
-namespace Utils
+namespace cryptopglib::utils
 {
     
     std::string Base64Encode(CharDataVector inputBuffer)

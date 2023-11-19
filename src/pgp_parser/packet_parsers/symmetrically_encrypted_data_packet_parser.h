@@ -12,15 +12,16 @@
 #include <iostream>
 #include "packet_parser.h"
 
-class SymmetricallyEncryptedDataPacketParser : public PacketParser
-{
-public:
-    explicit SymmetricallyEncryptedDataPacketParser(bool mdc = false);
-    
-    PGPPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-private:
-    bool mdc_;
-};
+namespace cryptopglib::pgp_parser::packet_parsers {
 
+    class SymmetricallyEncryptedDataPacketParser : public PacketParser {
+    public:
+        explicit SymmetricallyEncryptedDataPacketParser(bool mdc = false);
+
+        PGPPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+
+    private:
+        bool mdc_;
+    };
+}
 #endif /* cryptopg_SymmetricallyEncryptedDataPacketParser_ */

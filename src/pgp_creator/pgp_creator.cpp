@@ -13,6 +13,8 @@
 
 namespace
 {
+    using namespace cryptopglib;
+    using namespace packets;
     void PushStringToData(const std::string& str, CharDataVector& data)
     {
         data.insert(data.end(), str.begin(), str.end());
@@ -88,7 +90,7 @@ namespace
         SignaturePacketPtr signature_packet = std::dynamic_pointer_cast<SignaturePacket>(message_impl->GetPackets()[0]);
         GetPacketData(signature_packet, signature_packet_data);
         
-        std::string base64_data = Utils::Base64Encode(signature_packet_data);
+        std::string base64_data = utils::Base64Encode(signature_packet_data);
         
         {
             size_t rest_length = base64_data.length();
@@ -104,14 +106,14 @@ namespace
             
         }
         
-        long crc = Utils::CRC24(signature_packet_data);
+        long crc = utils::CRC24(signature_packet_data);
         
         CharDataVector crc_data;
         crc_data.push_back((crc >> 16) & 0xFF);
         crc_data.push_back((crc >> 8) & 0xFF);
         crc_data.push_back(crc & 0xFF);
         
-        std::string str_crc = Utils::Base64Encode(crc_data);
+        std::string str_crc = utils::Base64Encode(crc_data);
         data.push_back('=');
         PushStringToData(str_crc, data);
 
@@ -141,7 +143,7 @@ namespace
             temp_data.insert(temp_data.end(), packet_data.begin(), packet_data.end());
         }
         
-        std::string base64_data = Utils::Base64Encode(temp_data);
+        std::string base64_data = utils::Base64Encode(temp_data);
         
         {
             size_t rest_length = base64_data.length();
@@ -157,14 +159,14 @@ namespace
             
         }
         
-        long crc = Utils::CRC24(temp_data);
+        long crc = utils::CRC24(temp_data);
         
         CharDataVector crc_data;
         crc_data.push_back((crc >> 16) & 0xFF);
         crc_data.push_back((crc >> 8) & 0xFF);
         crc_data.push_back(crc & 0xFF);
         
-        std::string str_crc = Utils::Base64Encode(crc_data);
+        std::string str_crc = utils::Base64Encode(crc_data);
         data.push_back('=');
         PushStringToData(str_crc, data);
 
@@ -195,7 +197,7 @@ namespace
             temp_data.insert(temp_data.end(), packet_data.begin(), packet_data.end());
         }
         
-        std::string base64_data = Utils::Base64Encode(temp_data);
+        std::string base64_data = utils::Base64Encode(temp_data);
         
         {
             size_t rest_length = base64_data.length();
@@ -211,14 +213,14 @@ namespace
             
         }
         
-        long crc = Utils::CRC24(temp_data);
+        long crc = utils::CRC24(temp_data);
         
         CharDataVector crc_data;
         crc_data.push_back((crc >> 16) & 0xFF);
         crc_data.push_back((crc >> 8) & 0xFF);
         crc_data.push_back(crc & 0xFF);
         
-        std::string str_crc = Utils::Base64Encode(crc_data);
+        std::string str_crc = utils::Base64Encode(crc_data);
         data.push_back('=');
         PushStringToData(str_crc, data);
         
@@ -249,7 +251,7 @@ namespace
             temp_data.insert(temp_data.end(), packet_data.begin(), packet_data.end());
         }
         
-        std::string base64_data = Utils::Base64Encode(temp_data);
+        std::string base64_data = utils::Base64Encode(temp_data);
         
         {
             size_t rest_length = base64_data.length();
@@ -264,14 +266,14 @@ namespace
             PushStringToData(std::string(base64_data.begin() + writing_length, base64_data.end()), data);
         }
         
-        long crc = Utils::CRC24(temp_data);
+        long crc = utils::CRC24(temp_data);
         
         CharDataVector crc_data;
         crc_data.push_back((crc >> 16) & 0xFF);
         crc_data.push_back((crc >> 8) & 0xFF);
         crc_data.push_back(crc & 0xFF);
         
-        std::string str_crc = Utils::Base64Encode(crc_data);
+        std::string str_crc = utils::Base64Encode(crc_data);
         data.push_back('=');
         PushStringToData(str_crc, data);
         
@@ -282,26 +284,25 @@ namespace
     }
 }
 
-bool PGPCreator::GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl, CharDataVector& data, bool armored)
-{
-    switch (message_impl->GetMessageType())
-    {
-        case PGPMessageType::kEncryptedMessage:
-            return GetBinaryRepresentationOfEncryptedMessage(message_impl, data);
-            break;
-        case PGPMessageType::kPrivateKey:
-            return GetBinaryRepresentationOfPrivateKeyMessage(message_impl, data);
-            break;
-        case PGPMessageType::kPublicKey:
-            return GetBinaryRepresentationOfPublicKeyMessage(message_impl, data);
-            break;
-        case PGPMessageType::kSignedMessage:
-            return GetBinaryRepresentationOfSignatureMessage(message_impl, data, armored);
-            break;
-        default:
-            break;
-    }
-    
-    return true;
-}
+namespace cryptopglib::pgp_creator {
+    bool PGPCreator::GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl, CharDataVector &data, bool armored) {
+        switch (message_impl->GetMessageType()) {
+            case PGPMessageType::kEncryptedMessage:
+                return GetBinaryRepresentationOfEncryptedMessage(message_impl, data);
+                break;
+            case PGPMessageType::kPrivateKey:
+                return GetBinaryRepresentationOfPrivateKeyMessage(message_impl, data);
+                break;
+            case PGPMessageType::kPublicKey:
+                return GetBinaryRepresentationOfPublicKeyMessage(message_impl, data);
+                break;
+            case PGPMessageType::kSignedMessage:
+                return GetBinaryRepresentationOfSignatureMessage(message_impl, data, armored);
+                break;
+            default:
+                break;
+        }
 
+        return true;
+    }
+}

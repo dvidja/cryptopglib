@@ -12,7 +12,7 @@
 #include "public_key_algorithms.h"
 #include "../pgp_message_impl.h"
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     struct TransferingKeys
     {

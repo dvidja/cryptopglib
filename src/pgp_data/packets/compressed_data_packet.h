@@ -12,26 +12,28 @@
 #include "../pgp_packet.h"
 #include "../../crypto/compression_algorithms.h"
 
+namespace cryptopglib::pgp_data::packets {
+    class CompressedDataPacket : public PGPPacket {
+    public:
+        CompressedDataPacket();
 
-class CompressedDataPacket : public PGPPacket
-{
-public:
-    CompressedDataPacket();
-    
-    void SetCompressAlgorithm(CompressionAlgorithms compress_algo);
-    void SetData(const CharDataVector& data);
-    
-    CompressionAlgorithms GetCompressAlgorithm();
-    CharDataVector& GetData();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
+        void SetCompressAlgorithm(CompressionAlgorithms compress_algo);
 
-private:
-    CompressionAlgorithms compress_algo_;
-    CharDataVector data_;
-};
+        void SetData(const CharDataVector &data);
 
-typedef std::shared_ptr<CompressedDataPacket> CompressedDataPacketPtr;
+        CompressionAlgorithms GetCompressAlgorithm();
 
+        CharDataVector &GetData();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+        CompressionAlgorithms compress_algo_;
+        CharDataVector data_;
+    };
+
+    typedef std::shared_ptr<CompressedDataPacket> CompressedDataPacketPtr;
+}
 #endif /* cryptopg_CompressedDataPacket_ */

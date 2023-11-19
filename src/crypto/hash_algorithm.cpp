@@ -6,11 +6,13 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#include "hash_algorithms.h"
+#include "hash_algorithm.h"
 
 
 namespace
 {
+    using cryptopglib::CharDataVector;
+    
     CharDataVector HP_MD5 =         {0x30, 0x20, 0x30, 0x0C, 0x06, 0x08, 0x2A, 0x86,
                                                  0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05, 0x05, 0x00,
                                                  0x04, 0x10};
@@ -38,7 +40,7 @@ namespace
                                                  0x00, 0x04, 0x40};
 }
 
-namespace  crypto
+namespace  cryptopglib::crypto
 {
     /// MD5 implementation
     bool Md5::Hash(const CharDataVector& source, CharDataVector& dest)

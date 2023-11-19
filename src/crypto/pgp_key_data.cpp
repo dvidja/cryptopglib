@@ -9,8 +9,15 @@
 #include "pgp_key_data.h"
 #include "../crypto/key_generator.h"
 
+#include "cryptopglib/hash_algorithms.h"
+#include "../pgp_data/packets/secret_key_packet.h"
+
 namespace
 {
+    using  namespace cryptopglib;
+    using  namespace cryptopglib::crypto;
+
+
     size_t GetMPIDataLength(DataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
@@ -21,19 +28,19 @@ namespace
     
     bool EncryptData(const CharDataVector& encoded_data, const std::string& passphrase, const CharDataVector& salt, CharDataVector& initial_vector, int count, CharDataVector& result_data)
     {
-        crypto::HashAlgorithmPtr hash_impl = crypto::GetHashImpl(HA_SHA1);
-        crypto::SymmetricKeyAlgorithmPtr sym_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(kAES256);
+        HashAlgorithmPtr hash_impl = GetHashImpl(HA_SHA1);
+        SymmetricKeyAlgorithmPtr sym_key_algo_impl = GetSymmetricKeyAlgorithm(kAES256);
         if (!hash_impl && !sym_key_algo_impl)
         {
             return false;
         }
         
         std::vector<CharDataVector> hashes;
-        std::vector<crypto::HashAlgorithmPtr> hashes_impl;
+        std::vector<HashAlgorithmPtr> hashes_impl;
         for(int n = 0 ;  n * hash_impl->GetDigestLength() < sym_key_algo_impl->GetKeyLength(); ++n)
         {
             hashes.push_back(CharDataVector());
-            hashes_impl.push_back(crypto::GetHashImpl(HA_SHA1));
+            hashes_impl.push_back(GetHashImpl(HA_SHA1));
             hashes_impl[n]->Init();
             for(int i = 0 ; i < n ; ++i)
             {
@@ -120,7 +127,7 @@ namespace
                         mpi_size *= 8;
                         
                         double t = mpi[0];
-                        int bits = packet_helper::log2(t) + 1;
+                        int bits = pgp_data::log2(t) + 1;
                         int delta = 8 - bits;
                         mpi_size -= delta;
                         
@@ -143,7 +150,7 @@ namespace
                         mpi_size *= 8;
                         
                         double t = mpi[0];
-                        int bits = packet_helper::log2(t) + 1;
+                        int bits = pgp_data::log2(t) + 1;
                         int delta = 8 - bits;
                         mpi_size -= delta;
                         
@@ -161,7 +168,7 @@ namespace
     }
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     bool PGPKeyDataEncrypt(PGPMessagePtr private_key, const std::string& passphrase)
     {
@@ -176,7 +183,7 @@ namespace crypto
         {
             if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
+                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                 bool result = EncryptSecretKeyPacketData(key_packet, passphrase);
                 if (!result)
                 {
@@ -205,7 +212,7 @@ namespace crypto
             {
                 if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
                 {
-                    SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
+                    SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                     bool result = DecryptSecretKeyPacketData(key_packet, passphrase);
                     if (!result)
                     {
@@ -232,7 +239,7 @@ namespace crypto
         {
             if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
+                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                 
                 if (key_packet->GetStringToKeyUsage() != 0) //private key data is encrypted
                 {

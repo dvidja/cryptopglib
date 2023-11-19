@@ -11,7 +11,7 @@
 #include <cstdio>
 #include "../pgp_data/pgp_data_types.h"
 
-namespace Utils
+namespace cryptopglib::utils
 {
     long CRC24(const CharDataVector& data);
 }

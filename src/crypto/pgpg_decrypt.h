@@ -24,41 +24,40 @@
 #include "../openpgp_info_getter.h"
 #include "pgp_signature.h"
 
-struct DecodedDataInfo;
 
-typedef std::shared_ptr<DecodedDataInfo> DecodedDataInfoPtr;
+namespace cryptopglib::crypto {
+    struct DecodedDataInfo;
 
-struct DecodedDataInfo
-{
-public:
-    typedef enum
+    typedef std::shared_ptr<DecodedDataInfo> DecodedDataInfoPtr;
+
+    struct DecodedDataInfo
     {
-        DDI_NONE_SIGNATURE = 0,
-        DDI_SIGNATURE_VERIFIED,
-        DDI_SIGNATURE_FAILURE,
-        DDI_KEY_NOT_FOUND
-    } SignatureState;
-    
-    DecodedDataInfo()
-        : decoded_data_(CharDataVector())
-        , is_signed_(false)
-    {
-    }
-    
-    CharDataVector decoded_data_;
-    CharDataVector file_name_;
-    bool is_signed_;
-    
-    std::vector<DecodedDataInfoPtr> attached_data_;
-    
-    SignatureKeyInfo signatureKeyInfo;
-    std::string signature_data;
-};
+    public:
+        typedef enum
+        {
+            DDI_NONE_SIGNATURE = 0,
+            DDI_SIGNATURE_VERIFIED,
+            DDI_SIGNATURE_FAILURE,
+            DDI_KEY_NOT_FOUND
+        } SignatureState;
 
+        DecodedDataInfo()
+            : decoded_data_(CharDataVector())
+            , is_signed_(false)
+        {
+        }
 
-namespace crypto
-{
-    bool DecryptSessionKey(PublicKeyEncryptedPacketPtr pub_key_enc, SecretKeyPacketPtr secret_key, CharDataVector& decrypt_data, const std::string& passphrase);
+        CharDataVector decoded_data_;
+        CharDataVector file_name_;
+        bool is_signed_;
+
+        std::vector<DecodedDataInfoPtr> attached_data_;
+
+        SignatureKeyInfo signatureKeyInfo;
+        std::string signature_data;
+    };
+
+    bool DecryptSessionKey(pgp_data::packets::PublicKeyEncryptedPacketPtr pub_key_enc, SecretKeyPacketPtr secret_key, CharDataVector& decrypt_data, const std::string& passphrase);
     
     class PGPDecrypt
     {
@@ -71,7 +70,7 @@ namespace crypto
         
     private:
         void SymmetricKeyDecrypt(CharDataVector& session_key_data, const CharDataVector& encrypted_data, bool flag);
-        void HandlePacket(CompressedDataPacketPtr compression_packet);
+        void HandlePacket(pgp_data::packets::CompressedDataPacketPtr compression_packet);
         bool HandleDecryptedData(const CharDataVector& decrypted_data, const int shift);
         void CheckSignature(SignaturePacketPtr signature_packet_ptr);
         

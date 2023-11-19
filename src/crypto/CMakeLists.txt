@@ -1,7 +1,7 @@
 
 target_sources(cryptopglib PUBLIC
         compression_algorithms.cpp
-        hash_algorithms.cpp
+        hash_algorithm.cpp
         key_generator.cpp
         pgpg_decrypt.cpp
         pgp_encrypt.cpp

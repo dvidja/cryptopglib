@@ -16,13 +16,12 @@
 #include "pgp_message_parser.h"
 #include "pgp_packets_parser.h"
 
+namespace cryptopglib::pgp_parser {
+    class PGPParser {
+    public:
+        PGPParser();
 
-class PGPParser
-{
-public:
-    PGPParser();
-    
-    PGPMessagePtr ParseMessage(const std::string& message);
-};
-
+        PGPMessagePtr ParseMessage(const std::string &message);
+    };
+}
 #endif /* cryptopg_PGPParser_ */

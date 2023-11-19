@@ -13,17 +13,18 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/signature_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::SignaturePacket;
+    class SignaturePacketParser : public PacketParser {
+    public:
+        SignaturePacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
-class SignaturePacketParser : public PacketParser
-{
-public:
-    SignaturePacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-private:
-    SignaturePacket* ParseV3Packet(DataBuffer& data_buffer, bool partial);
-    SignaturePacket* ParseV4Packet(DataBuffer& data_buffer, bool partial);
-    
-    void ParseSubPacket(DataBuffer data_buffer, SignaturePacket* packet, bool hashed);
-};
+    private:
+        SignaturePacket *ParseV3Packet(DataBuffer &data_buffer, bool partial);
 
+        SignaturePacket *ParseV4Packet(DataBuffer &data_buffer, bool partial);
+
+        void ParseSubPacket(DataBuffer data_buffer, SignaturePacket *packet, bool hashed);
+    };
+}
 #endif /* cryptopg_SignaturePacketParser_ */

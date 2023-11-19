@@ -11,8 +11,7 @@
 #include <cmath>
 
 
-namespace packet_helper
-{
+namespace  cryptopglib::pgp_data {
     double log2(double n)
     {
         return log(n) / log(2.0);
@@ -32,16 +31,13 @@ namespace packet_helper
         key_id_data.push_back((key_id[1] >> 8) & 0xFF);
         key_id_data.push_back(key_id[1] & 0xFF);
     }
-}
 
+    PGPPacket::PGPPacket(const PacketType packet_type)
+            : packet_type_(packet_type) {
 
-PGPPacket::PGPPacket(const PacketType packet_type)
-    : packet_type_(packet_type)
-{
-    
-}
+    }
 
-PacketType PGPPacket::GetPacketType()
-{
-    return packet_type_;
+    PacketType PGPPacket::GetPacketType() {
+        return packet_type_;
+    }
 }

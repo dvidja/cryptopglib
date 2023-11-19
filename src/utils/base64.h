@@ -15,7 +15,7 @@
 #include "../pgp_data/pgp_data_types.h"
 
 
-namespace Utils
+namespace cryptopglib::utils
 {    
     std::string Base64Encode(CharDataVector inputBuffer);
 

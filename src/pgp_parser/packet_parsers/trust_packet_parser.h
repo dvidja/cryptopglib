@@ -12,12 +12,12 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/trust_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::TrustPacket;
+    class TrustPacketParser : public PacketParser {
+    public:
+        TrustPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
-class TrustPacketParser : public PacketParser
-{
-public:
-    TrustPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-};
-
+    };
+}
 #endif /* cryptopg_TrustPacketParser_ */

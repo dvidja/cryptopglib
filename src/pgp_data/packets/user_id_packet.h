@@ -12,24 +12,25 @@
 
 #include "../pgp_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    class UserIDPacket : public PGPPacket {
+    public:
+        UserIDPacket();
 
-class UserIDPacket : public PGPPacket
-{
-public:
-    UserIDPacket();
-    
-    void SetUserID(const CharDataVector& user_id);
-    std::string GetUserID();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
+        void SetUserID(const CharDataVector &user_id);
 
-private:
-    std::string user_id_;
-};
+        std::string GetUserID();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+        std::string user_id_;
+    };
 
 
-typedef std::shared_ptr<UserIDPacket> UserIDPacketPtr;
-
+    typedef std::shared_ptr<UserIDPacket> UserIDPacketPtr;
+}
 
 #endif /* cryptopg_UserIDPacket_ */

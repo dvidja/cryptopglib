@@ -11,22 +11,24 @@
 
 #include "../pgp_packet.h"
 
-class ModificationDetectionCodePacket : public PGPPacket
-{
-public:
-    ModificationDetectionCodePacket();
-    
-    void SetData(const CharDataVector& data);
-    CharDataVector& GetData();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-    
-private:
-    
-    CharDataVector data_;
-};
+namespace cryptopglib::pgp_data::packets {
+    class ModificationDetectionCodePacket : public PGPPacket {
+    public:
+        ModificationDetectionCodePacket();
 
-typedef std::shared_ptr<ModificationDetectionCodePacket> ModificationDetectionCodePacketPtr;
+        void SetData(const CharDataVector &data);
 
+        CharDataVector &GetData();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+
+        CharDataVector data_;
+    };
+
+    typedef std::shared_ptr<ModificationDetectionCodePacket> ModificationDetectionCodePacketPtr;
+}
 #endif /* cryptopg_ModificationDetectionCodePacket_ */

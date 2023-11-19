@@ -75,264 +75,223 @@ namespace
     }
 }
 
+namespace cryptopglib::pgp_parser {
+    PGPMessagePtr PGPMessageParser::ParseMessage(const std::string &source) {
+        state_ = PS_START_LINE;
 
-PGPMessagePtr PGPMessageParser::ParseMessage(const std::string& source)
-{
-    state_ = PS_START_LINE;
-    
-    message_ = std::make_shared<PGPMessageImpl>();
-    
-    size_t current_position = 0;
-    do
-    {
-        std::string string_line;
-        current_position = GetNextLine(source, string_line, current_position);
-        
-        ParseLine(string_line);
-        if (current_position != std::string::npos)
-            current_position++;
-    }
-    while (current_position != std::string::npos);
-    
-    if (message_->GetRawData().empty())
-    {
-        return nullptr;
-    }
-    
-    if (!CheckCRCSum())
-    {
-        //throw PGPError(MESSAGE_CRC_ERROR);
-    }
-    
-    return message_;
-}
+        message_ = std::make_shared<PGPMessageImpl>();
 
-void PGPMessageParser::ParseLine(const std::string& source)
-{
-    switch (state_)
-    {
-        case PS_START_LINE:
-            if (ParseArmorHeaderLine(source))
-            {
-                state_ = PS_ARMOR;
-            }
-            
-            break;
-            
-        case PS_ARMOR:
-            if (!ParseArmorHeaders(source))
-            {
-                if ((message_->GetMessageType() == PGPMessageType::kSignedMessage)
-                    && (message_->GetPlainText().empty()))
-                {
-                    state_ = PS_SIGNED_TEXT;
+        size_t current_position = 0;
+        do {
+            std::string string_line;
+            current_position = GetNextLine(source, string_line, current_position);
+
+            ParseLine(string_line);
+            if (current_position != std::string::npos)
+                current_position++;
+        } while (current_position != std::string::npos);
+
+        if (message_->GetRawData().empty()) {
+            return nullptr;
+        }
+
+        if (!CheckCRCSum()) {
+            //throw PGPError(MESSAGE_CRC_ERROR);
+        }
+
+        return message_;
+    }
+
+    void PGPMessageParser::ParseLine(const std::string &source) {
+        switch (state_) {
+            case PS_START_LINE:
+                if (ParseArmorHeaderLine(source)) {
+                    state_ = PS_ARMOR;
                 }
-                else
-                {
-                    if (IsDataLine(source))
-                    {
-                        ReadDataLine(source);
+
+                break;
+
+            case PS_ARMOR:
+                if (!ParseArmorHeaders(source)) {
+                    if ((message_->GetMessageType() == PGPMessageType::kSignedMessage)
+                        && (message_->GetPlainText().empty())) {
+                        state_ = PS_SIGNED_TEXT;
+                    } else {
+                        if (IsDataLine(source)) {
+                            ReadDataLine(source);
+                        }
+
+                        state_ = PS_DATA;
                     }
-                    
-                    state_ = PS_DATA;
                 }
-            }
-            
-            break;
-            
-        case PS_SIGNED_TEXT:
-            if (!ReadSignedTextLine(source))
-            {
-                state_ = PS_ARMOR;
-            }
-            
-            break;
-            
-        case PS_DATA:
-            if (!ReadDataLine(source))
-            {
-                state_ = PS_END_LINE;
-            }
-            
-            break;
-            
-        case PS_END_LINE:
-            
-            break;
-            
-        default:
-            break;
-    }
-}
 
-bool PGPMessageParser::ParseArmorHeaderLine(const std::string& source)
-{
-    size_t pos = source.find(BEGIN);
-    if (pos == std::string::npos)
-    {
-        message_->SetMessageType(PGPMessageType::kPlainTextMessage);
-        return false;
-    }
-    
-    pos += strlen(BEGIN) + 1;
-    
-    bool flag_end = false;
-    std::string word;
-    while (!flag_end)
-    {
-        if (source.length() <= pos)
-        {
-          break;
-        }
-        switch (source[pos])
-        {
-            case '\n':
-                flag_end = true;
                 break;
-            case '\r':
+
+            case PS_SIGNED_TEXT:
+                if (!ReadSignedTextLine(source)) {
+                    state_ = PS_ARMOR;
+                }
+
                 break;
-            case ' ':
-            case '/':
-            case ',':
-            case '-':
-                if (!word.empty())
-                    ParseHeaderWord(word);
-                word = "";
+
+            case PS_DATA:
+                if (!ReadDataLine(source)) {
+                    state_ = PS_END_LINE;
+                }
+
                 break;
+
+            case PS_END_LINE:
+
+                break;
+
             default:
-                word.push_back(source[pos]);
                 break;
         }
-        pos++;
     }
-    
-    return true;
-}
 
-bool PGPMessageParser::ParseArmorHeaders(const std::string& source)
-{
-    size_t pos = source.find(':');
-    if (pos != std::string::npos)
-    {
-        message_->AddArmorHeaderValue(std::string(source.begin(), source.begin() + pos), std::string(source.begin() + pos + 1, source.end()));
+    bool PGPMessageParser::ParseArmorHeaderLine(const std::string &source) {
+        size_t pos = source.find(BEGIN);
+        if (pos == std::string::npos) {
+            message_->SetMessageType(PGPMessageType::kPlainTextMessage);
+            return false;
+        }
+
+        pos += strlen(BEGIN) + 1;
+
+        bool flag_end = false;
+        std::string word;
+        while (!flag_end) {
+            if (source.length() <= pos) {
+                break;
+            }
+            switch (source[pos]) {
+                case '\n':
+                    flag_end = true;
+                    break;
+                case '\r':
+                    break;
+                case ' ':
+                case '/':
+                case ',':
+                case '-':
+                    if (!word.empty())
+                        ParseHeaderWord(word);
+                    word = "";
+                    break;
+                default:
+                    word.push_back(source[pos]);
+                    break;
+            }
+            pos++;
+        }
+
         return true;
     }
-    
-    return false;
-}
 
-bool PGPMessageParser::ReadSignedTextLine(const std::string& source)
-{    
-    size_t pos = source.find(BEGIN);
-    
-    if (pos == std::string::npos)
-    {
-        if (!message_->GetPlainText().empty())
-        {
-            message_->AddPlainText("\n");
+    bool PGPMessageParser::ParseArmorHeaders(const std::string &source) {
+        size_t pos = source.find(':');
+        if (pos != std::string::npos) {
+            message_->AddArmorHeaderValue(std::string(source.begin(), source.begin() + pos),
+                                          std::string(source.begin() + pos + 1, source.end()));
+            return true;
         }
-        
-        message_->AddPlainText(source);
-        
-        std::string str(message_->GetPlainText());
-        
-        CharDataVector data(str.begin(), str.end());
-
-        return true;
-    }
-
-    return false;
-}
-
-bool PGPMessageParser::ReadDataLine(const std::string& source)
-{
-    if (source[0] == '=')
-    {
-        std::string crc_string;
-        if (source.back() == '\r')
-        {
-            crc_string.assign(std::string(source.begin() + 1, source.end() - 1));
-        }
-        else
-        {
-            crc_string.assign(std::string(source.begin() + 1, source.end()));
-        }
-        
-        if (crc_string.size() == 6)
-        {
-            crc_string.assign(crc_string.begin() + 2, crc_string.end());
-        }
-        
-        message_->SetCRC(crc_string);
 
         return false;
     }
-    
-    
-    std::string data_string;
-    if (source.back() == '\r')
-    {
-        data_string.assign(std::string(source.begin(), source.end() - 1));
-    }
-    else
-    {
-        data_string.assign(source);
-    }
-    
-    size_t pos;
-    while ((pos = data_string.find("=3D")) != std::string::npos)
-    {
-        data_string.erase(data_string.begin() + pos + 1, data_string.begin() + pos + 3);
-    }
-    
-    message_->AddData(data_string);
 
-    return true;
-}
+    bool PGPMessageParser::ReadSignedTextLine(const std::string &source) {
+        size_t pos = source.find(BEGIN);
 
-void PGPMessageParser::ParseHeaderWord(const std::string& word)
-{
-    std::map<std::string, PGPMessageType> words_map;
-    words_map[SIGNED] = PGPMessageType::kSignedMessage;
-    words_map[MESSAGE] = PGPMessageType::kEncryptedMessage;
-    words_map[PUBLIC] = PGPMessageType::kPublicKey;
-    words_map[PRIVATE] = PGPMessageType::kPrivateKey;
-    
-    auto iter = words_map.find(word);
-    if (iter == words_map.end())
-    {
-        return;
-    }
-    if (iter->second == PGPMessageType::kEncryptedMessage)
-    {
-        if (message_->GetMessageType() != PGPMessageType::kSignedMessage)
-        {
-            message_->SetMessageType(PGPMessageType::kEncryptedMessage);
+        if (pos == std::string::npos) {
+            if (!message_->GetPlainText().empty()) {
+                message_->AddPlainText("\n");
+            }
+
+            message_->AddPlainText(source);
+
+            std::string str(message_->GetPlainText());
+
+            CharDataVector data(str.begin(), str.end());
+
+            return true;
         }
-    }
-    else
-    {
-        message_->SetMessageType(words_map[word]);
-    }
-    
-    //if (message_info_.message_type_ == MT_PART_MESSAGE)
-    {
-        // TODO: read numbers
-    }
-    
-}
 
-bool PGPMessageParser::CheckCRCSum()
-{
-    long crc_sum = Utils::CRC24(message_->GetRawData());
-    
-    CharDataVector crc_sum_vector;
-    crc_sum_vector.push_back(crc_sum >> 16);
-    crc_sum_vector.push_back(crc_sum >> 8);
-    crc_sum_vector.push_back(crc_sum);
-    
-    std::string crc_result = Utils::Base64Encode(crc_sum_vector);
-    
-    return message_->GetCRC().compare(crc_result) == 0 ? true : false;
-}
+        return false;
+    }
 
+    bool PGPMessageParser::ReadDataLine(const std::string &source) {
+        if (source[0] == '=') {
+            std::string crc_string;
+            if (source.back() == '\r') {
+                crc_string.assign(std::string(source.begin() + 1, source.end() - 1));
+            } else {
+                crc_string.assign(std::string(source.begin() + 1, source.end()));
+            }
+
+            if (crc_string.size() == 6) {
+                crc_string.assign(crc_string.begin() + 2, crc_string.end());
+            }
+
+            message_->SetCRC(crc_string);
+
+            return false;
+        }
+
+
+        std::string data_string;
+        if (source.back() == '\r') {
+            data_string.assign(std::string(source.begin(), source.end() - 1));
+        } else {
+            data_string.assign(source);
+        }
+
+        size_t pos;
+        while ((pos = data_string.find("=3D")) != std::string::npos) {
+            data_string.erase(data_string.begin() + pos + 1, data_string.begin() + pos + 3);
+        }
+
+        message_->AddData(data_string);
+
+        return true;
+    }
+
+    void PGPMessageParser::ParseHeaderWord(const std::string &word) {
+        std::map<std::string, PGPMessageType> words_map;
+        words_map[SIGNED] = PGPMessageType::kSignedMessage;
+        words_map[MESSAGE] = PGPMessageType::kEncryptedMessage;
+        words_map[PUBLIC] = PGPMessageType::kPublicKey;
+        words_map[PRIVATE] = PGPMessageType::kPrivateKey;
+
+        auto iter = words_map.find(word);
+        if (iter == words_map.end()) {
+            return;
+        }
+        if (iter->second == PGPMessageType::kEncryptedMessage) {
+            if (message_->GetMessageType() != PGPMessageType::kSignedMessage) {
+                message_->SetMessageType(PGPMessageType::kEncryptedMessage);
+            }
+        } else {
+            message_->SetMessageType(words_map[word]);
+        }
+
+        //if (message_info_.message_type_ == MT_PART_MESSAGE)
+        {
+            // TODO: read numbers
+        }
+
+    }
+
+    bool PGPMessageParser::CheckCRCSum() {
+        long crc_sum = utils::CRC24(message_->GetRawData());
+
+        CharDataVector crc_sum_vector;
+        crc_sum_vector.push_back(crc_sum >> 16);
+        crc_sum_vector.push_back(crc_sum >> 8);
+        crc_sum_vector.push_back(crc_sum);
+
+        std::string crc_result = utils::Base64Encode(crc_sum_vector);
+
+        return message_->GetCRC().compare(crc_result) == 0 ? true : false;
+    }
+}

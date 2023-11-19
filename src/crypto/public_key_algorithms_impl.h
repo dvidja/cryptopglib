@@ -16,8 +16,11 @@
 #include "../pgp_data/packets/public_key_encrypted_packet.h"
 
 
-namespace  crypto
+namespace  cryptopglib::crypto
 {
+    using pgp_data::packets::SecretKeyPacketPtr;
+    using pgp_data::packets::PublicKeyPacketPtr;
+
     class PublicKeyAlgorithm
     {
     public:

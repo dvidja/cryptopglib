@@ -29,6 +29,9 @@ extern "C" {
 
 namespace
 {
+    using namespace cryptopglib;
+    using namespace packets;
+
     size_t GetMPIDataLength(DataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
@@ -252,7 +255,7 @@ namespace
             mpi_size *= 8;
             
             double t = (*iter)[0];
-            int bits = packet_helper::log2(t) + 1;
+            int bits = pgp_data::log2(t) + 1;
             int delta = 8 - bits;
             mpi_size -= delta;
             
@@ -449,7 +452,7 @@ namespace
     }
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     TransferingKeysPtr GenerateSecretKey(const std::string& user_email, const std::string& passphrase, PublicKeyAlgorithms pub_key_algo, const int num_bits)
     {

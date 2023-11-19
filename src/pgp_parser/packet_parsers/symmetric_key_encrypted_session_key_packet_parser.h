@@ -13,13 +13,13 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/symmetric_key_encrypted_session_key_packet.h"
 
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::SymmetricKeyEncryptedSessionKeyPacket;
+    class SymmetricKeyEncryptedSessionKeyPacketParser : public PacketParser {
+    public:
+        SymmetricKeyEncryptedSessionKeyPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
-class SymmetricKeyEncryptedSessionKeyPacketParser : public PacketParser
-{
-public:
-    SymmetricKeyEncryptedSessionKeyPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-};
-
+    };
+}
 
 #endif /* cryptopg_SymmetricKeyEncryptedSessionKeyPacketParser_ */

@@ -18,37 +18,40 @@
 #include "../pgp_message_impl.h"
 
 
+namespace cryptopglib::pgp_parser {
+    enum ParserState {
+        PS_START_LINE = 0,
+        PS_SIGNED_TEXT,
+        PS_ARMOR,
+        PS_DATA,
+        PS_END_LINE,
+    };
 
-enum ParserState
-{
-    PS_START_LINE = 0,
-    PS_SIGNED_TEXT,
-    PS_ARMOR,
-    PS_DATA,
-    PS_END_LINE,
-};
 
+    class PGPMessageParser {
+    public:
+        PGPMessagePtr ParseMessage(const std::string &source);
 
-class PGPMessageParser
-{
-public:
-    PGPMessagePtr ParseMessage(const std::string& source);
+    private:
+        void ParseLine(const std::string &source);
 
-private:
-    void ParseLine(const std::string& source);
-    bool ParseArmorHeaderLine(const std::string& source);
-    bool ParseArmorHeaders(const std::string& source);
-    bool ReadSignedTextLine(const std::string& source);
-    bool ReadDataLine(const std::string& source);
-    
-    void ParseHeaderWord(const std::string& word);
-    
-    bool CheckCRCSum();
-    
-    ParserState state_;
-    
-    //MessageInfo message_info_;
-    PGPMessagePtr message_;
-};
+        bool ParseArmorHeaderLine(const std::string &source);
+
+        bool ParseArmorHeaders(const std::string &source);
+
+        bool ReadSignedTextLine(const std::string &source);
+
+        bool ReadDataLine(const std::string &source);
+
+        void ParseHeaderWord(const std::string &word);
+
+        bool CheckCRCSum();
+
+        ParserState state_;
+
+        //MessageInfo message_info_;
+        PGPMessagePtr message_;
+    };
+}
 
 #endif /* cryptopg_PGPMessageParser_ */

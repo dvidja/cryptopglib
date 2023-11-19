@@ -15,8 +15,7 @@
 #include "../crypto/pgp_signature.h"
 
 
-namespace
-{
+namespace cryptopglib::pgp_parser {
     bool IsKeySigned(const PGPPacketsArray& packets)
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
@@ -30,13 +29,13 @@ namespace
         return false;
     }
     
-    PublicKeyPacketPtr GetPublicKeyByID(const PGPPacketsArray& packets, const KeyIDData& key_id)
+    crypto::PublicKeyPacketPtr GetPublicKeyByID(const PGPPacketsArray& packets, const KeyIDData& key_id)
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
             if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
             {
-                PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<PublicKeyPacket>(*iter);
+                crypto::PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<pgp_data::packets::PublicKeyPacket>(*iter);
                 if (!public_key_packet_ptr)
                 {
                     return nullptr;
@@ -54,7 +53,7 @@ namespace
             
             if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<SecretKeyPacket>(*iter);
+                crypto::SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>(*iter);
                 if (!secret_key_packet_ptr)
                 {
                     return nullptr;
@@ -76,7 +75,7 @@ namespace
     }
     
     /// NOTE!!! method dublicated in KeyGenerator.cpp
-    bool GetDataForKeySignature(SignaturePacketPtr signature_packet, PublicKeyPacketPtr signed_public_key_packet, UserIDPacketPtr signed_user_id_packet, CharDataVector& data)
+    bool GetDataForKeySignature(crypto::SignaturePacketPtr signature_packet, crypto::PublicKeyPacketPtr signed_public_key_packet, pgp_data::packets::UserIDPacketPtr signed_user_id_packet, CharDataVector& data)
     {
         CharDataVector data_for_sign;
         
@@ -143,7 +142,7 @@ namespace
         return true;
     }
     
-    bool GetDataForKeySignature(SignaturePacketPtr signature_packet, PublicKeyPacketPtr public_key_packet, PublicKeyPacketPtr public_subkey_packet, CharDataVector& data)
+    bool GetDataForKeySignature(crypto::SignaturePacketPtr signature_packet, crypto::PublicKeyPacketPtr public_key_packet, crypto::PublicKeyPacketPtr public_subkey_packet, CharDataVector& data)
     {
         CharDataVector data_for_sign;
         
@@ -203,8 +202,8 @@ namespace
         
         auto start_search_iter = packets.begin();
         
-        PublicKeyPacketPtr signed_public_key_packet;
-        UserIDPacketPtr signed_user_id_packet;
+        crypto::PublicKeyPacketPtr signed_public_key_packet;
+        pgp_data::packets::UserIDPacketPtr signed_user_id_packet;
         
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
@@ -214,17 +213,17 @@ namespace
                 {
                     if ((*it)->GetPacketType() == PT_USER_ID_PACKET)
                     {
-                        signed_user_id_packet = std::dynamic_pointer_cast<UserIDPacket>(*it);
+                        signed_user_id_packet = std::dynamic_pointer_cast<pgp_data::packets::UserIDPacket>(*it);
                     }
                     
                     if (((*it)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*it)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
                     {
-                        signed_public_key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(*it);
+                        signed_public_key_packet = std::dynamic_pointer_cast<pgp_data::packets::PublicKeyPacket>(*it);
                     }
                     
                     if (((*it)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*it)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
                     {
-                        signed_public_key_packet = (std::dynamic_pointer_cast<SecretKeyPacket>(*it))->GetPublicKeyPatr();
+                        signed_public_key_packet = (std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>(*it))->GetPublicKeyPatr();
                     }
                 }
                 
@@ -233,9 +232,9 @@ namespace
                     return false;
                 }
                 
-                SignaturePacketPtr signature_packet = std::dynamic_pointer_cast<SignaturePacket>(*iter);
+                crypto::SignaturePacketPtr signature_packet = std::dynamic_pointer_cast<pgp_data::packets::SignaturePacket>(*iter);
                 
-                PublicKeyPacketPtr public_key_packet = GetPublicKeyByID(packets, signature_packet->GetKeyID());
+                crypto::PublicKeyPacketPtr public_key_packet = GetPublicKeyByID(packets, signature_packet->GetKeyID());
                 if (!public_key_packet)
                 {
                     return false;
@@ -286,37 +285,32 @@ namespace
     }
 }
 
+namespace cryptopglib::pgp_parser {
 
+    PGPParser::PGPParser() {
 
-PGPParser::PGPParser()
-{
-    
-}
+    }
 
-PGPMessagePtr PGPParser::ParseMessage(const std::string& source)
-{
-    PGPMessageParser message_parser;
-    PGPMessagePtr message_ptr = message_parser.ParseMessage(source);
-    
-    if (message_ptr)
-    {        
-        PGPPacketsParser packet_parser(message_ptr->GetRawData());
-        PGPPacketsArray packets = packet_parser.ParsePackets();
-        if (packets.empty())
-        {
-            return nullptr;
-        }
-        message_ptr->SetPackets(packets);
-        
-        if ((message_ptr->GetMessageType() == PGPMessageType::kPublicKey)
-            || (message_ptr->GetMessageType() == PGPMessageType::kPrivateKey))
-        {
-            if (IsKeySigned(packets))
-            {
-                CheckKeySignature(packets);
+    PGPMessagePtr PGPParser::ParseMessage(const std::string &source) {
+        PGPMessageParser message_parser;
+        PGPMessagePtr message_ptr = message_parser.ParseMessage(source);
+
+        if (message_ptr) {
+            PGPPacketsParser packet_parser(message_ptr->GetRawData());
+            PGPPacketsArray packets = packet_parser.ParsePackets();
+            if (packets.empty()) {
+                return nullptr;
+            }
+            message_ptr->SetPackets(packets);
+
+            if ((message_ptr->GetMessageType() == PGPMessageType::kPublicKey)
+                || (message_ptr->GetMessageType() == PGPMessageType::kPrivateKey)) {
+                if (IsKeySigned(packets)) {
+                    CheckKeySignature(packets);
+                }
             }
         }
+
+        return message_ptr;
     }
-    
-    return message_ptr;
 }

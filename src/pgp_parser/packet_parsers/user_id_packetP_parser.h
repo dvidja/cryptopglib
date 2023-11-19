@@ -12,11 +12,12 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/user_id_packet.h"
 
-class UserIDPacketParser : public PacketParser
-{
-public:
-    UserIDPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-};
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using cryptopglib::pgp_data::packets::UserIDPacket;
+    class UserIDPacketParser : public PacketParser {
+    public:
+        UserIDPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
+    };
+}
 #endif /* cryptopg_UserIDPacketParser_ */

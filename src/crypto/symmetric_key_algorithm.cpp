@@ -7,7 +7,7 @@
 //
 
 #include "symmetric_key_algorithm.h"
-#include "cryptopglib/SymmetricKeyAlgorithms.h"
+#include "cryptopglib/symmetric_key_algorithms.h"
 
 extern "C" {
 #include <openssl/idea.h>
@@ -19,6 +19,8 @@ extern "C" {
 
 #include <string>
 #include <algorithm>
+
+using namespace cryptopglib;
 
 namespace
 {
@@ -44,7 +46,7 @@ namespace
     }
 }
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     
     bool SymmetricKeyAlgorithm::EncryptInOpenPGPCFBMode(const CharDataVector& input_data,

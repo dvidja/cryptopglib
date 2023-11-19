@@ -8,19 +8,17 @@
 
 #include "user_attribute_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    UserAttributePacket::UserAttributePacket()
+            : PGPPacket(PT_USER_ATTRIBUTE_PACKET) {
 
-UserAttributePacket::UserAttributePacket()
-    : PGPPacket(PT_USER_ATTRIBUTE_PACKET)
-{
-    
-}
+    }
 
-bool UserAttributePacket::GetRawData(CharDataVector &data)
-{
-    return false;
-}
+    bool UserAttributePacket::GetRawData(CharDataVector &data) {
+        return false;
+    }
 
-bool UserAttributePacket::GetBinaryData(CharDataVector& data)
-{
-    return false;
+    bool UserAttributePacket::GetBinaryData(CharDataVector &data) {
+        return false;
+    }
 }

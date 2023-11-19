@@ -12,7 +12,7 @@
 #include "../pgp_message_impl.h"
 #include "../openpgp_info_getter.h"
 
-namespace crypto
+namespace cryptopglib::crypto
 {
     class PGPEncrypt
     {

@@ -8,8 +8,8 @@
 
 #include "marker_packet_parser.h"
 
-
-MarkerPacket* MarkerPacketParser::Parse(DataBuffer& data_buffer, bool partial, int c)
-{
-    return nullptr;
+namespace cryptopglib::pgp_parser::packet_parsers {
+    MarkerPacket *MarkerPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+        return nullptr;
+    }
 }

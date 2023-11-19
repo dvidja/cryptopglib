@@ -15,13 +15,13 @@
 
 
 
-
-class PGPCreator
-{
-public:
-    static bool GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl,
-                                                 CharDataVector& data,
-                                                 bool armored = false);
-};
+namespace cryptopglib::pgp_creator {
+    class PGPCreator {
+    public:
+        static bool GetBinaryRepresentationOfMessage(PGPMessagePtr message_impl,
+                                                     CharDataVector &data,
+                                                     bool armored = false);
+    };
+}
 
 #endif /* cryptopg_PGPCreator_ */

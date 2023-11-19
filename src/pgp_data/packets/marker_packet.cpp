@@ -8,68 +8,58 @@
 
 #include "marker_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    MarkerPacket::MarkerPacket()
+            : PGPPacket(PT_MARKER_PACKET) {
 
-MarkerPacket::MarkerPacket()
-    : PGPPacket(PT_MARKER_PACKET)
-{
-    
-}
-
-void MarkerPacket::SetData(CharDataVector& data)
-{
-    data_.assign(data.begin(), data.end());
-}
-
-CharDataVector& MarkerPacket::GetData()
-{
-    return data_;
-}
-
-bool MarkerPacket::GetRawData(CharDataVector &data)
-{
-    CharDataVector temp_data(data_);
-    data.insert(data.end(), temp_data.begin(), temp_data.end());
-    
-    return true;
-}
-
-bool MarkerPacket::GetBinaryData(CharDataVector& data)
-{
-    CharDataVector temp_data;
-    
-    if (!GetRawData(temp_data))
-    {
-        return false;
     }
-    
-    ///////////////////////////////
-    unsigned char c = 0;
-    c ^= 0x80;
-    c ^= 0x40;
-    c ^= GetPacketType();
-    data.push_back(c);
-    
-    if (temp_data.size() < 192)
-    {
-        data.push_back(temp_data.size());
+
+    void MarkerPacket::SetData(CharDataVector &data) {
+        data_.assign(data.begin(), data.end());
     }
-    else if (temp_data.size() < 8384)
-    {
-        int length = static_cast<int>(temp_data.size()) - 192;
-        data.push_back((length / 256) + 192);
-        data.push_back(length % 256);
+
+    CharDataVector &MarkerPacket::GetData() {
+        return data_;
     }
-    else
-    {
-        int length = static_cast<int>(temp_data.size());
-        data.push_back(0xff);
-        data.push_back((length >> 24) & 0xff);
-        data.push_back((length >> 16) & 0xff);
-        data.push_back((length >> 8) & 0xff);
-        data.push_back(length & 0xff);
+
+    bool MarkerPacket::GetRawData(CharDataVector &data) {
+        CharDataVector temp_data(data_);
+        data.insert(data.end(), temp_data.begin(), temp_data.end());
+
+        return true;
     }
-    
-    data.insert(data.end(), temp_data.begin(), temp_data.end());
-    
-    return true;
+
+    bool MarkerPacket::GetBinaryData(CharDataVector &data) {
+        CharDataVector temp_data;
+
+        if (!GetRawData(temp_data)) {
+            return false;
+        }
+
+        ///////////////////////////////
+        unsigned char c = 0;
+        c ^= 0x80;
+        c ^= 0x40;
+        c ^= GetPacketType();
+        data.push_back(c);
+
+        if (temp_data.size() < 192) {
+            data.push_back(temp_data.size());
+        } else if (temp_data.size() < 8384) {
+            int length = static_cast<int>(temp_data.size()) - 192;
+            data.push_back((length / 256) + 192);
+            data.push_back(length % 256);
+        } else {
+            int length = static_cast<int>(temp_data.size());
+            data.push_back(0xff);
+            data.push_back((length >> 24) & 0xff);
+            data.push_back((length >> 16) & 0xff);
+            data.push_back((length >> 8) & 0xff);
+            data.push_back(length & 0xff);
+        }
+
+        data.insert(data.end(), temp_data.begin(), temp_data.end());
+
+        return true;
+    }
 }

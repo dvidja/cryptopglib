@@ -11,21 +11,23 @@
 
 #include "../pgp_packet.h"
 
-class MarkerPacket : public PGPPacket
-{
-public:
-    MarkerPacket();
-    
-    void SetData(CharDataVector& data);
-    CharDataVector& GetData();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-    
-private:
-    CharDataVector data_;
-};
+namespace cryptopglib::pgp_data::packets {
+    class MarkerPacket : public PGPPacket {
+    public:
+        MarkerPacket();
 
-typedef std::shared_ptr<MarkerPacket> MarkerPacketPtr;
+        void SetData(CharDataVector &data);
 
+        CharDataVector &GetData();
+
+        bool GetRawData(CharDataVector &data) override;
+
+        bool GetBinaryData(CharDataVector &data) override;
+
+    private:
+        CharDataVector data_;
+    };
+
+    typedef std::shared_ptr<MarkerPacket> MarkerPacketPtr;
+}
 #endif /* cryptopg_MarkerPacket_ */

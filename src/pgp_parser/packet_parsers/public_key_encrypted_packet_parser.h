@@ -12,11 +12,12 @@
 #include "packet_parser.h"
 #include "../../pgp_data/packets/public_key_encrypted_packet.h"
 
-class PublicKeyEncryptedPacketParser : public PacketParser
-{
-public:
-    PublicKeyEncryptedPacket* Parse(DataBuffer& data_buffer, bool partial, int c) override;
-    
-};
+namespace cryptopglib::pgp_parser::packet_parsers {
+    using pgp_data::packets::PublicKeyEncryptedPacket;
+    class PublicKeyEncryptedPacketParser : public PacketParser {
+    public:
+        PublicKeyEncryptedPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
 
+    };
+}
 #endif /* cryptopg_PublicKeyEncryptedPacketParser_ */

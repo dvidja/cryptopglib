@@ -10,16 +10,17 @@
 #define cryptopg_UserAttributePacket_
 
 #include "../pgp_packet.h"
+namespace cryptopglib::pgp_data::packets {
+    class UserAttributePacket : public PGPPacket {
+    public:
+        UserAttributePacket();
 
-class UserAttributePacket : public PGPPacket
-{
-public:
-    UserAttributePacket();
-    
-    bool GetRawData(CharDataVector& data) override;
-    bool GetBinaryData(CharDataVector& data) override;
-};
+        bool GetRawData(CharDataVector &data) override;
 
-typedef std::shared_ptr<UserAttributePacket> UserAttributePacketPtr;
+        bool GetBinaryData(CharDataVector &data) override;
+    };
+
+    typedef std::shared_ptr<UserAttributePacket> UserAttributePacketPtr;
+}
 
 #endif /* cryptopg_UserAttributePacket_ */

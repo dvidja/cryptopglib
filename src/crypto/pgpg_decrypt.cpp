@@ -20,14 +20,14 @@
 #include "symmetric_key_algorithm.h"
 #include "pgp_signature.h"
 #include "public_key_algorithms_impl.h"
-#include "cryptopglib/SymmetricKeyAlgorithms.h"
+#include "cryptopglib/symmetric_key_algorithms.h"
 
 #include <numeric>
 
 
 namespace
 {
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    size_t GetMPIDataLength(cryptopglib::DataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -35,7 +35,7 @@ namespace
         return l;
     }
             
-    bool IsDataDecryptedCorrect(const CharDataVector& data, const int block_size)
+    bool IsDataDecryptedCorrect(const cryptopglib::CharDataVector& data, const int block_size)
     {
         if (data.size() <= block_size + 2)
         {
@@ -50,16 +50,16 @@ namespace
         return false;
     }
     
-    SecretKeyPacketPtr GetKeyPacket(const KeyIDData& key_id, PGPMessagePtr sec_key_ptr)
+    cryptopglib::crypto::SecretKeyPacketPtr GetKeyPacket(const cryptopglib::KeyIDData& key_id, cryptopglib::PGPMessagePtr sec_key_ptr)
     {
-        const PGPPacketsArray& sec_key_packets = sec_key_ptr->GetPackets();
+        const cryptopglib::PGPPacketsArray& sec_key_packets = sec_key_ptr->GetPackets();
         
         for (auto iter = sec_key_packets.begin(); iter != sec_key_packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
             {
-                SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
-                KeyIDData current_id = key_packet->GetKeyID();
+                auto key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>((*iter));
+                auto current_id = key_packet->GetKeyID();
                 
                 if (key_id.size() == current_id.size())
                 {
@@ -74,22 +74,22 @@ namespace
         return nullptr;
     }
     
-    bool ExtractSeessionKeyData(PGPPacketsArray packets, PGPMessagePtr sec_key_ptr, const std::string& passphrase, CharDataVector& session_key_data)
+    bool ExtractSeessionKeyData(cryptopglib::PGPPacketsArray packets, cryptopglib::PGPMessagePtr sec_key_ptr, const std::string& passphrase, cryptopglib::CharDataVector& session_key_data)
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_PUBLIC_KEY_ENCRYPTED_PACKET)
+            if ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_ENCRYPTED_PACKET)
             {
-                PublicKeyEncryptedPacketPtr pub_key_enc = std::dynamic_pointer_cast<PublicKeyEncryptedPacket>((*iter));
-                KeyIDData key_id = pub_key_enc->GetKeyID();
+                cryptopglib::pgp_data::packets::PublicKeyEncryptedPacketPtr pub_key_enc = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyEncryptedPacket>((*iter));
+                auto key_id = pub_key_enc->GetKeyID();
                 
-                SecretKeyPacketPtr sec_key = GetKeyPacket(key_id, sec_key_ptr);
+                auto sec_key = GetKeyPacket(key_id, sec_key_ptr);
                 if (sec_key == nullptr)
                 {
                     continue;
                 }
                 
-                if (crypto::DecryptSessionKey(pub_key_enc, sec_key, session_key_data, passphrase))
+                if (cryptopglib::crypto::DecryptSessionKey(pub_key_enc, sec_key, session_key_data, passphrase))
                 {
                     if (session_key_data.size() > 0)
                     {
@@ -105,9 +105,9 @@ namespace
     }
 }
 
-
-namespace crypto
+namespace cryptopglib::crypto
 {
+    using namespace pgp_data::packets;
     bool DecryptSessionKey(PublicKeyEncryptedPacketPtr pub_key_enc, SecretKeyPacketPtr secret_key, CharDataVector& decrypt_data, const std::string& passphrase)
     {
         PublicKeyAlgorithms algo = pub_key_enc->GetPublicKeyAlgorithm();
@@ -276,7 +276,7 @@ namespace crypto
             return;
         }
         
-        PGPPacketsParser parser(decompression_data);
+        pgp_parser::PGPPacketsParser parser(decompression_data);
         PGPPacketsArray packets = parser.ParsePackets();
         
         if (packets.empty())
@@ -297,7 +297,7 @@ namespace crypto
                         
                         CharDataVector signature_data;
                         signature_data_packet->GetBinaryData(signature_data);
-                        std::string base64data = Utils::Base64Encode(signature_data);
+                        std::string base64data = utils::Base64Encode(signature_data);
                         decoded_data_info_->signature_data = base64data;
                         
                         SignatureKeyInfo signature_key_info;
@@ -331,7 +331,7 @@ namespace crypto
     {
         CharDataVector data_for_parse(decrypted_data.begin() + shift, decrypted_data.end());
         
-        PGPPacketsParser parser(data_for_parse);
+        pgp_parser::PGPPacketsParser parser(data_for_parse);
         PGPPacketsArray packets = parser.ParsePackets();
         
         if (packets.empty())
@@ -366,7 +366,7 @@ namespace crypto
                         
                         CharDataVector signature_data;
                         signature_data_packet->GetBinaryData(signature_data);
-                        std::string base64data = Utils::Base64Encode(signature_data);
+                        std::string base64data = utils::Base64Encode(signature_data);
                         decoded_data_info_->signature_data = base64data;
                         
                         SignatureKeyInfo signature_key_info;

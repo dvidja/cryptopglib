@@ -8,19 +8,17 @@
 
 #include "symmetric_key_encrypted_session_key_packet.h"
 
+namespace cryptopglib::pgp_data::packets {
+    SymmetricKeyEncryptedSessionKeyPacket::SymmetricKeyEncryptedSessionKeyPacket()
+            : PGPPacket(PT_SYMMETRIC_KEY_ENCRYPTED_SESSION_KEY_PACKET) {
 
-SymmetricKeyEncryptedSessionKeyPacket::SymmetricKeyEncryptedSessionKeyPacket()
-    : PGPPacket(PT_SYMMETRIC_KEY_ENCRYPTED_SESSION_KEY_PACKET)
-{
-    
-}
+    }
 
-bool SymmetricKeyEncryptedSessionKeyPacket::GetRawData(CharDataVector& data)
-{
-    return false;
-}
+    bool SymmetricKeyEncryptedSessionKeyPacket::GetRawData(CharDataVector &data) {
+        return false;
+    }
 
-bool SymmetricKeyEncryptedSessionKeyPacket::GetBinaryData(CharDataVector& data)
-{
-    return false;
+    bool SymmetricKeyEncryptedSessionKeyPacket::GetBinaryData(CharDataVector &data) {
+        return false;
+    }
 }
