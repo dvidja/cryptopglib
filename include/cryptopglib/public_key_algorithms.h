@@ -5,7 +5,7 @@
 #pragma once
 
 namespace cryptopglib {
-    enum PublicKeyAlgorithms
+    enum class PublicKeyAlgorithms
     {
         kRSA = 1,
         kRSAEncryptOnly = 2,
