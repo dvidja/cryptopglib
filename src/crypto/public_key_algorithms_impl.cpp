@@ -423,17 +423,17 @@ namespace cryptopglib::crypto
         
         switch (algo)
         {
-            case PKA_RSA:
-            case PKA_RSA_ENCRYPT_ONLY:
-            case PKA_RSA_SIGN_ONLY:
+            case kRSA:
+            case kRSAEncryptOnly:
+            case kRSASignOnly:
                 public_key_algo_impl = std::make_unique<RSAAlgorithm>();
                 break;
                 
-            case PKA_ELGAMAL:
+            case kElgamal:
                 public_key_algo_impl = std::make_unique<DSSDHAlgorithm>();
                 break;
                 
-            case PKA_DSA:
+            case kDSA:
                 public_key_algo_impl = std::make_unique<DSSDHAlgorithm>();
                 break;
                 

@@ -116,9 +116,9 @@ namespace
         
         switch (secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm())
         {
-            case PKA_RSA:
-            case PKA_RSA_SIGN_ONLY:
-            case PKA_RSA_ENCRYPT_ONLY:
+            case kRSA:
+            case kRSASignOnly:
+            case kRSAEncryptOnly:
                 {
                     for (int i = 0; i < 4; ++i)
                     {
@@ -140,8 +140,8 @@ namespace
                 }
                 break;
                 
-            case PKA_ELGAMAL:
-            case PKA_DSA:
+            case kElgamal:
+            case kDSA:
                 {
                     for (int i = 0; i < 1; ++i)
                     {
@@ -364,9 +364,9 @@ namespace cryptopglib::crypto
             secret_key->ClearMPIData();
             switch (secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm())
             {
-                case PKA_RSA:
-                case PKA_RSA_ENCRYPT_ONLY:
-                case PKA_RSA_SIGN_ONLY:
+                case kRSA:
+                case kRSAEncryptOnly:
+                case kRSASignOnly:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
                     secret_key->AddMPI(data_buffer.GetRange(length));
@@ -381,8 +381,8 @@ namespace cryptopglib::crypto
                     secret_key->AddMPI(data_buffer.GetRange(length));
                 }
                     break;
-                case PKA_ELGAMAL:
-                case PKA_DSA:
+                case kElgamal:
+                case kDSA:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
                     secret_key->AddMPI(data_buffer.GetRange(length));

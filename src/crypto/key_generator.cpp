@@ -357,9 +357,9 @@ namespace
         
         switch (pub_key_algo)
         {
-            case PKA_RSA:
-            case PKA_RSA_SIGN_ONLY:
-            case PKA_RSA_ENCRYPT_ONLY:
+            case kRSA:
+            case kRSASignOnly:
+            case kRSAEncryptOnly:
                 {
                     int rsa_exponent = 65537;
                     RSA* rsa_secret_key = RSA_generate_key(num_bits, rsa_exponent, 0, 0);
@@ -434,12 +434,12 @@ namespace
                 }
                 break;
                 
-            case PKA_ELGAMAL:
+            case kElgamal:
                 {
                     
                 }
                 break;
-            case PKA_DSA:
+            case kDSA:
                 {
                     
                 }
@@ -495,7 +495,7 @@ namespace cryptopglib::crypto
             SignaturePacketPtr signature_packet_ptr(new SignaturePacket(4));
             signature_packet_ptr->SetCreationTime(static_cast<unsigned int>(time(NULL)));
             signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
-            signature_packet_ptr->SetPublicKeyAlgorithm(PKA_RSA);
+            signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
             KeyIDData key_id = secret_key_packet_ptr->GetKeyID();
             signature_packet_ptr->SetKeyID(key_id);
             signature_packet_ptr->SetSignatureType(16);
@@ -586,7 +586,7 @@ namespace cryptopglib::crypto
             SignaturePacketPtr signature_packet_ptr(new SignaturePacket(4));
             signature_packet_ptr->SetCreationTime(static_cast<int>(time(NULL)));
             signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
-            signature_packet_ptr->SetPublicKeyAlgorithm(PKA_RSA);
+            signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
             KeyIDData key_id = key_for_self_signature->GetKeyID();
             signature_packet_ptr->SetKeyID(key_id);
             signature_packet_ptr->SetSignatureType(24);
@@ -600,7 +600,7 @@ namespace cryptopglib::crypto
                 SignaturePacketPtr embedded_signature_packet_ptr(new SignaturePacket(4));
                 embedded_signature_packet_ptr->SetCreationTime(static_cast<int>(time(NULL)));
                 embedded_signature_packet_ptr->SetHashAlgorithm(HA_SHA256);
-                embedded_signature_packet_ptr->SetPublicKeyAlgorithm(PKA_RSA);
+                embedded_signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
                 KeyIDData key_id = temp_secret_key->GetKeyID();
                 embedded_signature_packet_ptr->SetKeyID(key_id);
                 embedded_signature_packet_ptr->SetSignatureType(25);

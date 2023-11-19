@@ -67,9 +67,9 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         int rest_length = data_buffer.rest_length();
 
         switch (algorithm) {
-            case PKA_RSA:
-            case PKA_RSA_ENCRYPT_ONLY:
-            case PKA_RSA_SIGN_ONLY: {
+            case kRSA:
+            case kRSAEncryptOnly:
+            case kRSASignOnly: {
                 size_t length = GetMPIDataLength(data_buffer);
                 packet->AddMPI(data_buffer.GetRange(length));
                 packet->SetKeySize(length * 8);
@@ -80,7 +80,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
                 break;
 
-            case PKA_ELGAMAL: {
+            case kElgamal: {
                 size_t length = GetMPIDataLength(data_buffer);
                 packet->AddMPI(data_buffer.GetRange(length));
                 packet->SetKeySize(length * 8);
@@ -94,7 +94,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
                 break;
 
-            case PKA_DSA: {
+            case kDSA: {
                 size_t length = GetMPIDataLength(data_buffer);
                 packet->AddMPI(data_buffer.GetRange(length));
                 packet->SetKeySize(length * 8);

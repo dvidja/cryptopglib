@@ -37,8 +37,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         packet->SetPublicKeyAlgorithm(public_key_algo);
 
         switch (public_key_algo) {
-            case PKA_RSA:
-            case PKA_RSA_ENCRYPT_ONLY: {
+            case kRSA:
+            case kRSAEncryptOnly: {
                 {
                     int l = data_buffer.GetNextTwoOctets();
                     l = (l + 7) / 8;
@@ -50,8 +50,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
                 break;
 
-            case PKA_ELGAMAL:
-            case PKA_DSA: {
+            case kElgamal:
+            case kDSA: {
                 CharDataVector mpis = data_buffer.GetRange(data_buffer.rest_length());
                 packet->AddMPI(mpis);
 

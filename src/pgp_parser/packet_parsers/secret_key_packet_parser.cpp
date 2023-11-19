@@ -31,9 +31,9 @@ namespace
     {
         switch (algo)
         {
-            case PKA_RSA:
-            case PKA_RSA_ENCRYPT_ONLY:
-            case PKA_RSA_SIGN_ONLY:
+            case kRSA:
+            case kRSAEncryptOnly:
+            case kRSASignOnly:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
                     packet->AddMPI(data_buffer.GetRange(length));
@@ -48,8 +48,8 @@ namespace
                     packet->AddMPI(data_buffer.GetRange(length));
                 }
                 break;
-            case PKA_ELGAMAL:
-            case PKA_DSA:
+            case kElgamal:
+            case kDSA:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
                     packet->AddMPI(data_buffer.GetRange(length));

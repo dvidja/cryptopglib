@@ -593,7 +593,7 @@ namespace cryptopglib {
     }
 
     KeyPairImpl OpenPGPImpl::GenerateKeyPair(const std::string &email, const std::string &passphrase) {
-        crypto::TransferingKeysPtr transfering_keys_ptr = crypto::GenerateSecretKey(email, passphrase, PKA_RSA, 2048);
+        crypto::TransferingKeysPtr transfering_keys_ptr = crypto::GenerateSecretKey(email, passphrase, kRSA, 2048);
         if (transfering_keys_ptr == nullptr) {
             return KeyPairImpl();
         }

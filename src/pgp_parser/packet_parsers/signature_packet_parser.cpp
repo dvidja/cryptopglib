@@ -76,8 +76,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         packet->SetDigestStart(digest_start);
 
         switch (public_key_algorithm) {
-            case PKA_RSA:
-            case PKA_RSA_SIGN_ONLY: {
+            case kRSA:
+            case kRSASignOnly: {
                 int l = data_buffer.GetNextTwoOctets();
                 l = (l + 7) / 8;
 
@@ -86,7 +86,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 return packet;
 
-            case PKA_DSA: {
+            case kDSA: {
                 // !!! for DSA we read all data
                 CharDataVector mpis = data_buffer.GetRange(data_buffer.rest_length());
                 packet->AddMPI(mpis);
@@ -147,7 +147,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         packet->SetDigestStart(digest_start);
 
         switch (public_key_algorithm) {
-            case PKA_RSA: {
+            case kRSA: {
                 int l = data_buffer.GetNextTwoOctets();
                 l = (l + 7) / 8;
 
@@ -156,7 +156,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 return packet;
 
-            case PKA_DSA: {
+            case kDSA: {
                 // !!! for DSA we read all data
                 CharDataVector mpis = data_buffer.GetRange(data_buffer.rest_length());
                 packet->AddMPI(mpis);

@@ -180,7 +180,7 @@ namespace
             }
         }
         
-        return PKA_RSA;
+        return kRSA;
     }
 }
 
@@ -232,8 +232,8 @@ namespace cryptopglib::crypto
             for (PGPMessagePtr pub_key_ptr : addressers_pub_keys_ptr)
             {
                 PublicKeyAlgorithms public_key_algo = GetPublicKeyAlgorithmFromKey(pub_key_ptr);
-                if (PKA_DSA == public_key_algo)
-                    public_key_algo = PKA_ELGAMAL;
+                if (kDSA == public_key_algo)
+                    public_key_algo = kElgamal;
                 
                 PublicKeyPacketPtr addresser_public_key_packet = GetPublicKeyPacketForEncrypt(pub_key_ptr);
                 encrypted_message->AddPacket(EncryptData(session_key_for_encrypt, addresser_public_key_packet, public_key_algo));

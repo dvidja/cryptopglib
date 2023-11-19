@@ -65,7 +65,7 @@ namespace cryptopglib::pgp_data::packets {
         temp_data.push_back(GetPublicKeyAlgorithm());
 
         for (auto iter = mpis_.begin(); iter != mpis_.end(); ++iter) {
-            if ((GetPublicKeyAlgorithm() != PKA_DSA) && (GetPublicKeyAlgorithm() != PKA_ELGAMAL)) {
+            if ((GetPublicKeyAlgorithm() != kDSA) && (GetPublicKeyAlgorithm() != kElgamal)) {
 
                 int mpi_size = static_cast<int>(iter->size());
                 mpi_size *= 8;

@@ -277,7 +277,7 @@ namespace cryptopglib::pgp_data::packets {
         temp_data.push_back(GetDigestStart()[1]);
 
         for (auto iter = mpis_.begin(); iter != mpis_.end(); ++iter) {
-            if (GetPublicKeyAlgorithm() != PKA_DSA) {
+            if (GetPublicKeyAlgorithm() != kDSA) {
                 size_t mpi_size = iter->size();
                 mpi_size *= 8;
 
@@ -337,7 +337,7 @@ namespace cryptopglib::pgp_data::packets {
         temp_data.push_back(GetDigestStart()[1]);
 
         for (auto iter = mpis_.begin(); iter != mpis_.end(); ++iter) {
-            if (GetPublicKeyAlgorithm() != PKA_DSA) {
+            if (GetPublicKeyAlgorithm() != kDSA) {
                 size_t mpi_size = iter->size();
                 mpi_size *= 8;
 

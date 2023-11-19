@@ -121,7 +121,7 @@ namespace
         std::vector<int> digest_start = {hash[0], hash[1]};
         sig_packet->SetDigestStart(digest_start);
 
-        if (sig_packet->GetPublicKeyAlgorithm() != cryptopglib::PKA_DSA)
+        if (sig_packet->GetPublicKeyAlgorithm() != cryptopglib::kDSA)
         {
             hash.insert(hash.begin(), hash_impl->GetHashPrefix().begin(), hash_impl->GetHashPrefix().end());
         }
@@ -177,7 +177,7 @@ namespace
         std::vector<int> digest_start = {hash[0], hash[1]};
         signature_packet_ptr->SetDigestStart(digest_start);
 
-        if (signature_packet_ptr->GetPublicKeyAlgorithm() != cryptopglib::PKA_DSA)
+        if (signature_packet_ptr->GetPublicKeyAlgorithm() != cryptopglib::kDSA)
         {
             hash.insert(hash.begin(), hash_impl->GetHashPrefix().begin(), hash_impl->GetHashPrefix().end());
         }
@@ -246,7 +246,7 @@ namespace
         
         cryptopglib::crypto::PublicKeyAlgorithmPtr public_key_algo_impl = cryptopglib::crypto::GetPublicKeyAlgorithm(algo);
         cryptopglib::CharDataVector crypted_signature = (sig_packet->GetMPI(0));
-        if (algo == cryptopglib::PKA_DSA)
+        if (algo == cryptopglib::kDSA)
         {
             bool correct = public_key_algo_impl->DecryptWithPublicKey(pub_key_packet, current_hash, crypted_signature);
             if (correct)
@@ -261,7 +261,7 @@ namespace
         
         if (sig_packet->GetDigestStart().size() == 2)
         {
-            if (algo == cryptopglib::PKA_DSA)
+            if (algo == cryptopglib::kDSA)
             {
                if ((sig_packet->GetDigestStart()[0] != hash[0]) ||
                     (sig_packet->GetDigestStart()[1] != hash[1]))
@@ -734,7 +734,7 @@ namespace cryptopglib::crypto
         
         crypto::PublicKeyAlgorithmPtr public_key_algo_impl = crypto::GetPublicKeyAlgorithm(algo);
         CharDataVector crypted_signature = (signature_packet_ptr->GetMPI(0));
-        if (algo == PKA_DSA)
+        if (algo == kDSA)
         {
             bool correct = public_key_algo_impl->DecryptWithPublicKey(public_key_packet_ptr, digest_data, crypted_signature);
             if (!correct)
@@ -756,7 +756,7 @@ namespace cryptopglib::crypto
         
         if (signature_packet_ptr->GetDigestStart().size() == 2)
         {
-            if (algo == PKA_DSA)
+            if (algo == kDSA)
             {
                 if ((signature_packet_ptr->GetDigestStart()[0] != digest_data[0]) ||
                     (signature_packet_ptr->GetDigestStart()[1] != digest_data[1]))
@@ -793,7 +793,7 @@ namespace cryptopglib::crypto
             return false;
         }
         
-        if (signature_packet_ptr->GetPublicKeyAlgorithm() != PKA_DSA)
+        if (signature_packet_ptr->GetPublicKeyAlgorithm() != kDSA)
         {
             digest_start.clear();
             digest_start.push_back(hash[0]);
@@ -851,7 +851,7 @@ namespace cryptopglib::crypto
         signature_packet_ptr->SetSignatureType(25);
         signature_packet_ptr->SetPublicKeyAlgorithm(secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm());
         signature_packet_ptr->SetHashAlgorithm(hash_algo);
-        signature_packet_ptr->SetPublicKeyAlgorithm(PKA_RSA);
+        signature_packet_ptr->SetPublicKeyAlgorithm(kRSA);
         signature_packet_ptr->SetCreationTime(static_cast<unsigned int>(time(NULL)));
         
         KeyIDData key_id = secret_key->GetKeyID();
