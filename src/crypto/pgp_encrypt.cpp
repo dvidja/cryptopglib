@@ -11,7 +11,7 @@
 #include <numeric>
 
 #include "key_generator.h"
-#include "symmetric_key_algorithms.h"
+#include "symmetric_key_algorithm.h"
 #include "public_key_algorithms.h"
 #include "public_key_algorithms_impl.h"
 #include "../pgp_data/packets/marker_packet.h"
@@ -22,6 +22,7 @@
 #include "../pgp_data/packets/compressed_data_packet.h"
 
 #include "../pgp_parser/pgp_packets_parser.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 
 namespace
@@ -199,7 +200,7 @@ namespace crypto
         // -- Gnerate session key
         CharDataVector session_key;
         SymmetricKeyAlgorithms symmetric_key_algo = static_cast<SymmetricKeyAlgorithms>(pgp_info_getter_->GetSymmetricKeyAlgorithm());
-        if (symmetric_key_algo != SKA_PLAIN_TEXT)
+        if (symmetric_key_algo != kPlainText)
         {
             SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(symmetric_key_algo);
             if (!symmetric_key_algo_impl)
@@ -257,7 +258,7 @@ namespace crypto
    
             CompressedDataPacketPtr compressed_data_packet = CompressData(source_for_compress, compress_algo);
             
-            if (symmetric_key_algo != SKA_PLAIN_TEXT)
+            if (symmetric_key_algo != kPlainText)
             {
                 CharDataVector source_for_encrypt;
                 compressed_data_packet->GetBinaryData(source_for_encrypt);
@@ -282,7 +283,7 @@ namespace crypto
         // -- Gnerate session key
         CharDataVector session_key;
         SymmetricKeyAlgorithms symmetric_key_algo = static_cast<SymmetricKeyAlgorithms>(pgp_info_getter_->GetSymmetricKeyAlgorithm());
-        if (symmetric_key_algo != SKA_PLAIN_TEXT)
+        if (symmetric_key_algo != kPlainText)
         {
             SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(symmetric_key_algo);
             if (!symmetric_key_algo_impl)

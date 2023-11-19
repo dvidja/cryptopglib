@@ -10,7 +10,8 @@
 #include "public_key_packet_parser.h"
 #include "../../pgp_data/packets/public_key_packet.h"
 #include "../../crypto/public_key_algorithms.h"
-#include "../../crypto/symmetric_key_algorithms.h"
+#include "../../crypto/symmetric_key_algorithm.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 namespace
 {

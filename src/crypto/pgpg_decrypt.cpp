@@ -17,9 +17,10 @@
 
 #include "../openpgp_info_getter.h"
 
-#include "symmetric_key_algorithms.h"
+#include "symmetric_key_algorithm.h"
 #include "pgp_signature.h"
 #include "public_key_algorithms_impl.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 #include <numeric>
 
@@ -111,7 +112,7 @@ namespace crypto
     {
         PublicKeyAlgorithms algo = pub_key_enc->GetPublicKeyAlgorithm();
         
-        if (secret_key->GetSymmetricKeyAlgorithm() != SKA_PLAIN_TEXT)
+        if (secret_key->GetSymmetricKeyAlgorithm() != kPlainText)
         {
             if (passphrase.empty())
             {
@@ -184,7 +185,7 @@ namespace crypto
             if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
             {
                 SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
-                if (key_packet->GetSymmetricKeyAlgorithm() != SKA_PLAIN_TEXT)
+                if (key_packet->GetSymmetricKeyAlgorithm() != kPlainText)
                 {
                     return true;
                 }

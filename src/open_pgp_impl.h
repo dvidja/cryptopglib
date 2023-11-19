@@ -14,7 +14,7 @@
 #include "openpgp_info_getter.h"
 #include "crypto/pgp_signature.h"
 #include "crypto/pgpg_decrypt.h"
-
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 
 class KeyInfoImpl

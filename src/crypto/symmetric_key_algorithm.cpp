@@ -6,7 +6,9 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#include "symmetric_key_algorithms.h"
+#include "symmetric_key_algorithm.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
+
 extern "C" {
 #include <openssl/idea.h>
 #include <openssl/des.h>
@@ -808,30 +810,30 @@ namespace crypto
         
         switch (algo)
         {
-            case SKA_PLAIN_TEXT:
+            case kPlainText:
                 return nullptr;
-            case SKA_IDEA:
+            case kIdea:
                 symmetric_key_algo_impl = std::make_unique<Idea>();
                 break;
-            case SKA_TRIPLE_DES:
+            case tTripleDES:
                 symmetric_key_algo_impl = std::make_unique<TripleDes>();
                 break;
-            case SKA_CAST5:
+            case kCast5:
                 symmetric_key_algo_impl = std::make_unique<Cast5>();
                 break;
-            case SKA_BLOWFISH:
+            case kBlowfish:
                 symmetric_key_algo_impl = std::make_unique<BlowFish>();
                 break;
-            case SKA_AES_128:
+            case kAES128:
                 symmetric_key_algo_impl = std::make_unique<AES128>();
                 break;
-            case SKA_AES_192:
+            case kAES192:
                 symmetric_key_algo_impl = std::make_unique<AES192>();
                 break;
-            case SKA_AES_256:
+            case kAES256:
                 symmetric_key_algo_impl = std::make_unique<AES256>();
                 break;
-            case SKA_TWOFISH:
+            case kTwofish:
                 symmetric_key_algo_impl = std::make_unique<TwoFish>();
                 break;
 

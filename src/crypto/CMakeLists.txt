@@ -8,5 +8,5 @@ target_sources(cryptopglib PUBLIC
         pgp_key_data.cpp
         pgp_signature.cpp
         public_key_algorithms_impl.cpp
-        symmetric_key_algorithms.cpp
+        symmetric_key_algorithm.cpp
 )

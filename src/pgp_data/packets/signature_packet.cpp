@@ -7,6 +7,7 @@
 //
 
 #include "signature_packet.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 #include <cmath>
 
 

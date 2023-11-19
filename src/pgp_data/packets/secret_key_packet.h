@@ -13,7 +13,8 @@
 #include "../pgp_packet.h"
 #include "public_key_packet.h"
 #include "../../crypto/hash_algorithms.h"
-#include "../../crypto/symmetric_key_algorithms.h"
+#include "../../crypto/symmetric_key_algorithm.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 class SecretKeyPacket : public PGPPacket
 {

@@ -8,6 +8,7 @@ set (CRYPTOPGLIBSOURCES
         pgp_message_impl.cpp
         ../cryptopg_rest_service/cryptopg_rest_service.cpp
         ../include/cryptopglib/pgp_key_info.h
+        ../include/cryptopglib/SymmetricKeyAlgorithms.h
 )
 
 

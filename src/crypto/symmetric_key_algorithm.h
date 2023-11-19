@@ -10,21 +10,8 @@
 #define cryptopg_SymmetricKeyAlgorithms_h
 #include <memory>
 #include "../pgp_data/pgp_data_types.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
-
-enum SymmetricKeyAlgorithms
-{
-    SKA_PLAIN_TEXT = 0,
-    SKA_IDEA = 1,
-    SKA_TRIPLE_DES = 2,
-    SKA_CAST5 = 3,
-    SKA_BLOWFISH = 4,
-    
-    SKA_AES_128 = 7,
-    SKA_AES_192 = 8,
-    SKA_AES_256 = 9,
-    SKA_TWOFISH = 10, /// ??? 
-};
 
 namespace crypto
 {

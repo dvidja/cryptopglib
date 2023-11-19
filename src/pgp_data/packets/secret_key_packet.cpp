@@ -7,12 +7,13 @@
 //
 
 #include "secret_key_packet.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 
 SecretKeyPacket::SecretKeyPacket(PublicKeyPacketPtr public_key_packet)
     : PGPPacket(public_key_packet->GetPacketType() == PT_PUBLIC_KEY_PACKET ? PT_SECRET_KEY_PACKET : PT_SECRET_SUBKEY_PACKET)
     , public_key_packet_(public_key_packet)
-    , symmetric_key_algo_(SKA_PLAIN_TEXT)
+    , symmetric_key_algo_(kPlainText)
     , string_to_key_hash_algo_(HA_NO_HASH)
 {
 }

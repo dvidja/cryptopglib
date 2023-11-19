@@ -15,8 +15,9 @@
 #include "../pgp_packet.h"
 #include "../../crypto/hash_algorithms.h"
 #include "../../crypto/public_key_algorithms.h"
-#include "../../crypto/symmetric_key_algorithms.h"
+#include "../../crypto/symmetric_key_algorithm.h"
 #include "../../crypto/compression_algorithms.h"
+#include "cryptopglib/SymmetricKeyAlgorithms.h"
 
 typedef enum
 {
