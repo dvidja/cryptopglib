@@ -6,6 +6,7 @@
 
 
 namespace cryptopglib {
+
     PGPKeyInfo GetPPGKeyInfo(std::string&& pgp_key_data);
 
 }
