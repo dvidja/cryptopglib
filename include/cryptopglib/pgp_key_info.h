@@ -1,8 +1,7 @@
 //
 // Created by Anton Sarychev on 18.11.23.
 //
-#ifndef CRYPTOPGLIB_PGP_KEY_INFO
-#define CRYPTOPGLIB_PGP_KEY_INFO
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -17,5 +16,4 @@ namespace cryptopglib
     };
 }
 
-#endif //CRYPTOPGLIB_PGP_KEY_INFO
 
