@@ -2,7 +2,7 @@ project(cryptopg_app)
 
 # Add test cpp file
 add_executable(cryptopg_app main.cpp
-        model/pgp_key_info.cpp
+        model/pgp_key.cpp
         model/pgp_key_info.h
         model/utils.cpp
         model/utils.h)
@@ -10,7 +10,7 @@ add_executable(cryptopg_app main.cpp
 
 FIND_PACKAGE( Boost COMPONENTS program_options REQUIRED )
 if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boos library was not found!")
+    message(FATAL_ERROR "Boost library was not found!")
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})

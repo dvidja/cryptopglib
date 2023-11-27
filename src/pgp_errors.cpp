@@ -14,7 +14,3 @@ const char* PGPError::what() const throw()
 {
     return what_.c_str();
 }
-
-PGPError::~PGPError() {
-
-}

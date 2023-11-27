@@ -15,7 +15,7 @@ void PrintKeyInfo(const std::filesystem::path& file_path) {
     }
 
     std::string file_data = utils::ReadFileData(file_path);
-    auto pgp_key_info = cryptopglib::GetPPGKeyInfo(std::move(file_data));
+    auto pgp_key_info = cryptopglib::GetPPGKeyInfo(file_data);
 
 
     std::cout << "From Prog: " << std::endl;

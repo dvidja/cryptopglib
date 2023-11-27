@@ -76,6 +76,7 @@ namespace
 }
 
 namespace cryptopglib::pgp_parser {
+
     PGPMessagePtr PGPMessageParser::ParseMessage(const std::string &source) {
         state_ = PS_START_LINE;
 

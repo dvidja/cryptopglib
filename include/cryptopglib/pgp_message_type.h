@@ -8,14 +8,14 @@
 
 #pragma once
 
-enum class PGPMessageType
-{
-    kPublicKey = 0,
-    kPrivateKey,
-    kEncryptedMessage,
-    kSignedMessage,
-    kPlainTextMessage,
+    enum class PGPMessageType {
+        kPublicKey = 0,
+        kPrivateKey,
+        kEncryptedMessage,
+        kSignedMessage,
+        kPlainTextMessage,
 
-    kIncorrectMessage = 256,
-};
+        kIncorrectMessage = 256,
+    };
+
 

@@ -17,7 +17,7 @@
 namespace cryptopglib {
     using namespace pgp_data;
 
-    class PGPMessageImpl : public PGPMessage {
+    class PGPMessageImpl : public PGPMessageOld {
     public:
         PGPMessageImpl();
 

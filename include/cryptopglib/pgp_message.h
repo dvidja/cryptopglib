@@ -14,18 +14,26 @@
 
 #include "pgp_message_type.h"
 
+namespace cryptopglib {
+    class PGPMessage {
+    public:
+        PGPMessage(){};
+    };
 
-class PGPMessage
-{
-public:
-    typedef std::map<std::string, std::string> ArmorHeadersMap;
-    
-public:
-    virtual ~PGPMessage()= default;
-    
-    virtual PGPMessageType GetMessageType() = 0;
-    virtual std::string GetPlainText() = 0;
-    virtual std::string GetBase64Data() = 0;
-    virtual std::string GetCRC() = 0;
-};
+    class PGPMessageOld {
+    public:
+        typedef std::map<std::string, std::string> ArmorHeadersMap;
+
+    public:
+        virtual ~PGPMessageOld() = default;
+
+        virtual PGPMessageType GetMessageType() = 0;
+
+        virtual std::string GetPlainText() = 0;
+
+        virtual std::string GetBase64Data() = 0;
+
+        virtual std::string GetCRC() = 0;
+    };
+}
 

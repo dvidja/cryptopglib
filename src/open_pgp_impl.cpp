@@ -134,7 +134,7 @@ namespace cryptopglib {
         return PGPMessageType::kIncorrectMessage;
     }
 
-    KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string &message) {
+    KeyInfoImpl OpenPGPImpl::GetKeyInfo(const std::string& message) {
         pgp_parser::PGPParser pgp_parser;
         PGPMessagePtr message_ptr;
 

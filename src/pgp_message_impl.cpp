@@ -8,7 +8,7 @@
 
 #include "pgp_message_impl.h"
 
-#include "Utils/base64.h"
+#include "utils/base64.h"
 
 namespace cryptopglib {
     PGPMessageImpl::PGPMessageImpl() {
