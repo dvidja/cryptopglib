@@ -77,7 +77,7 @@ namespace
 
 namespace cryptopglib::pgp_parser {
 
-    PGPMessagePtr PGPMessageParser::ParseMessage(const std::string &source) {
+    PGPMessagePtr PGPMessageParserOld::ParseMessage(const std::string &source) {
         state_ = PS_START_LINE;
 
         message_ = std::make_shared<PGPMessageImpl>();
@@ -103,7 +103,7 @@ namespace cryptopglib::pgp_parser {
         return message_;
     }
 
-    void PGPMessageParser::ParseLine(const std::string &source) {
+    void PGPMessageParserOld::ParseLine(const std::string &source) {
         switch (state_) {
             case PS_START_LINE:
                 if (ParseArmorHeaderLine(source)) {
@@ -151,7 +151,7 @@ namespace cryptopglib::pgp_parser {
         }
     }
 
-    bool PGPMessageParser::ParseArmorHeaderLine(const std::string &source) {
+    bool PGPMessageParserOld::ParseArmorHeaderLine(const std::string &source) {
         size_t pos = source.find(BEGIN);
         if (pos == std::string::npos) {
             message_->SetMessageType(PGPMessageType::kPlainTextMessage);
@@ -190,7 +190,7 @@ namespace cryptopglib::pgp_parser {
         return true;
     }
 
-    bool PGPMessageParser::ParseArmorHeaders(const std::string &source) {
+    bool PGPMessageParserOld::ParseArmorHeaders(const std::string &source) {
         size_t pos = source.find(':');
         if (pos != std::string::npos) {
             message_->AddArmorHeaderValue(std::string(source.begin(), source.begin() + pos),
@@ -201,7 +201,7 @@ namespace cryptopglib::pgp_parser {
         return false;
     }
 
-    bool PGPMessageParser::ReadSignedTextLine(const std::string &source) {
+    bool PGPMessageParserOld::ReadSignedTextLine(const std::string &source) {
         size_t pos = source.find(BEGIN);
 
         if (pos == std::string::npos) {
@@ -221,7 +221,7 @@ namespace cryptopglib::pgp_parser {
         return false;
     }
 
-    bool PGPMessageParser::ReadDataLine(const std::string &source) {
+    bool PGPMessageParserOld::ReadDataLine(const std::string &source) {
         if (source[0] == '=') {
             std::string crc_string;
             if (source.back() == '\r') {
@@ -257,7 +257,7 @@ namespace cryptopglib::pgp_parser {
         return true;
     }
 
-    void PGPMessageParser::ParseHeaderWord(const std::string &word) {
+    void PGPMessageParserOld::ParseHeaderWord(const std::string &word) {
         std::map<std::string, PGPMessageType> words_map;
         words_map[SIGNED] = PGPMessageType::kSignedMessage;
         words_map[MESSAGE] = PGPMessageType::kEncryptedMessage;
@@ -283,7 +283,7 @@ namespace cryptopglib::pgp_parser {
 
     }
 
-    bool PGPMessageParser::CheckCRCSum() {
+    bool PGPMessageParserOld::CheckCRCSum() {
         long crc_sum = utils::CRC24(message_->GetRawData());
 
         CharDataVector crc_sum_vector;

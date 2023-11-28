@@ -298,7 +298,7 @@ namespace cryptopglib::pgp_parser {
     }
 
     PGPMessagePtr PGPParser::ParseMessage(const std::string &source) {
-        PGPMessageParser message_parser;
+        PGPMessageParserOld message_parser;
         PGPMessagePtr message_ptr = message_parser.ParseMessage(source);
 
         if (message_ptr) {
