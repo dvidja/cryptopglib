@@ -17,6 +17,8 @@
 #include "pgp_packets_parser.h"
 
 namespace cryptopglib::pgp_parser {
+    PGPMessage ParsePGPMessage(const std::string& message);
+
     class PGPParser {
     public:
         PGPParser();

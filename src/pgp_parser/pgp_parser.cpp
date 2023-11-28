@@ -286,6 +286,12 @@ namespace cryptopglib::pgp_parser {
 }
 
 namespace cryptopglib::pgp_parser {
+    PGPMessage ParsePGPMessage(const std::string& message){
+
+
+        return {};
+    }
+
 
     PGPParser::PGPParser() {
 

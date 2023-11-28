@@ -12,6 +12,9 @@ message("${ZLIB_LIBRARIES}")
 message("${ZLIB_INCLUDE_DIRS}")
 message("${OPENSSL_INCLUDE_DIR}")
 
+enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(cryptopg_app)
-add_subdirectory(cryptopg_rest_service)
+#add_subdirectory(cryptopg_rest_service)
+add_subdirectory(tests)
