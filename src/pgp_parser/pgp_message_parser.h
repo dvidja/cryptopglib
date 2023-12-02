@@ -18,17 +18,18 @@
 #include "../pgp_message_impl.h"
 
 
-/// Here will be a new implementation of parsing the message
+
+
+//new
 namespace cryptopglib::pgp_parser {
+
+    PGPMessage ParseMessage(const std::string& data);
 
 
 }
 
 
-
-/// here old implementation
-
-
+//old
 namespace cryptopglib::pgp_parser {
     enum ParserState {
         PS_START_LINE = 0,

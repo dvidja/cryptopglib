@@ -20,7 +20,57 @@
 /// 2. Add Parse errors
 /// 3.
 
+//new
+namespace cryptopglib::pgp_parser {
+    class ParsingData {
+    private:
+        std::string_view data;
+        std::size_t currentPosition;
+        static const char endLine = '\n';
 
+    public:
+        explicit ParsingData(std::string_view message)
+            : data(message)
+            , currentPosition(0) {
+        }
+
+        std::string_view  GetNextLine() {
+            size_t endLinePosition = data.find(endLine, currentPosition);
+            if (endLinePosition == std::string::npos)
+            {
+                return {};
+            }
+
+            std::string_view result {data.begin() + currentPosition, data.begin() + endLinePosition};
+            currentPosition = endLinePosition + 1;
+            return result;
+        }
+
+        bool isEndOfMessage() {
+            return currentPosition >= data.size();
+        }
+
+    };
+
+
+    PGPMessage ParseMessage(const std::string& data) {
+        std::size_t position = 0;
+        ParsingData messageParser(data);
+
+        while (!messageParser.isEndOfMessage())
+        {
+            auto line = messageParser.GetNextLine();
+
+            std::cout << line << std::endl;
+
+        }
+
+        return PGPMessage{};
+    }
+}
+
+
+//unknown
 namespace
 {
     const static std::string base64symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -75,6 +125,7 @@ namespace
     }
 }
 
+//old
 namespace cryptopglib::pgp_parser {
 
     PGPMessagePtr PGPMessageParserOld::ParseMessage(const std::string &source) {

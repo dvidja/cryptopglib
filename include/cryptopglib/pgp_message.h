@@ -17,7 +17,7 @@
 namespace cryptopglib {
     class PGPMessage {
     public:
-        PGPMessage(){};
+        PGPMessageType GetMessageType();
     };
 
     class PGPMessageOld {

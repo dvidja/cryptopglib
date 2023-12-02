@@ -7,6 +7,7 @@ set (CRYPTOPGLIBSOURCES
         pgp_errors.cpp
         pgp_message_impl.cpp
         pgp_key.cpp
+        pgp_message.cpp
 )
 
 

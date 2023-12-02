@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 
+
 #include "../src/pgp_parser/pgp_message_parser.h"
 
 std::string ReadFileData(std::string&& path) {
@@ -26,7 +27,7 @@ TEST(PGPMessageParserTests, ParsePublicKey)
 {
     std::string pgp_message_data = ReadFileData("test_data/public_key.asc");
 
-
+    auto message = cryptopglib::pgp_parser::ParseMessage(pgp_message_data);
 
     ASSERT_TRUE(true);
 }
