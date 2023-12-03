@@ -14,7 +14,26 @@
 
 namespace cryptopglib::utils
 {
-    long CRC24(const CharDataVector& data)
+    /*long CRC24(const char* begin, const char* end) {
+        long crc = CRC24_INIT;
+        const char* iter = begin;
+        while (iter < end) {
+                crc ^= (*iter++) << 16;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    crc <<= 1;
+                    if (crc & 0x1000000)
+                    {
+                        crc ^= CRC24_POLY;
+                    }
+                }
+        }
+
+        return crc & 0xFFFFFF;
+    }*/
+
+    long CRC24(const std::vector<unsigned char>& data)
     {
         long crc = CRC24_INIT;
         size_t len = data.size();

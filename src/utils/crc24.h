@@ -13,6 +13,6 @@
 
 namespace cryptopglib::utils
 {
-    long CRC24(const CharDataVector& data);
+    long CRC24(const std::vector<unsigned char>& data);
 }
 

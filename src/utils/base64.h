@@ -19,5 +19,7 @@ namespace cryptopglib::utils
 {    
     std::string Base64Encode(CharDataVector inputBuffer);
 
+    std::vector<unsigned char> Base64Decode(const char* begin, const char* end);
     CharDataVector Base64Decode(const std::string& input);
+
 }

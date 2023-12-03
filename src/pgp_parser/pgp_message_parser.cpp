@@ -21,7 +21,7 @@
 /// 3.
 
 //new
-namespace cryptopglib::pgp_parser {
+namespace {
     class ParsingData {
     private:
         std::string_view data;
@@ -30,11 +30,12 @@ namespace cryptopglib::pgp_parser {
 
     public:
         explicit ParsingData(std::string_view message)
-            : data(message)
-            , currentPosition(0) {
+                : data(message)
+                , currentPosition(0) {
+
         }
 
-        std::string_view  GetNextLine() {
+        std::string_view GetNextLine() {
             size_t endLinePosition = data.find(endLine, currentPosition);
             if (endLinePosition == std::string::npos)
             {
@@ -46,24 +47,100 @@ namespace cryptopglib::pgp_parser {
             return result;
         }
 
-        bool isEndOfMessage() {
+        bool IsEndOfMessage() {
             return currentPosition >= data.size();
         }
-
     };
 
+    // - Message type from
+    bool ParseArmorHeaderLine(ParsingData& parsingData) {
+        auto line = parsingData.GetNextLine();
+        if (line.starts_with("-----BEGIN")) {
+            return true;
+        }
+        return false;
+    }
+
+    std::map<std::string, std::string> ParseArmorHeaders(ParsingData& parsingData) {
+        std::map<std::string, std::string> result;
+        auto line = parsingData.GetNextLine();
+        while (!line.empty()) {
+            auto pos = line.find(':');
+            if (pos != std::string::npos) {
+                // POS + 2 is used because key and value separating with a colon (':' 0x38)
+                // and a single space (0x20)
+                result[{line.begin(), line.begin() + pos}] =  (pos + 2) < line.size() ?
+                     std::string(line.begin() + pos + 2, line.end()) : std::string();
+            }
+
+            line = parsingData.GetNextLine();
+        }
+
+        return result;
+    }
+
+    std::tuple<std::string_view, std::string_view> ParseData(ParsingData& parsingData) {
+        auto line = parsingData.GetNextLine();
+        auto begin_data = line.begin();
+
+        while (line[0]  != '=') {
+            line = parsingData.GetNextLine();
+        }
+
+        auto end_data = line.begin();
+        std::string_view data(begin_data, end_data);
+        std::string_view crc {line.begin() + 1, line.end()};
+
+        return std::make_tuple(data, crc);
+    }
+
+    std::vector<unsigned char> DecodeBase64Data(const char* begin, const char* end) {
+        return cryptopglib::utils::Base64Decode(begin, end);
+    }
+
+    bool CheckCRCChecksum(const std::vector<unsigned char>& data, std::string_view crc) {
+        auto calculatedCRC = cryptopglib::utils::CRC24(data);
+        std::cout << "CRC calculated:" << calculatedCRC << std::endl;
+
+        std::vector<unsigned char> crc_sum_vector;
+        crc_sum_vector.push_back(calculatedCRC >> 16);
+        crc_sum_vector.push_back(calculatedCRC >> 8);
+        crc_sum_vector.push_back(calculatedCRC);
+
+        std::string receivedCRC = cryptopglib::utils::Base64Encode(crc_sum_vector);
+
+        std::cout << "CRC calculated base64:" << receivedCRC << std::endl;
+        std::cout << "CRC received: " << crc << std::endl;
+
+        return crc == receivedCRC;
+    }
+}
+
+
+namespace cryptopglib::pgp_parser {
 
     PGPMessage ParseMessage(const std::string& data) {
-        std::size_t position = 0;
-        ParsingData messageParser(data);
+        ParsingData parsingData(data);
 
-        while (!messageParser.isEndOfMessage())
-        {
-            auto line = messageParser.GetNextLine();
+            if (!ParseArmorHeaderLine(parsingData)) {
+                //log the error state. file begin error
+                return {};
+            }
+            auto headers = ParseArmorHeaders(parsingData);
+            /// For testing matter to print in the debug log
+            for (auto& item: headers) {
+                std::cout << item.first << ": " << item.second << std::endl;
+            }
+            ///
 
-            std::cout << line << std::endl;
+            //if signed message parse text message (with armoring of data signature)
+            auto [base64Data, crc] = ParseData(parsingData);
+            auto rawData = DecodeBase64Data(base64Data.begin(), base64Data.end());
 
-        }
+            if (!CheckCRCChecksum(rawData, crc)) {
+                std::cout << "ERROR: crc24 checksum is not equal" << std::endl;
+            }
+            //ParseArmorTail()
 
         return PGPMessage{};
     }

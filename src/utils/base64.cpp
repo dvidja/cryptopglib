@@ -7,7 +7,6 @@
 //
 #include "base64.h"
 
-
 //Lookup table for encoding
 //If you want to use an alternate alphabet, change the characters here
 namespace
@@ -59,6 +58,64 @@ namespace cryptopglib::utils
         }
         
         return encodedString;
+    }
+
+    std::vector<unsigned char> Base64Decode(const char* begin, const char* end) {
+        std::vector<unsigned char> result;
+        result.reserve(((end - begin) / 4) * 3);
+
+        const char* cursor = begin;
+        while (cursor < end) {
+            long temp = 0;
+            if (*cursor == '\n' || *cursor == '\r') {
+                cursor++;
+                continue;
+            }
+
+            for (size_t qPos = 0; qPos < 4; qPos++) {
+                temp <<= 6;
+                if       (*cursor >= 0x41 && *cursor <= 0x5A)
+                    temp |= *cursor - 0x41;
+                else if  (*cursor >= 0x61 && *cursor <= 0x7A)
+                    temp |= *cursor - 0x47;
+                else if  (*cursor >= 0x30 && *cursor <= 0x39)
+                    temp |= *cursor + 0x04;
+                else if  (*cursor == 0x2B)
+                    temp |= 0x3E;
+                else if  (*cursor == 0x2F)
+                    temp |= 0x3F;
+                else if  (*cursor == padCharacter)
+                {
+                    auto padCount = std::count(cursor, end, '=');
+                    switch(padCount)
+                    {
+                        case 1: //One pad character
+                            result.push_back((temp >> 16) & 0x000000FF);
+                            result.push_back((temp >> 8 ) & 0x000000FF);
+                            return result;
+
+                        case 2: //Two pad characters
+                            result.push_back((temp >> 10) & 0x000000FF);
+                            return result;
+
+                        default:
+                            return {}; // TODO: generate an exception here
+                    }
+                }
+                else
+                {
+                    return {};// TODO: generate an exception here
+                }
+
+                cursor++;
+            }
+
+            result.push_back((temp >> 16) & 0x000000FF);
+            result.push_back((temp >> 8 ) & 0x000000FF);
+            result.push_back((temp      ) & 0x000000FF);
+        }
+
+        return result;
     }
 
     CharDataVector Base64Decode(const std::string& input)
