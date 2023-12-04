@@ -31,8 +31,8 @@ namespace cryptopglib {
         kModificationDetectionCodePacket = 19, /* Manipulation detection code packet. */
 
         //// from GnuPG
-        kComment = 61, /* new comment packet (GnuPG specific). */
-        kGPGControl = 63  /* internal control packet (GnuPG specific). */
+        kComment [[maybe_unused]] = 61, /* new comment packet (GnuPG specific). */
+        kGPGControl [[maybe_unused]] = 63  /* internal control packet (GnuPG specific). */
     };
 }
 
