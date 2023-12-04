@@ -16,6 +16,12 @@
 #include "../pgp_data/pgp_packet.h"
 #include "../utils/data_buffer.h"
 #include "packet_parsers/packet_parser.h"
+
+namespace cryptopglib::pgp_parser {
+    std::vector<std::unique_ptr<pgp_data::PGPPacket*>>ParsePackets(std::vector<unsigned char>& data);
+}
+
+
 namespace cryptopglib::pgp_parser {
     using pgp_data::PGPPacketsArray;
 
@@ -34,11 +40,11 @@ namespace cryptopglib::pgp_parser {
     private:
         void ParsePacket();
 
-        void ParsePacket(int packet_type, unsigned long packet_length, bool partial);
+        void ParsePacket(PacketType packet_type, unsigned long packet_length, bool partial);
 
         void SkipPacket(unsigned long packet_length, bool partial);
 
-        std::unique_ptr<packet_parsers::PacketParser> CreatePacketParser(int packet_type);
+        std::unique_ptr<packet_parsers::PacketParser> CreatePacketParser(PacketType packet_type);
 
 
     private:

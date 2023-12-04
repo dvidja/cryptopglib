@@ -56,7 +56,7 @@ namespace
         
         for (auto iter = sec_key_packets.begin(); iter != sec_key_packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretSubkeyPacket))
             {
                 auto key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>((*iter));
                 auto current_id = key_packet->GetKeyID();
@@ -78,7 +78,7 @@ namespace
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_ENCRYPTED_PACKET)
+            if ((*iter)->GetPacketType() == cryptopglib::PacketType::kPublicKeyEncryptedPacket)
             {
                 cryptopglib::pgp_data::packets::PublicKeyEncryptedPacketPtr pub_key_enc = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyEncryptedPacket>((*iter));
                 auto key_id = pub_key_enc->GetKeyID();
@@ -167,7 +167,7 @@ namespace cryptopglib::crypto
         
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_PUBLIC_KEY_ENCRYPTED_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kPublicKeyEncryptedPacket)
             {
                 PublicKeyEncryptedPacketPtr pub_key_enc = std::dynamic_pointer_cast<PublicKeyEncryptedPacket>((*iter));
                 KeyIDData temp_key_id = pub_key_enc->GetKeyID();
@@ -182,7 +182,7 @@ namespace cryptopglib::crypto
         const PGPPacketsArray& sec_key_packets = sec_key_ptr->GetPackets();
         for (auto iter = sec_key_packets.begin(); iter != sec_key_packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
             {
                 SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<SecretKeyPacket>((*iter));
                 if (key_packet->GetSymmetricKeyAlgorithm() != SymmetricKeyAlgorithms::kPlainText)
@@ -211,11 +211,11 @@ namespace cryptopglib::crypto
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
 
-            if (((*iter)->GetPacketType() == PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET)
-                || ((*iter)->GetPacketType() == PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket)
+                || ((*iter)->GetPacketType() == PacketType::kSymmetricallyEncryptedDataPacket))
             {
                 SymmetricallyEncryptedDataPacketPtr packet_ptr = std::dynamic_pointer_cast<SymmetricallyEncryptedDataPacket>((*iter));
-                bool flag = ((*iter)->GetPacketType() == PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET) ? true : false;
+                bool flag = ((*iter)->GetPacketType() == PacketType::kSymmetricallyEncryptedDataPacket) ? true : false;
                 SymmetricKeyDecrypt(session_key_data, packet_ptr->GetEncryptedData(), flag);
             }
         }
@@ -290,7 +290,7 @@ namespace cryptopglib::crypto
         {
             switch ((*iter)->GetPacketType())
             {
-                case PT_SIGNATURE_PACKET:
+                case PacketType::kSignaturePacket:
                     {
                         SignaturePacketPtr signature_data_packet = std::dynamic_pointer_cast<SignaturePacket>((*iter));
                         decoded_data_info_->is_signed_ = true;
@@ -310,7 +310,7 @@ namespace cryptopglib::crypto
                     }
                     break;
                     
-                case PT_LITERAL_DATA_PACKET:
+                case PacketType::kLiteralDataPacket:
                     {
                         LiteralDataPacketPtr literal_data_packet = std::dynamic_pointer_cast<LiteralDataPacket>((*iter));
                         
@@ -343,12 +343,12 @@ namespace cryptopglib::crypto
         {
             switch ((*iter)->GetPacketType())
             {
-                case PT_COMPRESSED_DATA_PACKET:
+                case PacketType::kCompressedDataPacket:
                     HandlePacket(std::dynamic_pointer_cast<CompressedDataPacket>((*iter)));
                     
                     break;
                     
-                case PT_LITERAL_DATA_PACKET:
+                case PacketType::kLiteralDataPacket:
                     {
                         LiteralDataPacketPtr literal_data_packet = std::dynamic_pointer_cast<LiteralDataPacket>((*iter));
                         decoded_data_info_->decoded_data_.assign(literal_data_packet->GetData().begin(), literal_data_packet->GetData().end());
@@ -358,7 +358,7 @@ namespace cryptopglib::crypto
                     
                     break;
                     
-                case PT_SIGNATURE_PACKET:
+                case PacketType::kSignaturePacket:
                     {
                         SignaturePacketPtr signature_data_packet = std::dynamic_pointer_cast<SignaturePacket>((*iter));
                         decoded_data_info_->is_signed_ = true;
@@ -381,7 +381,7 @@ namespace cryptopglib::crypto
                     
                     break;
                     
-                case PT_MODIFICATION_DETECTION_CODE_PACKET:
+                case PacketType::kModificationDetectionCodePacket:
                     {
                         crypto::Sha1 sha1;
                         CharDataVector src(decrypted_data.begin(), decrypted_data.end() - 20);

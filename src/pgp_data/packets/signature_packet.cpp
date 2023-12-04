@@ -12,7 +12,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     SignaturePacket::SignaturePacket(int version)
-            : PGPPacket(PT_SIGNATURE_PACKET), packet_version_(version), expired_key_time_(0) {
+            : PGPPacket(PacketType::kSignaturePacket), packet_version_(version), expired_key_time_(0) {
 
     }
 
@@ -196,7 +196,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

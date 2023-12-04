@@ -25,33 +25,88 @@
 
 #include "cryptopglib/pgp_errors.h"
 
+namespace {
+    class ParsingData {
+        std::vector<unsigned char>& data;
+        std::size_t currentPosition;
+    public:
+        explicit ParsingData(std::vector<unsigned char>& rawData)
+            : data(rawData)
+            , currentPosition(0) {
+        }
+
+        std::size_t GetCurrentPosition() const {
+            return currentPosition;
+        };
+
+        unsigned char GetCurrentByte() {
+            return data[currentPosition];
+        }
+
+        std::optional<unsigned char> GetNextByte() {
+            currentPosition++;
+            if (currentPosition < data.size())
+            {
+                return data[currentPosition];
+            }
+
+            return std::nullopt;
+        }
+    };
+
+    bool IsCorrectFirstBit(const unsigned char& c) // first bit always must be 1
+    {
+        return (c & 0x80);
+    }
+
+    //return TRUE if new format of packet presented
+    bool GetPacketFormat(const unsigned char& c)
+    {
+        return (c & 0x40);
+    }
+
+    cryptopglib::PacketType GetPacketType(const unsigned char& c, bool packet_format)
+    {
+        if (packet_format) // new packet format
+        {
+            return (cryptopglib::PacketType)(c & 0x3F);
+        }
+
+        return (cryptopglib::PacketType)((c >> 2) & 0xF);
+    }
+
+    std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(ParsingData& parsingData) {
+
+        return {};
+    }
+}
+
+namespace cryptopglib::pgp_parser {
+    std::vector<std::unique_ptr<pgp_data::PGPPacket*>>ParsePackets(std::vector<unsigned char>& data) {
+        std::vector<std::unique_ptr<pgp_data::PGPPacket*>> packets;
+
+        ParsingData parsingData(data);
+        while (parsingData.GetNextByte().has_value()) {
+            try {
+                auto packet = ParsePacket(parsingData);
+                packets.push_back(std::move(packet));
+            }
+            catch (PGPError &exp) {
+                std::cout << exp.what();
+            }
+        }
+
+        return packets;
+    }
+}
+
 
 namespace
 {
     using namespace cryptopglib;
     using namespace pgp_data::packets;
     using namespace pgp_parser::packet_parsers;
-    bool IsCorrectFirstBit(const unsigned char& c) // first bit always must be 1
-    {
-        return (c & 0x80);
-    }
-    
-    //return TRUE if new format of packet presented
-    bool GetPacketFormat(const unsigned char& c)
-    {
-        return (c & 0x40);
-    }
-    
-    int GetPacketType(const unsigned char& c, bool packet_format)
-    {
-        if (packet_format) // new packet format
-        {
-            return c & 0x3F;
-        }
-        
-        return (c >> 2) & 0xF;
-    }
-    
+
     int GetPacketLengthNewFormat(const unsigned char& ctb, DataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
     {
         packet_length = 0;
@@ -59,7 +114,7 @@ namespace
         int hdrlen = 0;
         
         // Get Packet tag
-        int packet_type = ctb & 0x3f;
+        PacketType packet_type = (PacketType)(ctb & 0x3f);
         
         // Get Packet Length
         
@@ -97,10 +152,10 @@ namespace
         {
             switch (packet_type)
             {
-                case PT_LITERAL_DATA_PACKET:
-                case PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET:
-                case PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET:
-                case PT_COMPRESSED_DATA_PACKET:
+                case PacketType::kLiteralDataPacket:
+                case PacketType::kSymmetricallyEncryptedDataPacket:
+                case PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket:
+                case PacketType::kCompressedDataPacket:
                     partial = true;
                     packet_length = c;
                     break;
@@ -116,7 +171,7 @@ namespace
     int GetPacketLengthOldFormat(const unsigned char& ctb, DataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
     {
         // Get Packet tag
-        int packet_type = (ctb >> 2) & 0xf;
+        PacketType packet_type = (PacketType)((ctb >> 2) & 0xf);
                 
         // Get Packet Length
         
@@ -128,7 +183,7 @@ namespace
              in a "read until the end" sort of way.  */
             partial = true;
             
-            if (packet_type != PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET && packet_type != PT_LITERAL_DATA_PACKET && packet_type != PT_COMPRESSED_DATA_PACKET)
+            if (packet_type != PacketType::kSymmetricallyEncryptedDataPacket && packet_type != PacketType::kLiteralDataPacket && packet_type != PacketType::kCompressedDataPacket)
             {
                 return 1;
             }
@@ -193,7 +248,7 @@ namespace cryptopglib::pgp_parser {
 
             bool packet_format = GetPacketFormat(c);
 
-            int packet_type = GetPacketType(c, packet_format);
+            PacketType packet_type = GetPacketType(c, packet_format);
 
             bool partial = false;
             unsigned long packet_length = 0;
@@ -202,7 +257,7 @@ namespace cryptopglib::pgp_parser {
                 throw (PGPError(PACKAGE_LENGTH_ERROR));
             }
 
-            if (packet_type != PT_USER_ID_PACKET) {
+            if (packet_type != PacketType::kUserIDPacket) {
                 data_buffer_.Skip(packet_length);
             } else {
                 if (user_id_number == current_user_id_number) {
@@ -222,8 +277,6 @@ namespace cryptopglib::pgp_parser {
                 }
             }
         }
-
-        return;
     }
 
     void PGPPacketsParser::GetKeyPacketsRawData(CharDataVector &key_data, const int key_number) {
@@ -244,7 +297,7 @@ namespace cryptopglib::pgp_parser {
 
             bool packet_format = GetPacketFormat(c);
 
-            int packet_type = GetPacketType(c, packet_format);
+            PacketType packet_type = GetPacketType(c, packet_format);
 
             bool partial = false;
             unsigned long packet_length = 0;
@@ -253,8 +306,8 @@ namespace cryptopglib::pgp_parser {
                 throw (PGPError(PACKAGE_LENGTH_ERROR));
             }
 
-            if ((packet_type != PT_PUBLIC_KEY_PACKET) && (packet_type != PT_PUBLIC_SUBKEY_PACKET)
-                && (packet_type != PT_SECRET_KEY_PACKET) && (packet_type != PT_SECRET_SUBKEY_PACKET)) {
+            if ((packet_type != PacketType::kPublicKeyPacket) && (packet_type != PacketType::kPublicSubkeyPacket)
+                && (packet_type != PacketType::kSecretKeyPacket) && (packet_type != PacketType::kSecretSubkeyPacket)) {
                 data_buffer_.Skip(packet_length);
             } else {
                 if (key_number == current_key_number) {
@@ -271,8 +324,6 @@ namespace cryptopglib::pgp_parser {
                 }
             }
         }
-
-        return;
     }
 
     void PGPPacketsParser::GetV4HashedSignatureData(CharDataVector &signature_data, const int signature_number) {
@@ -292,7 +343,7 @@ namespace cryptopglib::pgp_parser {
 
             bool packet_format = GetPacketFormat(c);
 
-            int packet_type = GetPacketType(c, packet_format);
+            PacketType packet_type = GetPacketType(c, packet_format);
 
             bool partial = false;
             unsigned long packet_length = 0;
@@ -301,7 +352,7 @@ namespace cryptopglib::pgp_parser {
                 throw (PGPError(PACKAGE_LENGTH_ERROR));
             }
 
-            if (packet_type != PT_SIGNATURE_PACKET) {
+            if (packet_type != PacketType::kSignaturePacket) {
                 data_buffer_.Skip(packet_length);
             } else {
                 if (signature_number == current_signature_number) {
@@ -335,9 +386,6 @@ namespace cryptopglib::pgp_parser {
             }
 
         }
-
-
-        return;
     }
 
     void PGPPacketsParser::ParsePacket() {
@@ -353,7 +401,7 @@ namespace cryptopglib::pgp_parser {
 
         bool packet_format = GetPacketFormat(c);
 
-        int packet_type = GetPacketType(c, packet_format);
+        PacketType packet_type = GetPacketType(c, packet_format);
 
         bool partial = false;
         unsigned long packet_length = 0;
@@ -367,7 +415,7 @@ namespace cryptopglib::pgp_parser {
         return;
     }
 
-    void PGPPacketsParser::ParsePacket(int packet_type, unsigned long packet_length, bool partial) {
+    void PGPPacketsParser::ParsePacket(PacketType packet_type, unsigned long packet_length, bool partial) {
         std::unique_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
         if (packet_parser) {
             PGPPacket *packet = nullptr;
@@ -398,62 +446,61 @@ namespace cryptopglib::pgp_parser {
         data_buffer_.Skip(packet_length);
     }
 
-    std::unique_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(int packet_type) {
+    std::unique_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(PacketType packet_type) {
         std::unique_ptr<PacketParser> packet_parser(nullptr);
 
         switch (packet_type) {
-            case PT_NONE:
+            case PacketType::kNone:
                 throw (PGPError(PACKAGE_UNKNOWN_TYPE));
-                break;
-            case PT_PUBLIC_KEY_ENCRYPTED_PACKET:
+            case PacketType::kPublicKeyEncryptedPacket:
                 packet_parser = std::make_unique<PublicKeyEncryptedPacketParser>();
                 break;
-            case PT_SIGNATURE_PACKET:
+            case PacketType::kSignaturePacket:
                 packet_parser = std::make_unique<SignaturePacketParser>();
                 break;
-            case PT_SYMMETRIC_KEY_ENCRYPTED_SESSION_KEY_PACKET:
+            case PacketType::kSymmetricKeyEncryptedSessionKeyPacket:
                 packet_parser = std::make_unique<SymmetricKeyEncryptedSessionKeyPacketParser>();
                 break;
-            case PT_ONE_PASS_SIGNATURE_PACKET:
+            case PacketType::kOnePassSignaturePacket:
                 packet_parser = std::make_unique<OnePassSignaturePacketParser>();
                 break;
-            case PT_SECRET_KEY_PACKET:
+            case PacketType::kSecretKeyPacket:
                 packet_parser = std::make_unique<SecretKeyPacketParser>();
                 break;
-            case PT_PUBLIC_KEY_PACKET:
+            case PacketType::kPublicKeyPacket:
                 packet_parser = std::make_unique<PublicKeyPacketParser>();
                 break;
-            case PT_SECRET_SUBKEY_PACKET:
+            case PacketType::kSecretSubkeyPacket:
                 packet_parser = std::make_unique<SecretKeyPacketParser>();
                 break;
-            case PT_COMPRESSED_DATA_PACKET:
+            case PacketType::kCompressedDataPacket:
                 packet_parser = std::make_unique<CompressedDataPacketParser>();
                 break;
-            case PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET:
+            case PacketType::kSymmetricallyEncryptedDataPacket:
                 packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>();
                 break;
-            case PT_MARKER_PACKET:
+            case PacketType::kMarkerPacket:
                 packet_parser = std::make_unique<MarkerPacketParser>();
                 break;
-            case PT_LITERAL_DATA_PACKET:
+            case PacketType::kLiteralDataPacket:
                 packet_parser = std::make_unique<LiteralDataPacketParser>();
                 break;
-            case PT_TRUST_PACKET:
+            case PacketType::kTrustPacket:
                 packet_parser = std::make_unique<TrustPacketParser>();
                 break;
-            case PT_USER_ID_PACKET:
+            case PacketType::kUserIDPacket:
                 packet_parser = std::make_unique<UserIDPacketParser>();
                 break;
-            case PT_PUBLIC_SUBKEY_PACKET:
+            case PacketType::kPublicSubkeyPacket:
                 packet_parser = std::make_unique<PublicKeyPacketParser>();
                 break;
-            case PT_USER_ATTRIBUTE_PACKET:
+            case PacketType::kUserAttributePacket:
                 packet_parser = std::make_unique<UserAttributePacketParser>();
                 break;
-            case PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET:
+            case PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket:
                 packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>(true);
                 break;
-            case PT_MODIFICATION_DETECTION_CODE_PACKET:
+            case PacketType::kModificationDetectionCodePacket:
                 packet_parser = std::make_unique<ModificationDetectionCodePacketParser>();
                 break;
             default:

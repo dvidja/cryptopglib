@@ -14,6 +14,7 @@
 #include "cryptopglib/pgp_errors.h"
 #include "../utils/base64.h"
 #include "../utils/crc24.h"
+#include "pgp_packets_parser.h"
 
 /// TODO:
 /// 1. Parse end line
@@ -127,7 +128,6 @@ namespace {
 
 
 namespace cryptopglib::pgp_parser {
-
     PGPMessage ParseMessage(const std::string& data) {
         ParsingData parsingData(data);
 
@@ -154,7 +154,7 @@ namespace cryptopglib::pgp_parser {
             }
 
             //parse packets
-            auto packets = ParsePackets();
+            auto packets = ParsePackets(rawData);
 
         return PGPMessage{};
     }

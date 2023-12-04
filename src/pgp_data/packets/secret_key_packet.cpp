@@ -12,8 +12,8 @@
 
 namespace cryptopglib::pgp_data::packets {
     SecretKeyPacket::SecretKeyPacket(PublicKeyPacketPtr public_key_packet)
-            : PGPPacket(public_key_packet->GetPacketType() == PT_PUBLIC_KEY_PACKET ? PT_SECRET_KEY_PACKET
-                                                                                   : PT_SECRET_SUBKEY_PACKET),
+            : PGPPacket(public_key_packet->GetPacketType() == PacketType::kPublicKeyPacket ? PacketType::kSecretKeyPacket
+                                                                                           : PacketType::kSecretSubkeyPacket),
               public_key_packet_(public_key_packet), symmetric_key_algo_(SymmetricKeyAlgorithms::kPlainText),
               string_to_key_hash_algo_(HashAlgorithms::kNoHash) {
     }
@@ -153,7 +153,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

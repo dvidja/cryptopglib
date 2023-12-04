@@ -34,7 +34,7 @@ namespace
 
 namespace cryptopglib::pgp_data::packets {
     PublicKeyPacket::PublicKeyPacket(int key_version, bool is_subkey)
-            : PGPPacket(is_subkey ? PT_PUBLIC_SUBKEY_PACKET : PT_PUBLIC_KEY_PACKET), key_version_(key_version),
+            : PGPPacket(is_subkey ? PacketType::kPublicSubkeyPacket : PacketType::kPublicKeyPacket), key_version_(key_version),
               expired_time_(0) {
 
     }
@@ -157,7 +157,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

@@ -191,7 +191,7 @@ namespace
         
         for (auto iter = pub_key_packets.begin(); iter != pub_key_packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PacketType::kPublicKeyPacket) || ((*iter)->GetPacketType() == cryptopglib::PacketType::kPublicSubkeyPacket))
             {
                 cryptopglib::crypto::PublicKeyPacketPtr key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyPacket>(*iter);
                 cryptopglib::KeyIDData sig_id = key_packet->GetKeyID();
@@ -205,7 +205,7 @@ namespace
                 }
             }
 
-            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretSubkeyPacket))
             {
                 cryptopglib::crypto::SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(*iter);
                 cryptopglib::KeyIDData sig_id = key_packet->GetKeyID();
@@ -326,7 +326,7 @@ namespace
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_PUBLIC_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PacketType::kPublicKeyPacket) || ((*iter)->GetPacketType() == cryptopglib::PacketType::kPublicSubkeyPacket))
             {
                 cryptopglib::crypto::PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::PublicKeyPacket>(*iter);
                 if (!public_key_packet_ptr)
@@ -344,7 +344,7 @@ namespace
                 }
             }
             
-            if (((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretSubkeyPacket))
             {
                 cryptopglib::crypto::SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(*iter);
                 if (!secret_key_packet_ptr)
@@ -443,7 +443,7 @@ namespace cryptopglib::crypto
         // TODO : check if it correct work always
         SignatureKeyInfo signature_key_info;
         std::shared_ptr<PGPPacket> packet = message_ptr->GetPackets()[0];
-        if (packet->GetPacketType() == PT_SIGNATURE_PACKET)
+        if (packet->GetPacketType() == PacketType::kSignaturePacket)
         {
             signature_key_info.keyID = (dynamic_cast<SignaturePacket*>(packet.get()))->GetKeyID();
             signature_key_info.createdTime = (dynamic_cast<SignaturePacket*>(packet.get()))->GetCreationTime();
@@ -490,7 +490,7 @@ namespace cryptopglib::crypto
         SignaturePacketPtr signature_packet = nullptr;
         for (PGPPacketsArray::iterator iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 signature_packet = std::dynamic_pointer_cast<SignaturePacket>((*iter));
             }
@@ -578,21 +578,21 @@ namespace cryptopglib::crypto
         auto start_search_iter = signed_key_packets.begin();
         for (auto iter = signed_key_packets.begin(); iter != signed_key_packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 for (auto it = start_search_iter; it != iter; ++it)
                 {
-                    if ((*it)->GetPacketType() == PT_USER_ID_PACKET)
+                    if ((*it)->GetPacketType() == PacketType::kUserIDPacket)
                     {
                         signed_user_id_packet = std::dynamic_pointer_cast<UserIDPacket>(*it);
                     }
                     
-                    if (((*it)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*it)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+                    if (((*it)->GetPacketType() == PacketType::kPublicKeyPacket) || ((*it)->GetPacketType() == PacketType::kPublicSubkeyPacket))
                     {
                         signed_public_key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(*it);
                     }
                     
-                    if (((*it)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*it)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+                    if (((*it)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*it)->GetPacketType() == PacketType::kSecretSubkeyPacket))
                     {
                         signed_public_key_packet = (std::dynamic_pointer_cast<SecretKeyPacket>(*it))->GetPublicKeyPatr();
                     }
@@ -823,17 +823,17 @@ namespace cryptopglib::crypto
         auto insert_iterator = signed_key_packets.begin();
         for (auto iter = signed_key_packets.begin(); iter != signed_key_packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_USER_ID_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kUserIDPacket)
             {
                 signed_user_id_packet = std::dynamic_pointer_cast<UserIDPacket>(*iter);
             }
             
-            if ((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kPublicKeyPacket)
             {
                 signed_public_key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(*iter);
             }
             
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 insert_iterator = iter;
                 break;

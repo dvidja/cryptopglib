@@ -10,12 +10,12 @@
 
 namespace cryptopglib::pgp_data::packets {
     OnePassSignaturePacket::OnePassSignaturePacket()
-            : PGPPacket(PT_ONE_PASS_SIGNATURE_PACKET) {
+            : PGPPacket(PacketType::kOnePassSignaturePacket) {
 
     }
 
     OnePassSignaturePacket::OnePassSignaturePacket(SignaturePacketPtr signature_packet_ptr)
-            : PGPPacket(PT_ONE_PASS_SIGNATURE_PACKET), version_(3),
+            : PGPPacket(PacketType::kOnePassSignaturePacket), version_(3),
               signature_type_(signature_packet_ptr->GetSignatureType()),
               hash_algo_(signature_packet_ptr->GetHashAlgorithm()),
               pub_key_algo_(signature_packet_ptr->GetPublicKeyAlgorithm()), nested_(1) {
@@ -100,7 +100,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

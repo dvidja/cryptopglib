@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     TrustPacket::TrustPacket()
-            : PGPPacket(PT_TRUST_PACKET) {
+            : PGPPacket(PacketType::kTrustPacket) {
 
     }
 

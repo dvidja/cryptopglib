@@ -69,13 +69,13 @@ namespace cryptopglib {
         packets_.assign(packets.begin(), packets.end());
         if (packets.size() > 0) {
             switch (packets[0]->GetPacketType()) {
-                case PT_PUBLIC_KEY_PACKET:
+                case PacketType::kPublicKeyPacket:
                     message_type_ = PGPMessageType::kPublicKey;
                     break;
-                case PT_SECRET_KEY_PACKET:
+                case PacketType::kSecretKeyPacket:
                     message_type_ = PGPMessageType::kPrivateKey;
                     break;
-                case PT_SIGNATURE_PACKET:
+                case PacketType::kSignaturePacket:
                     message_type_ = PGPMessageType::kSignedMessage;
                     break;
                 default:

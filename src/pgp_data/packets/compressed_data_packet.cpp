@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     CompressedDataPacket::CompressedDataPacket()
-            : PGPPacket(PT_COMPRESSED_DATA_PACKET) {
+            : PGPPacket(PacketType::kCompressedDataPacket) {
 
     }
 
@@ -52,7 +52,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

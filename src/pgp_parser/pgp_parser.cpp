@@ -20,7 +20,7 @@ namespace cryptopglib::pgp_parser {
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 return true;
             }
@@ -33,7 +33,7 @@ namespace cryptopglib::pgp_parser {
     {
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kPublicKeyPacket) || ((*iter)->GetPacketType() == PacketType::kPublicSubkeyPacket))
             {
                 crypto::PublicKeyPacketPtr public_key_packet_ptr = std::dynamic_pointer_cast<pgp_data::packets::PublicKeyPacket>(*iter);
                 if (!public_key_packet_ptr)
@@ -51,7 +51,7 @@ namespace cryptopglib::pgp_parser {
                 }
             }
             
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
             {
                 crypto::SecretKeyPacketPtr secret_key_packet_ptr = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>(*iter);
                 if (!secret_key_packet_ptr)
@@ -207,21 +207,21 @@ namespace cryptopglib::pgp_parser {
         
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 for (auto it = start_search_iter; it != iter; ++it)
                 {
-                    if ((*it)->GetPacketType() == PT_USER_ID_PACKET)
+                    if ((*it)->GetPacketType() == PacketType::kUserIDPacket)
                     {
                         signed_user_id_packet = std::dynamic_pointer_cast<pgp_data::packets::UserIDPacket>(*it);
                     }
                     
-                    if (((*it)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*it)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+                    if (((*it)->GetPacketType() == PacketType::kPublicKeyPacket) || ((*it)->GetPacketType() == PacketType::kPublicSubkeyPacket))
                     {
                         signed_public_key_packet = std::dynamic_pointer_cast<pgp_data::packets::PublicKeyPacket>(*it);
                     }
                     
-                    if (((*it)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*it)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+                    if (((*it)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*it)->GetPacketType() == PacketType::kSecretSubkeyPacket))
                     {
                         signed_public_key_packet = (std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>(*it))->GetPublicKeyPatr();
                     }

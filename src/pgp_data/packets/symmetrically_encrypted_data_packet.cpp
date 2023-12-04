@@ -32,7 +32,7 @@ namespace cryptopglib::pgp_data::packets {
 
     bool SymmetricallyEncryptedDataPacket::GetRawData(CharDataVector &data) {
         CharDataVector temp_data;
-        if (GetPacketType() == PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET) {
+        if (GetPacketType() == PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket) {
             temp_data.push_back(1);
         }
         temp_data.insert(temp_data.end(), encrypted_data_.begin(), encrypted_data_.end());
@@ -53,7 +53,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

@@ -51,7 +51,7 @@ namespace
 
         for(auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == PT_SIGNATURE_PACKET)
+            if ((*iter)->GetPacketType() == PacketType::kSignaturePacket)
             {
                 SignaturePacketPtr sig_packet = std::dynamic_pointer_cast<SignaturePacket>(*iter);
                 

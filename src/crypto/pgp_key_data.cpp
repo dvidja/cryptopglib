@@ -181,7 +181,7 @@ namespace cryptopglib::crypto
         PGPPacketsArray packets = private_key->GetPackets();
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
             {
                 SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                 bool result = EncryptSecretKeyPacketData(key_packet, passphrase);
@@ -210,7 +210,7 @@ namespace cryptopglib::crypto
             PGPPacketsArray packets = private_key->GetPackets();
             for (auto iter = packets.begin(); iter != packets.end(); ++iter)
             {
-                if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+                if (((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
                 {
                     SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                     bool result = DecryptSecretKeyPacketData(key_packet, passphrase);
@@ -237,7 +237,7 @@ namespace cryptopglib::crypto
         PGPPacketsArray packets = private_key->GetPackets();
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if (((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if (((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
             {
                 SecretKeyPacketPtr key_packet = std::dynamic_pointer_cast<pgp_data::packets::SecretKeyPacket>((*iter));
                 

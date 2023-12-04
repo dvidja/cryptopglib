@@ -29,8 +29,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         if (partial) {
             pgp_data::packets::SymmetricallyEncryptedDataPacket *packet = new pgp_data::packets::SymmetricallyEncryptedDataPacket
-                    (mdc_ ? PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET
-                          : PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET);
+                    (mdc_ ? PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket
+                          : PacketType::kSymmetricallyEncryptedDataPacket);
 
             int data_part_length = 0;
             CharDataVector result_data;
@@ -63,8 +63,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             } while (data_buffer.rest_length() != 0);
         } else {
             pgp_data::packets::SymmetricallyEncryptedDataPacket *packet = new pgp_data::packets::SymmetricallyEncryptedDataPacket
-                    (mdc_ ? PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET
-                          : PT_SYMMETRICALLY_ENCRYPTED_DATA_PACKET);
+                    (mdc_ ? PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket
+                          : PacketType::kSymmetricallyEncryptedDataPacket);
 
             CharDataVector encrypted_data = data_buffer.GetRange(data_buffer.rest_length());
             packet->SetEncryptedData(encrypted_data);

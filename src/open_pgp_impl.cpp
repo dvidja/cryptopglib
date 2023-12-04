@@ -38,7 +38,7 @@ namespace
         
         for (auto iter = packets.begin(); iter != packets.end(); ++iter)
         {
-            if ((*iter)->GetPacketType() == cryptopglib::PT_SECRET_KEY_PACKET)
+            if ((*iter)->GetPacketType() == cryptopglib::PacketType::kSecretKeyPacket)
             {
                 packet = std::dynamic_pointer_cast<cryptopglib::pgp_data::packets::SecretKeyPacket>(*iter);
                 return packet;
@@ -157,10 +157,10 @@ namespace cryptopglib {
             for (auto iter = packets.begin(); iter != packets.end(); ++iter) {
                 PacketType packet_type = static_cast<PacketType>((*iter)->GetPacketType());
                 switch (packet_type) {
-                    case PT_PUBLIC_KEY_PACKET:
-                    case PT_PUBLIC_SUBKEY_PACKET: {
+                    case PacketType::kPublicKeyPacket:
+                    case PacketType::kPublicSubkeyPacket: {
                         pgp_data::packets::PublicKeyPacket *p = dynamic_cast<pgp_data::packets::PublicKeyPacket *>(iter->get());
-                        if (p->GetPacketType() == PT_PUBLIC_KEY_PACKET) {
+                        if (p->GetPacketType() == PacketType::kPublicKeyPacket) {
                             key_info.key_type_ = p->GetPublicKeyAlgorithm();
                             key_info.created_time_ = p->GetTimestamp();
                             if (key_info.size_.empty()) {
@@ -184,8 +184,8 @@ namespace cryptopglib {
                         }
                     }
                         break;
-                    case PT_SECRET_KEY_PACKET:
-                    case PT_SECRET_SUBKEY_PACKET: {
+                    case PacketType::kSecretKeyPacket:
+                    case PacketType::kSecretSubkeyPacket: {
                         pgp_data::packets::SecretKeyPacket *p = dynamic_cast<pgp_data::packets::SecretKeyPacket *>(iter->get());
                         if (key_info.public_key_id_.size() == 0) {
                             key_info.public_key_id_ = p->GetKeyID();
@@ -196,7 +196,7 @@ namespace cryptopglib {
                         }
 
                         crypto::PublicKeyPacketPtr publicPart = p->GetPublicKeyPatr();
-                        if (publicPart->GetPacketType() == PT_PUBLIC_KEY_PACKET) {
+                        if (publicPart->GetPacketType() == PacketType::kPublicKeyPacket) {
                             key_info.key_type_ = publicPart->GetPublicKeyAlgorithm();
                             key_info.created_time_ = publicPart->GetTimestamp();
                             if (key_info.size_.empty()) {
@@ -212,12 +212,12 @@ namespace cryptopglib {
                         }
                     }
                         break;
-                    case PT_USER_ID_PACKET: {
+                    case PacketType::kUserIDPacket: {
                         pgp_data::packets::UserIDPacket *p = dynamic_cast<pgp_data::packets::UserIDPacket *>(iter->get());
                         key_info.users_id_.push_back(p->GetUserID());
                     }
                         break;
-                    case PT_SIGNATURE_PACKET: {
+                    case PacketType::kSignaturePacket: {
                         pgp_data::packets::SignaturePacket *p = dynamic_cast<pgp_data::packets::SignaturePacket *>(iter->get());
                         unsigned int expired = p->GetExpiredKeyTime();
                         if (expired != 0) {
@@ -542,7 +542,7 @@ namespace cryptopglib {
             return signature_result;
         }
 
-        if (packets[0]->GetPacketType() != PT_SIGNATURE_PACKET) {
+        if (packets[0]->GetPacketType() != PacketType::kSignaturePacket) {
             signature_result.signature_result_ = crypto::SR_NONE_SIGNATURE;
             return signature_result;
         }

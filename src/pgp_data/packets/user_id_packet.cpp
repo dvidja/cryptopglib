@@ -12,7 +12,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     UserIDPacket::UserIDPacket()
-            : PGPPacket(PT_USER_ID_PACKET) {
+            : PGPPacket(PacketType::kUserIDPacket) {
 
     }
 
@@ -80,7 +80,7 @@ namespace cryptopglib::pgp_data::packets {
 
         // new format sont work
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

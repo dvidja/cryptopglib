@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     MarkerPacket::MarkerPacket()
-            : PGPPacket(PT_MARKER_PACKET) {
+            : PGPPacket(PacketType::kMarkerPacket) {
 
     }
 
@@ -40,7 +40,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

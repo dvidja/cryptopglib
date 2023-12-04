@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     SymmetricKeyEncryptedSessionKeyPacket::SymmetricKeyEncryptedSessionKeyPacket()
-            : PGPPacket(PT_SYMMETRIC_KEY_ENCRYPTED_SESSION_KEY_PACKET) {
+            : PGPPacket(PacketType::kSymmetricKeyEncryptedSessionKeyPacket) {
 
     }
 

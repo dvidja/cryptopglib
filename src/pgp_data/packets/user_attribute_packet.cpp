@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     UserAttributePacket::UserAttributePacket()
-            : PGPPacket(PT_USER_ATTRIBUTE_PACKET) {
+            : PGPPacket(PacketType::kUserAttributePacket) {
 
     }
 

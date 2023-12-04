@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     ModificationDetectionCodePacket::ModificationDetectionCodePacket()
-            : PGPPacket(PT_MODIFICATION_DETECTION_CODE_PACKET) {
+            : PGPPacket(PacketType::kModificationDetectionCodePacket) {
 
     }
 

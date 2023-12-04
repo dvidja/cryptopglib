@@ -10,7 +10,7 @@
 
 namespace cryptopglib::pgp_data::packets {
     LiteralDataPacket::LiteralDataPacket()
-            : PGPPacket(PT_LITERAL_DATA_PACKET) {
+            : PGPPacket(PacketType::kLiteralDataPacket) {
 
     }
 
@@ -60,7 +60,7 @@ namespace cryptopglib::pgp_data::packets {
         unsigned char c = 0;
         c ^= 0x80;
         c ^= 0x40;
-        c ^= GetPacketType();
+        c ^= (unsigned char)GetPacketType();
         data.push_back(c);
 
         if (temp_data.size() < 192) {

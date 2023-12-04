@@ -57,8 +57,8 @@ namespace
         
         for (auto iter = public_key_packets.begin(); iter != public_key_packets.end(); ++iter)
         {
-                if (((*iter)->GetPacketType() == PT_PUBLIC_KEY_PACKET) || ((*iter)->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET)
-                    || ((*iter)->GetPacketType() == PT_SECRET_KEY_PACKET) || ((*iter)->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+                if (((*iter)->GetPacketType() == PacketType::kPublicKeyPacket) || ((*iter)->GetPacketType() == PacketType::kPublicSubkeyPacket)
+                    || ((*iter)->GetPacketType() == PacketType::kSecretKeyPacket) || ((*iter)->GetPacketType() == PacketType::kSecretSubkeyPacket))
                 {
                     if (message_type == PGPMessageType::kPublicKey)
                     {
@@ -105,7 +105,7 @@ namespace
     
     SymmetricallyEncryptedDataPacketPtr EncryptData(CharDataVector& source, const CharDataVector& session_key, SymmetricKeyAlgorithms algo)
     {
-        SymmetricallyEncryptedDataPacketPtr symmetricaly_encrypted_data_packet(new SymmetricallyEncryptedDataPacket(PT_SYMMETRIC_ENCRYTPED_AND_INTEGRITY_PROTECTED_DATA_PACKET));
+        SymmetricallyEncryptedDataPacketPtr symmetricaly_encrypted_data_packet(new SymmetricallyEncryptedDataPacket(PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket));
         
         crypto::SymmetricKeyAlgorithmPtr symmetric_key_algo_impl = crypto::GetSymmetricKeyAlgorithm(algo);
         CharDataVector initial_vector(symmetric_key_algo_impl->GetCipherBlockSize(), 0);
@@ -168,12 +168,12 @@ namespace
         PGPPacketsArray packets = key->GetPackets();
         for (PGPPacketPtr packet_ptr : packets)
         {
-            if ((packet_ptr->GetPacketType() == PT_PUBLIC_KEY_PACKET) || (packet_ptr->GetPacketType() == PT_PUBLIC_SUBKEY_PACKET))
+            if ((packet_ptr->GetPacketType() == PacketType::kPublicKeyPacket) || (packet_ptr->GetPacketType() == PacketType::kPublicSubkeyPacket))
             {
                 PublicKeyPacketPtr public_key_packet = std::dynamic_pointer_cast<PublicKeyPacket>(packet_ptr);
                 return public_key_packet->GetPublicKeyAlgorithm();
             }
-            if ((packet_ptr->GetPacketType() == PT_SECRET_KEY_PACKET) || (packet_ptr->GetPacketType() == PT_SECRET_SUBKEY_PACKET))
+            if ((packet_ptr->GetPacketType() == PacketType::kSecretKeyPacket) || (packet_ptr->GetPacketType() == PacketType::kSecretSubkeyPacket))
             {
                 SecretKeyPacketPtr secret_key_packet = std::dynamic_pointer_cast<SecretKeyPacket>(packet_ptr);
                 return secret_key_packet->GetPublicKeyPatr()->GetPublicKeyAlgorithm();
