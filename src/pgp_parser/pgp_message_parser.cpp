@@ -102,6 +102,7 @@ namespace {
         auto calculatedCRC = cryptopglib::utils::CRC24(data);
         std::cout << "CRC calculated:" << calculatedCRC << std::endl;
 
+        //TODO: change checking CRC from base64 to real value
         std::vector<unsigned char> crc_sum_vector;
         crc_sum_vector.push_back(calculatedCRC >> 16);
         crc_sum_vector.push_back(calculatedCRC >> 8);
@@ -113,6 +114,14 @@ namespace {
         std::cout << "CRC received: " << crc << std::endl;
 
         return crc == receivedCRC;
+    }
+
+    bool ParseArmorTail(ParsingData& parsingData) {
+        auto line = parsingData.GetNextLine();
+        if (line.starts_with("-----END")) {
+            return true;
+        }
+        return false;
     }
 }
 
@@ -127,20 +136,25 @@ namespace cryptopglib::pgp_parser {
                 return {};
             }
             auto headers = ParseArmorHeaders(parsingData);
-            /// For testing matter to print in the debug log
-            for (auto& item: headers) {
-                std::cout << item.first << ": " << item.second << std::endl;
-            }
-            ///
 
+            // TODO: implement parsing of signed message with plain text
             //if signed message parse text message (with armoring of data signature)
             auto [base64Data, crc] = ParseData(parsingData);
             auto rawData = DecodeBase64Data(base64Data.begin(), base64Data.end());
 
             if (!CheckCRCChecksum(rawData, crc)) {
-                std::cout << "ERROR: crc24 checksum is not equal" << std::endl;
+                // TODO: return or throw an error in case of non valid crc
+                return {};
             }
-            //ParseArmorTail()
+
+            //TODO: implement parsing tail of need
+            if (!ParseArmorTail(parsingData)) {
+                //TODO: log error
+                return {};
+            }
+
+            //parse packets
+            auto packets = ParsePackets();
 
         return PGPMessage{};
     }
