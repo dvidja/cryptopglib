@@ -492,7 +492,7 @@ namespace cryptopglib {
                     PGPMessagePtr attached_message_ptr(new PGPMessageImpl);
                     //std::string base64_data = Utils::Base64Encode(data);
                     //attached_message_ptr->SetBase64Data(base64_data);
-                    pgp_parser::PGPPacketsParser packet_parser(data);
+                    pgp_parser::PGPPacketsParserOLD packet_parser(data);
                     PGPPacketsArray packets = packet_parser.ParsePackets();
                     attached_message_ptr->SetPackets(packets);
 
@@ -532,7 +532,7 @@ namespace cryptopglib {
     OpenPGPImpl::CheckSignatureForDecryptedData(const CharDataVector &data, const std::string &signature,
                                                 const std::string &public_key) {
         CharDataVector signature_data = utils::Base64Decode(signature);
-        pgp_parser::PGPPacketsParser pacekt_parser(signature_data);
+        pgp_parser::PGPPacketsParserOLD pacekt_parser(signature_data);
 
         crypto::SignatureResultInfo signature_result;
 

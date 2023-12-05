@@ -52,6 +52,10 @@ namespace {
 
             return std::nullopt;
         }
+
+        unsigned char GetNextByteNotEOF() {
+            return GetNextByte().value() & 0xFF;
+        }
     };
 
     bool IsCorrectFirstBit(const unsigned char& c) // first bit always must be 1
@@ -75,7 +79,129 @@ namespace {
         return (cryptopglib::PacketType)((c >> 2) & 0xF);
     }
 
+    std::tuple<unsigned long, bool> GetPacketLengthNewFormat(const unsigned char& ctb, ParsingData& parsingData)
+    {
+        char hdr[8]; // ????
+        int hdrlen = 0;
+        auto packet_type = static_cast<cryptopglib::PacketType>(ctb & 0x3f);
+        int c = parsingData.GetNextByte().value();
+
+        if (c == -1)
+        {
+            //TODO: throw an error
+            return {};
+        }
+
+        unsigned long packetLength = 0;
+        bool partial = false;
+
+        hdr[hdrlen++] = c;
+        if (c < 192)
+        {
+            packetLength = c;
+        }
+        else if (c < 224)
+        {
+            packetLength = (c - 192) * 256;
+            if ((c = parsingData.GetNextByte().value()) == -1)
+            {
+                //TODO: throw an error
+                return {};
+            }
+
+            hdr[hdrlen++] = c;
+            packetLength += c + 192;
+        }
+        else if (c == 255)
+        {
+            packetLength = parsingData.GetNextByteNotEOF() << 24;
+            packetLength |= parsingData.GetNextByteNotEOF() << 16;
+            packetLength |= parsingData.GetNextByteNotEOF() << 8;
+            packetLength |= parsingData.GetNextByteNotEOF();
+        }
+        else /* Partial body length.  */
+        {
+            switch (packet_type)
+            {
+                case cryptopglib::PacketType::kLiteralDataPacket:
+                case cryptopglib::PacketType::kSymmetricallyEncryptedDataPacket:
+                case cryptopglib::PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket:
+                case cryptopglib::PacketType::kCompressedDataPacket:
+                    partial = true;
+                    packetLength = c;
+                    break;
+
+                default:
+                    //TODO: throw an error
+                    return {};
+            }
+        }
+
+        return std::make_tuple(packetLength, partial);
+    }
+
+    std::tuple<unsigned long, bool> GetPacketLengthOldFormat(const unsigned char& ctb, ParsingData& parsingData)
+    {
+        // Get Packet tag
+        auto packet_type = static_cast<cryptopglib::PacketType>((ctb >> 2) & 0xf);
+
+        // Get Packet Length
+        unsigned long packetLength = 0;
+        bool partial = false;
+
+        int lenbytes = ((ctb & 3) == 3) ? 0 : (1 << (ctb & 3));
+        if (!lenbytes)
+        {
+            packetLength = 0;	/* Don't know the value.  */
+            /* This isn't really partial, but we can treat it the same
+             in a "read until the end" sort of way.  */
+            partial = true;
+
+            if (packet_type != cryptopglib::PacketType::kSymmetricallyEncryptedDataPacket
+                && packet_type != cryptopglib::PacketType::kLiteralDataPacket
+                && packet_type != cryptopglib::PacketType::kCompressedDataPacket)
+            {
+                //TODO: thrown an error
+                return {};
+            }
+        }
+        else
+        {
+            for (; lenbytes; lenbytes--)
+            {
+                packetLength <<= 8;
+                packetLength |= parsingData.GetNextByte().value();
+            }
+        }
+
+        return std::make_tuple(packetLength, partial);
+    }
+
+    std::tuple<unsigned long, bool> GetPacketLength(const unsigned char& c, ParsingData& parsingData, bool packetFormat)
+    {
+        if (packetFormat) // new packet format
+        {
+            return GetPacketLengthNewFormat(c, parsingData);
+        }
+
+        return GetPacketLengthOldFormat(c, parsingData);
+    }
+
     std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(ParsingData& parsingData) {
+        if (!parsingData.GetNextByte().has_value()) {
+            return nullptr;
+        }
+        auto c = parsingData.GetCurrentByte();
+        if (!IsCorrectFirstBit(c)) {
+            throw (PGPError(PACKAGE_FIRST_BYTE_ERROR));
+        }
+
+        bool packetFormat = GetPacketFormat(c);
+        cryptopglib::PacketType packetType = GetPacketType(c, packetFormat);
+
+        auto [packetLength, partial] = GetPacketLength(c, parsingData, packetFormat);
+
+        //ParsePacket(packetType, packetLength, partial);
 
         return {};
     }
@@ -112,19 +238,19 @@ namespace
         packet_length = 0;
         char hdr[8]; // ????
         int hdrlen = 0;
-        
+
         // Get Packet tag
         PacketType packet_type = (PacketType)(ctb & 0x3f);
-        
+
         // Get Packet Length
-        
+
         int c = data_buffer.GetNextByte();
-        
+
         if (c == -1)
         {
             return 1;
         }
-        
+
         hdr[hdrlen++] = c;
         if (c < 192)
         {
@@ -137,7 +263,7 @@ namespace
             {
                 return 1;
             }
-            
+
             hdr[hdrlen++] = c;
             packet_length += c + 192;
         }
@@ -159,7 +285,7 @@ namespace
                     partial = true;
                     packet_length = c;
                     break;
-                    
+
                 default:
                     return 1;
             }
@@ -167,14 +293,14 @@ namespace
 
         return 0;
     }
-    
+
     int GetPacketLengthOldFormat(const unsigned char& ctb, DataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
     {
         // Get Packet tag
         PacketType packet_type = (PacketType)((ctb >> 2) & 0xf);
-                
+
         // Get Packet Length
-        
+
         int lenbytes = ((ctb & 3) == 3) ? 0 : (1 << (ctb & 3));
         if (!lenbytes)
         {
@@ -182,7 +308,7 @@ namespace
             /* This isn't really partial, but we can treat it the same
              in a "read until the end" sort of way.  */
             partial = true;
-            
+
             if (packet_type != PacketType::kSymmetricallyEncryptedDataPacket && packet_type != PacketType::kLiteralDataPacket && packet_type != PacketType::kCompressedDataPacket)
             {
                 return 1;
@@ -206,18 +332,18 @@ namespace
         {
             return GetPacketLengthNewFormat(c, data_buffer, packet_length, partial);
         }
-        
+
         return GetPacketLengthOldFormat(c, data_buffer, packet_length, partial);
     }
 }
 
 namespace cryptopglib::pgp_parser {
-    PGPPacketsParser::PGPPacketsParser(const CharDataVector &data)
+    PGPPacketsParserOLD::PGPPacketsParserOLD(const CharDataVector &data)
             : data_buffer_(data) {
 
     }
 
-    PGPPacketsArray PGPPacketsParser::ParsePackets() {
+    PGPPacketsArray PGPPacketsParserOLD::ParsePackets() {
         while (data_buffer_.HasNextByte()) {
             try {
                 ParsePacket();
@@ -230,7 +356,7 @@ namespace cryptopglib::pgp_parser {
         return packets_;
     }
 
-    void PGPPacketsParser::GetUserIDPacketsRawData(CharDataVector &user_id_data, const int user_id_number) {
+    void PGPPacketsParserOLD::GetUserIDPacketsRawData(CharDataVector &user_id_data, const int user_id_number) {
         data_buffer_.ResetCurrentPosition();
         if (data_buffer_.empty()) {
             return;
@@ -279,7 +405,7 @@ namespace cryptopglib::pgp_parser {
         }
     }
 
-    void PGPPacketsParser::GetKeyPacketsRawData(CharDataVector &key_data, const int key_number) {
+    void PGPPacketsParserOLD::GetKeyPacketsRawData(CharDataVector &key_data, const int key_number) {
         data_buffer_.ResetCurrentPosition();
         if (data_buffer_.empty()) {
             return;
@@ -326,7 +452,7 @@ namespace cryptopglib::pgp_parser {
         }
     }
 
-    void PGPPacketsParser::GetV4HashedSignatureData(CharDataVector &signature_data, const int signature_number) {
+    void PGPPacketsParserOLD::GetV4HashedSignatureData(CharDataVector &signature_data, const int signature_number) {
         data_buffer_.ResetCurrentPosition();
         if (data_buffer_.empty()) {
             return;
@@ -388,7 +514,7 @@ namespace cryptopglib::pgp_parser {
         }
     }
 
-    void PGPPacketsParser::ParsePacket() {
+    void PGPPacketsParserOLD::ParsePacket() {
         if (data_buffer_.empty()) {
             return;
         }
@@ -415,7 +541,7 @@ namespace cryptopglib::pgp_parser {
         return;
     }
 
-    void PGPPacketsParser::ParsePacket(PacketType packet_type, unsigned long packet_length, bool partial) {
+    void PGPPacketsParserOLD::ParsePacket(PacketType packet_type, unsigned long packet_length, bool partial) {
         std::unique_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
         if (packet_parser) {
             PGPPacket *packet = nullptr;
@@ -436,7 +562,7 @@ namespace cryptopglib::pgp_parser {
         return;
     }
 
-    void PGPPacketsParser::SkipPacket(unsigned long packet_length, bool partial) {
+    void PGPPacketsParserOLD::SkipPacket(unsigned long packet_length, bool partial) {
         if (partial) {
             data_buffer_.Skip(data_buffer_.rest_length());
 
@@ -446,7 +572,7 @@ namespace cryptopglib::pgp_parser {
         data_buffer_.Skip(packet_length);
     }
 
-    std::unique_ptr<PacketParser> PGPPacketsParser::CreatePacketParser(PacketType packet_type) {
+    std::unique_ptr<PacketParser> PGPPacketsParserOLD::CreatePacketParser(PacketType packet_type) {
         std::unique_ptr<PacketParser> packet_parser(nullptr);
 
         switch (packet_type) {

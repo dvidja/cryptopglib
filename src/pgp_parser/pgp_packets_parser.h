@@ -25,9 +25,9 @@ namespace cryptopglib::pgp_parser {
 namespace cryptopglib::pgp_parser {
     using pgp_data::PGPPacketsArray;
 
-    class PGPPacketsParser {
+    class PGPPacketsParserOLD {
     public:
-        explicit PGPPacketsParser(const CharDataVector &data);
+        explicit PGPPacketsParserOLD(const CharDataVector &data);
 
         PGPPacketsArray ParsePackets();
 

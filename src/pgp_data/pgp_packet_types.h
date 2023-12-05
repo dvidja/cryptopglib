@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef cryptopg_PGPPacketTypes_h
-#define cryptopg_PGPPacketTypes_h
+#pragma once
 
 namespace cryptopglib {
      enum class PacketType {
@@ -35,5 +34,3 @@ namespace cryptopglib {
         kGPGControl [[maybe_unused]] = 63  /* internal control packet (GnuPG specific). */
     };
 }
-
-#endif

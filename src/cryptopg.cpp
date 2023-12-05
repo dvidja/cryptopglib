@@ -6,9 +6,7 @@
 namespace cryptopglib
 {
     PGPMessage ReadPGPMessage(const std::string& message) {
-        auto message_ptr = pgp_parser::PGPParser().ParseMessage(message);
-
-        return PGPMessage {};
+        return pgp_parser::ParseMessage(message);
     }
 
     PGPKey GetPPGKeyInfo(const std::string& pgp_key_data) {

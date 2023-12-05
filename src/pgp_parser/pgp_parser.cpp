@@ -302,7 +302,7 @@ namespace cryptopglib::pgp_parser {
         PGPMessagePtr message_ptr = message_parser.ParseMessage(source);
 
         if (message_ptr) {
-            PGPPacketsParser packet_parser(message_ptr->GetRawData());
+            PGPPacketsParserOLD packet_parser(message_ptr->GetRawData());
             PGPPacketsArray packets = packet_parser.ParsePackets();
             if (packets.empty()) {
                 return nullptr;

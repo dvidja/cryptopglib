@@ -276,7 +276,7 @@ namespace cryptopglib::crypto
             return;
         }
         
-        pgp_parser::PGPPacketsParser parser(decompression_data);
+        pgp_parser::PGPPacketsParserOLD parser(decompression_data);
         PGPPacketsArray packets = parser.ParsePackets();
         
         if (packets.empty())
@@ -331,7 +331,7 @@ namespace cryptopglib::crypto
     {
         CharDataVector data_for_parse(decrypted_data.begin() + shift, decrypted_data.end());
         
-        pgp_parser::PGPPacketsParser parser(data_for_parse);
+        pgp_parser::PGPPacketsParserOLD parser(data_for_parse);
         PGPPacketsArray packets = parser.ParsePackets();
         
         if (packets.empty())
