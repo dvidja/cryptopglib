@@ -27,7 +27,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         data_buffer.GetNextFourOctets();
 
-        CharDataVector data = data_buffer.GetRange(data_buffer.rest_length());
+        CharDataVector data = data_buffer.GetRange(data_buffer.RestLength());
 
         packet->SetData(data);
 
@@ -38,7 +38,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         LiteralDataPacket *packet = new LiteralDataPacket();
         bool partial = true;
         int data_part_length = 1 << (c & 0x1f);
-        size_t start_position = data_buffer.current_position();
+        size_t start_position = data_buffer.CurrentPosition();
 
         if (data_part_length >= 1) {
             data_buffer.GetNextByte(); // data formated not used
@@ -47,7 +47,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         if (data_part_length == 0) {
             data_part_length = GetPacketLengthForPartialContent(data_buffer, partial);
-            start_position = data_buffer.current_position();
+            start_position = data_buffer.CurrentPosition();
         }
 
         int file_name_length = data_buffer.GetNextByte();
@@ -64,7 +64,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         if (data_part_length == 0) {
             data_part_length = GetPacketLengthForPartialContent(data_buffer, partial);
-            start_position = data_buffer.current_position();
+            start_position = data_buffer.CurrentPosition();
         }
 
         if (data_part_length >= 4) {
@@ -74,7 +74,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         if (data_part_length == 0) {
             data_part_length = GetPacketLengthForPartialContent(data_buffer, partial);
-            start_position = data_buffer.current_position();
+            start_position = data_buffer.CurrentPosition();
         }
 
         //data_part_length -= (data_buffer.current_position() - start_position);
@@ -96,7 +96,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 packet->SetData(result_data);
                 return packet;
             }
-        } while (data_buffer.rest_length() != 0);
+        } while (data_buffer.RestLength() != 0);
 
         return nullptr;
     }

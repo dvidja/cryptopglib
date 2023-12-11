@@ -33,7 +33,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         if (version == '#') {
             // TODO: read comment
 
-            data_buffer.Skip(data_buffer.rest_length());
+            data_buffer.Skip(data_buffer.RestLength());
             return nullptr;
         }
 
@@ -44,7 +44,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             return nullptr;
         }
 
-        if (data_buffer.rest_length() < 11) {
+        if (data_buffer.RestLength() < 11) {
             // TODO: handle error
             return nullptr;
         }
@@ -64,7 +64,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         packet->SetPublicKeyAlgorithm(algorithm);
 
-        int rest_length = data_buffer.rest_length();
+        int rest_length = data_buffer.RestLength();
 
         switch (algorithm) {
             case kRSA:
@@ -118,7 +118,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         CharDataVector fingerprint;
         fingerprint.push_back(0x99);
 
-        size_t length = data_buffer.current_position();
+        size_t length = data_buffer.CurrentPosition();
 
         int a1 = length & 0xFF;
         int a2 = (length >> 8) & 0xFF;

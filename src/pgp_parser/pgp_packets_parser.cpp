@@ -187,6 +187,28 @@ namespace {
         return GetPacketLengthOldFormat(c, parsingData);
     }
 
+    /*void ParsePacket(cryptopglib::PacketType packet_type, unsigned long packet_length, bool partial) {
+        std::unique_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
+        if (packet_parser) {
+            PGPPacket *packet = nullptr;
+            if (partial) {
+                packet = packet_parser->Parse(data_buffer_, partial, static_cast<int>(packet_length));
+            } else {
+                DataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
+                packet = packet_parser->Parse(temp_buffer, partial, 0);
+            }
+
+            if (packet != nullptr) {
+                packets_.push_back(std::shared_ptr<PGPPacket>(packet));
+            }
+        } else {
+            SkipPacket(packet_length, partial);
+        }
+
+        return;
+    }*/
+
+
     std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(ParsingData& parsingData) {
         if (!parsingData.GetNextByte().has_value()) {
             return nullptr;
@@ -358,14 +380,14 @@ namespace cryptopglib::pgp_parser {
 
     void PGPPacketsParserOLD::GetUserIDPacketsRawData(CharDataVector &user_id_data, const int user_id_number) {
         data_buffer_.ResetCurrentPosition();
-        if (data_buffer_.empty()) {
+        if (data_buffer_.IsEmpty()) {
             return;
         }
 
         int current_user_id_number = 0;
 
         while (data_buffer_.HasNextByte()) {
-            size_t start_pos = data_buffer_.current_position();
+            size_t start_pos = data_buffer_.CurrentPosition();
             unsigned char c = data_buffer_.GetNextByte();
 
             if (!IsCorrectFirstBit(c)) {
@@ -388,7 +410,7 @@ namespace cryptopglib::pgp_parser {
             } else {
                 if (user_id_number == current_user_id_number) {
                     CharDataVector temp_data(
-                            data_buffer_.GetRange(start_pos, data_buffer_.current_position() + packet_length));
+                            data_buffer_.GetRange(start_pos, data_buffer_.CurrentPosition() + packet_length));
                     //CharDataVector temp_data(data_buffer_.GetRange(start_pos, data_buffer_.current_position() + packet_length));
                     user_id_data.push_back(0xB4);
                     user_id_data.push_back((packet_length >> 24) & 0xFF);
@@ -407,7 +429,7 @@ namespace cryptopglib::pgp_parser {
 
     void PGPPacketsParserOLD::GetKeyPacketsRawData(CharDataVector &key_data, const int key_number) {
         data_buffer_.ResetCurrentPosition();
-        if (data_buffer_.empty()) {
+        if (data_buffer_.IsEmpty()) {
             return;
         }
 
@@ -454,7 +476,7 @@ namespace cryptopglib::pgp_parser {
 
     void PGPPacketsParserOLD::GetV4HashedSignatureData(CharDataVector &signature_data, const int signature_number) {
         data_buffer_.ResetCurrentPosition();
-        if (data_buffer_.empty()) {
+        if (data_buffer_.IsEmpty()) {
             return;
         }
 
@@ -482,7 +504,7 @@ namespace cryptopglib::pgp_parser {
                 data_buffer_.Skip(packet_length);
             } else {
                 if (signature_number == current_signature_number) {
-                    size_t start_pos = data_buffer_.current_position();
+                    size_t start_pos = data_buffer_.CurrentPosition();
 
                     if (data_buffer_.GetNextByte() != 4) {
                         // error isn't v4 packet
@@ -502,7 +524,7 @@ namespace cryptopglib::pgp_parser {
                         //Hashed subpacket data
                         data_buffer_.GetRange(n);
                     }
-                    size_t last_pos = data_buffer_.current_position();
+                    size_t last_pos = data_buffer_.CurrentPosition();
 
                     CharDataVector temp_data(data_buffer_.GetRange(start_pos, last_pos));
                     //CharDataVector temp_data(data_buffer_.GetRange(packet_length));
@@ -515,7 +537,7 @@ namespace cryptopglib::pgp_parser {
     }
 
     void PGPPacketsParserOLD::ParsePacket() {
-        if (data_buffer_.empty()) {
+        if (data_buffer_.IsEmpty()) {
             return;
         }
 
@@ -564,7 +586,7 @@ namespace cryptopglib::pgp_parser {
 
     void PGPPacketsParserOLD::SkipPacket(unsigned long packet_length, bool partial) {
         if (partial) {
-            data_buffer_.Skip(data_buffer_.rest_length());
+            data_buffer_.Skip(data_buffer_.RestLength());
 
             return;
         }

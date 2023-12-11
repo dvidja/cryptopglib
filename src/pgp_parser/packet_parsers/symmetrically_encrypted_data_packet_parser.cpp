@@ -23,7 +23,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
         }
 
-        if (data_buffer.rest_length() < 10) {
+        if (data_buffer.RestLength() < 10) {
             return nullptr;
         }
 
@@ -39,7 +39,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 data_part_length = 1 << (c & 0x1f);
                 data_part_length--;
             } else {
-                CharDataVector encrypted_data = data_buffer.GetRange(data_buffer.rest_length());
+                CharDataVector encrypted_data = data_buffer.GetRange(data_buffer.RestLength());
                 packet->SetEncryptedData(encrypted_data);
 
                 return packet;
@@ -60,13 +60,13 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                     packet->SetEncryptedData(result_data);
                     return packet;
                 }
-            } while (data_buffer.rest_length() != 0);
+            } while (data_buffer.RestLength() != 0);
         } else {
             pgp_data::packets::SymmetricallyEncryptedDataPacket *packet = new pgp_data::packets::SymmetricallyEncryptedDataPacket
                     (mdc_ ? PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket
                           : PacketType::kSymmetricallyEncryptedDataPacket);
 
-            CharDataVector encrypted_data = data_buffer.GetRange(data_buffer.rest_length());
+            CharDataVector encrypted_data = data_buffer.GetRange(data_buffer.RestLength());
             packet->SetEncryptedData(encrypted_data);
 
             return packet;

@@ -11,7 +11,7 @@
 namespace cryptopglib::pgp_parser::packet_parsers {
     ModificationDetectionCodePacket *
     ModificationDetectionCodePacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
-        if (data_buffer.length() != 20) {
+        if (data_buffer.Length() != 20) {
             // TODO: handle error
             //
             return nullptr;

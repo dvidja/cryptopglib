@@ -9,13 +9,13 @@
 #include "user_id_packetP_parser.h"
 namespace cryptopglib::pgp_parser::packet_parsers {
     UserIDPacket *UserIDPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
-        if (data_buffer.length() > 2048) {
+        if (data_buffer.Length() > 2048) {
             return nullptr;
         }
 
         UserIDPacket *packet = new UserIDPacket();
 
-        CharDataVector name = data_buffer.GetRange(data_buffer.length());
+        CharDataVector name = data_buffer.GetRange(data_buffer.Length());
         packet->SetUserID(name);
 
         return packet;

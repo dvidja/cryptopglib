@@ -144,7 +144,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
             if (key_version == 4) {
                 // encrypted all rest data
-                secret_key_packet->AddMPI(data_buffer.GetRange(data_buffer.rest_length()));
+                secret_key_packet->AddMPI(data_buffer.GetRange(data_buffer.RestLength()));
 
                 //other data extract after decryption
                 return secret_key_packet;
