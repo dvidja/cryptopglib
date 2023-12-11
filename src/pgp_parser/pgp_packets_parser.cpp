@@ -26,38 +26,6 @@
 #include "cryptopglib/pgp_errors.h"
 
 namespace {
-    class ParsingData {
-        std::vector<unsigned char>& data;
-        std::size_t currentPosition;
-    public:
-        explicit ParsingData(std::vector<unsigned char>& rawData)
-            : data(rawData)
-            , currentPosition(0) {
-        }
-
-        std::size_t GetCurrentPosition() const {
-            return currentPosition;
-        };
-
-        unsigned char GetCurrentByte() {
-            return data[currentPosition];
-        }
-
-        std::optional<unsigned char> GetNextByte() {
-            currentPosition++;
-            if (currentPosition < data.size())
-            {
-                return data[currentPosition];
-            }
-
-            return std::nullopt;
-        }
-
-        unsigned char GetNextByteNotEOF() {
-            return GetNextByte().value() & 0xFF;
-        }
-    };
-
     bool IsCorrectFirstBit(const unsigned char& c) // first bit always must be 1
     {
         return (c & 0x80);
@@ -79,18 +47,12 @@ namespace {
         return (cryptopglib::PacketType)((c >> 2) & 0xF);
     }
 
-    std::tuple<unsigned long, bool> GetPacketLengthNewFormat(const unsigned char& ctb, ParsingData& parsingData)
+    std::tuple<unsigned long, bool> GetPacketLengthNewFormat(const unsigned char& ctb, cryptopglib::ParsingDataBuffer& parsingData)
     {
-        char hdr[8]; // ????
+        unsigned char hdr[8]; // ????
         int hdrlen = 0;
         auto packet_type = static_cast<cryptopglib::PacketType>(ctb & 0x3f);
-        int c = parsingData.GetNextByte().value();
-
-        if (c == -1)
-        {
-            //TODO: throw an error
-            return {};
-        }
+        unsigned char c = parsingData.GetNextByte();
 
         unsigned long packetLength = 0;
         bool partial = false;
@@ -103,12 +65,11 @@ namespace {
         else if (c < 224)
         {
             packetLength = (c - 192) * 256;
-            if ((c = parsingData.GetNextByte().value()) == -1)
-            {
-                //TODO: throw an error
+            if (!parsingData.HasNextByte()) {
+                //todo: throw an error
                 return {};
             }
-
+            c = parsingData.GetNextByte();
             hdr[hdrlen++] = c;
             packetLength += c + 192;
         }
@@ -140,7 +101,7 @@ namespace {
         return std::make_tuple(packetLength, partial);
     }
 
-    std::tuple<unsigned long, bool> GetPacketLengthOldFormat(const unsigned char& ctb, ParsingData& parsingData)
+    std::tuple<unsigned long, bool> GetPacketLengthOldFormat(const unsigned char& ctb, cryptopglib::ParsingDataBuffer& parsingData)
     {
         // Get Packet tag
         auto packet_type = static_cast<cryptopglib::PacketType>((ctb >> 2) & 0xf);
@@ -170,14 +131,14 @@ namespace {
             for (; lenbytes; lenbytes--)
             {
                 packetLength <<= 8;
-                packetLength |= parsingData.GetNextByte().value();
+                packetLength |= parsingData.GetNextByte();
             }
         }
 
         return std::make_tuple(packetLength, partial);
     }
 
-    std::tuple<unsigned long, bool> GetPacketLength(const unsigned char& c, ParsingData& parsingData, bool packetFormat)
+    std::tuple<unsigned long, bool> GetPacketLength(const unsigned char& c, cryptopglib::ParsingDataBuffer& parsingData, bool packetFormat)
     {
         if (packetFormat) // new packet format
         {
@@ -209,11 +170,12 @@ namespace {
     }*/
 
 
-    std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(ParsingData& parsingData) {
-        if (!parsingData.GetNextByte().has_value()) {
+    std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(cryptopglib::ParsingDataBuffer& parsingData) {
+        if (!parsingData.HasNextByte()) {
             return nullptr;
         }
-        auto c = parsingData.GetCurrentByte();
+
+        auto c = parsingData.GetNextByte();
         if (!IsCorrectFirstBit(c)) {
             throw (PGPError(PACKAGE_FIRST_BYTE_ERROR));
         }
@@ -233,8 +195,8 @@ namespace cryptopglib::pgp_parser {
     std::vector<std::unique_ptr<pgp_data::PGPPacket*>>ParsePackets(std::vector<unsigned char>& data) {
         std::vector<std::unique_ptr<pgp_data::PGPPacket*>> packets;
 
-        ParsingData parsingData(data);
-        while (parsingData.GetNextByte().has_value()) {
+        cryptopglib::ParsingDataBuffer parsingData(data);
+        while (parsingData.HasNextByte()) {
             try {
                 auto packet = ParsePacket(parsingData);
                 packets.push_back(std::move(packet));
