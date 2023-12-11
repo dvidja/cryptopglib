@@ -17,8 +17,6 @@ namespace cryptopglib {
 
     class DataBuffer {
     public:
-        DataBuffer();
-        explicit DataBuffer(int size);
         DataBuffer(CharDataVector data);
         unsigned char GetNextByte();
         unsigned char GetNextByteNotEOF();

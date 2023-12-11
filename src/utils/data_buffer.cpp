@@ -11,14 +11,6 @@
 #include <utility>
 
 namespace cryptopglib {
-    DataBuffer::DataBuffer()
-            : current_position_(0) {
-    }
-
-    DataBuffer::DataBuffer(const int size)
-            : current_position_(0) {
-    }
-
     DataBuffer::DataBuffer(CharDataVector data)
             : current_position_(0), data_(std::move(data)) {
 
