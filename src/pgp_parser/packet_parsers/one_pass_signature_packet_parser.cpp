@@ -10,7 +10,7 @@
 
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    OnePassSignaturePacket *OnePassSignaturePacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    OnePassSignaturePacket *OnePassSignaturePacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         int version_number = data_buffer.GetNextByte();
         if (version_number != 3) {
             return nullptr;

@@ -32,7 +32,7 @@ namespace
     using namespace cryptopglib;
     using namespace packets;
 
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    size_t GetMPIDataLength(ParsingDataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -42,7 +42,7 @@ namespace
     
     void ReloadMPIs(SecretKeyPacketPtr secret_key_packet_ptr)
     {
-        DataBuffer data_buffer(secret_key_packet_ptr->GetMPI(0));
+        ParsingDataBuffer data_buffer(secret_key_packet_ptr->GetMPI(0));
         secret_key_packet_ptr->ClearMPIData();
         
         size_t length = GetMPIDataLength(data_buffer);

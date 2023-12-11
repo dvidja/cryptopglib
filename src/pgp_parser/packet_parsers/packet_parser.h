@@ -13,12 +13,12 @@
 
 namespace cryptopglib::pgp_parser::packet_parsers {
     using cryptopglib::pgp_data::PGPPacket;
-    int GetPacketLengthForPartialContent(DataBuffer &data_buffer, bool &partial);
+    int GetPacketLengthForPartialContent(ParsingDataBuffer &data_buffer, bool &partial);
 
 
     class PacketParser {
     public:
-        virtual PGPPacket *Parse(DataBuffer &data_buffer, bool partial, int c) = 0;
+        virtual PGPPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) = 0;
 
         virtual ~PacketParser();
     };

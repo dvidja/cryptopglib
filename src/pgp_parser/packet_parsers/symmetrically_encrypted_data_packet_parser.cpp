@@ -14,7 +14,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             : mdc_(mdc) {
     }
 
-    PGPPacket *SymmetricallyEncryptedDataPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    PGPPacket *SymmetricallyEncryptedDataPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         if (mdc_) {
             int version = data_buffer.GetNextByte();
             if (version != 1) {

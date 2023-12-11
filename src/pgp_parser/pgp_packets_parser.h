@@ -14,7 +14,7 @@
 #include <memory>
 
 #include "../pgp_data/pgp_packet.h"
-#include "../utils/data_buffer.h"
+#include "../utils/parsing_data_buffer.h"
 #include "packet_parsers/packet_parser.h"
 
 namespace cryptopglib::pgp_parser {
@@ -48,7 +48,7 @@ namespace cryptopglib::pgp_parser {
 
 
     private:
-        DataBuffer data_buffer_;
+        ParsingDataBuffer data_buffer_;
         PGPPacketsArray packets_;
     };
 }

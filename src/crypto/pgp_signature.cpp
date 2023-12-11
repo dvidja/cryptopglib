@@ -23,7 +23,7 @@
 
 namespace
 {
-    size_t GetMPIDataLength(cryptopglib::DataBuffer& data_buffer)
+    size_t GetMPIDataLength(cryptopglib::ParsingDataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;

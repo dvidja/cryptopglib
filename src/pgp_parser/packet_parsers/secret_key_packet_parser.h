@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::SecretKeyPacket;
     class SecretKeyPacketParser : public PacketParser {
     public:
-        SecretKeyPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        SecretKeyPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
     };
 }
 #endif /* cryptopg_SecretKeyPacketParser_ */

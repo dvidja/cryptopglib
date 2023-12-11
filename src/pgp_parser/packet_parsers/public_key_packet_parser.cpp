@@ -14,8 +14,8 @@
 
 namespace
 {
-    using cryptopglib::DataBuffer;
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    using cryptopglib::ParsingDataBuffer;
+    size_t GetMPIDataLength(ParsingDataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -25,7 +25,7 @@ namespace
 }
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    PublicKeyPacket *PublicKeyPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    PublicKeyPacket *PublicKeyPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         bool is_v4 = false;
 
         int version = data_buffer.GetNextByteNotEOF();
@@ -135,7 +135,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         std::string fingerprint_str;
 
-        DataBuffer hash_data(hash);
+        ParsingDataBuffer hash_data(hash);
 
         for (int i = 0; i < hash.size() / 2; ++i) {
             unsigned short t = hash_data.GetNextTwoOctets();

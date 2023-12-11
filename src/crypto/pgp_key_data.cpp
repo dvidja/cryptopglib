@@ -18,7 +18,7 @@ namespace
     using  namespace cryptopglib::crypto;
 
 
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    size_t GetMPIDataLength(ParsingDataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -360,7 +360,7 @@ namespace cryptopglib::crypto
                 return false;
             }
             
-            DataBuffer data_buffer(result_data);
+            ParsingDataBuffer data_buffer(result_data);
             secret_key->ClearMPIData();
             switch (secret_key->GetPublicKeyPatr()->GetPublicKeyAlgorithm())
             {

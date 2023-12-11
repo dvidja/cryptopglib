@@ -17,7 +17,7 @@ namespace
 {
     using namespace cryptopglib;
 
-    size_t GetMPIDataLength(DataBuffer& data_buffer)
+    size_t GetMPIDataLength(ParsingDataBuffer& data_buffer)
     {
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -25,7 +25,7 @@ namespace
         return l;
     }
     
-    int ReadEachMPIseparately(DataBuffer& data_buffer,
+    int ReadEachMPIseparately(ParsingDataBuffer& data_buffer,
                               cryptopglib::pgp_data::packets::SecretKeyPacket* packet,
                               cryptopglib::PublicKeyAlgorithms algo)
     {
@@ -65,7 +65,7 @@ namespace
 }
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    SecretKeyPacket *SecretKeyPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    SecretKeyPacket *SecretKeyPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         PublicKeyPacketParser pub_key_parser;
         pgp_data::packets::PublicKeyPacketPtr pub_key_packet(
                 reinterpret_cast<PublicKeyPacket *>(pub_key_parser.Parse(data_buffer, false, c)));

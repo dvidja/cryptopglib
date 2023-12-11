@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::ModificationDetectionCodePacket;
     class ModificationDetectionCodePacketParser : public PacketParser {
     public:
-        ModificationDetectionCodePacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        ModificationDetectionCodePacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

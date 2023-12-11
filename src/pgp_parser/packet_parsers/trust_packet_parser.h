@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::TrustPacket;
     class TrustPacketParser : public PacketParser {
     public:
-        TrustPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        TrustPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

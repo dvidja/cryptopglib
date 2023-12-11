@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::UserAttributePacket;
     class UserAttributePacketParser : public PacketParser {
     public:
-        UserAttributePacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        UserAttributePacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

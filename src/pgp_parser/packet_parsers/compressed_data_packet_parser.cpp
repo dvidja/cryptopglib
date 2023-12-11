@@ -10,7 +10,7 @@
 #include "../../crypto/compression_algorithms.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    CompressedDataPacket *CompressedDataPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    CompressedDataPacket *CompressedDataPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         CompressionAlgorithms compress_algo = static_cast<CompressionAlgorithms>(data_buffer.GetNextByte());
 
         CompressedDataPacket *packet = new CompressedDataPacket;

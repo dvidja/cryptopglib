@@ -9,7 +9,7 @@
 #include "symmetric_key_encrypted_session_key_packet_parser.h"
 namespace cryptopglib::pgp_parser::packet_parsers {
     SymmetricKeyEncryptedSessionKeyPacket *
-    SymmetricKeyEncryptedSessionKeyPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    SymmetricKeyEncryptedSessionKeyPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         return nullptr;
     }
 }

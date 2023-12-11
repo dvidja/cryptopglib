@@ -17,10 +17,10 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::LiteralDataPacket;
     class LiteralDataPacketParser : public PacketParser {
     public:
-        LiteralDataPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        LiteralDataPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     private:
-        LiteralDataPacket *ParsePartial(DataBuffer &data_buffer, int c);
+        LiteralDataPacket *ParsePartial(ParsingDataBuffer &data_buffer, int c);
 
     };
 }

@@ -9,7 +9,7 @@
 #include "trust_packet_parser.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    TrustPacket *TrustPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    TrustPacket *TrustPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         return nullptr;
     }
 }

@@ -11,7 +11,7 @@
 #include "../../pgp_data/pgp_data_types.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    PublicKeyEncryptedPacket *PublicKeyEncryptedPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    PublicKeyEncryptedPacket *PublicKeyEncryptedPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         if (data_buffer.RestLength() < 12) {
             //TODO: handle error
             // skip packet

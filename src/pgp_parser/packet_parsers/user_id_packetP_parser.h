@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using cryptopglib::pgp_data::packets::UserIDPacket;
     class UserIDPacketParser : public PacketParser {
     public:
-        UserIDPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        UserIDPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

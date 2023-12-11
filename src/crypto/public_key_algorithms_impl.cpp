@@ -316,7 +316,7 @@ namespace cryptopglib::crypto
         CharDataVector mpi_p_data(secret_key->GetPublicKeyPatr()->GetMPI(0));
         BIGNUM* p = BN_bin2bn(&mpi_p_data[0], static_cast<int>(mpi_p_data.size()), nullptr);
         
-        DataBuffer data_buffer(source_data);
+        ParsingDataBuffer data_buffer(source_data);
 
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
@@ -393,7 +393,7 @@ namespace cryptopglib::crypto
         
         DSA_SIG* dsa_signature = DSA_SIG_new();
         
-        DataBuffer data_buffer(result_data);
+        ParsingDataBuffer data_buffer(result_data);
         
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;

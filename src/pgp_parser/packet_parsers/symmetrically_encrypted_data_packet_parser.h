@@ -18,7 +18,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     public:
         explicit SymmetricallyEncryptedDataPacketParser(bool mdc = false);
 
-        PGPPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        PGPPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     private:
         bool mdc_;

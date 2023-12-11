@@ -11,7 +11,7 @@
 #include "../../pgp_data/packets/literal_data_packet.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    LiteralDataPacket *LiteralDataPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    LiteralDataPacket *LiteralDataPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         if (partial) {
             return ParsePartial(data_buffer, c);
         }
@@ -34,7 +34,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         return packet;
     }
 
-    LiteralDataPacket *LiteralDataPacketParser::ParsePartial(DataBuffer &data_buffer, int c) {
+    LiteralDataPacket *LiteralDataPacketParser::ParsePartial(ParsingDataBuffer &data_buffer, int c) {
         LiteralDataPacket *packet = new LiteralDataPacket();
         bool partial = true;
         int data_part_length = 1 << (c & 0x1f);

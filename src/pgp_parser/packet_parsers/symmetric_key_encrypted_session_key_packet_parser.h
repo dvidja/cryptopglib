@@ -17,7 +17,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::SymmetricKeyEncryptedSessionKeyPacket;
     class SymmetricKeyEncryptedSessionKeyPacketParser : public PacketParser {
     public:
-        SymmetricKeyEncryptedSessionKeyPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        SymmetricKeyEncryptedSessionKeyPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

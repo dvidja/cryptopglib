@@ -8,7 +8,7 @@
 
 #include "user_id_packetP_parser.h"
 namespace cryptopglib::pgp_parser::packet_parsers {
-    UserIDPacket *UserIDPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    UserIDPacket *UserIDPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         if (data_buffer.Length() > 2048) {
             return nullptr;
         }

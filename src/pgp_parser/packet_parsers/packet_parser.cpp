@@ -14,7 +14,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
     }
 
-    int GetPacketLengthForPartialContent(DataBuffer &data_buffer, bool &partial) {
+    int GetPacketLengthForPartialContent(ParsingDataBuffer &data_buffer, bool &partial) {
         char hdr[8]; // ????
         int hdrlen = 0;
         int data_part_length = 0;

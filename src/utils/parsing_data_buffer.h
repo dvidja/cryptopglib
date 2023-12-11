@@ -15,9 +15,9 @@
 
 namespace cryptopglib {
 
-    class DataBuffer {
+    class ParsingDataBuffer {
     public:
-        DataBuffer(CharDataVector data);
+        ParsingDataBuffer(CharDataVector data);
         unsigned char GetNextByte();
         unsigned char GetNextByteNotEOF();
         unsigned short GetNextTwoOctets();
@@ -30,14 +30,15 @@ namespace cryptopglib {
 
         bool HasNextByte();
         void ResetCurrentPosition();
-        bool IsEmpty() { return data_.empty(); }
-        size_t Length() { return data_.size(); }
-        size_t RestLength() { return data_.size() - current_position_; };
-        size_t CurrentPosition() const { return current_position_; };
+
+        bool IsEmpty() { return data.empty(); }
+        size_t Length() { return data.size(); }
+        size_t RestLength() { return data.size() - currentPosition; };
+        size_t CurrentPosition() const { return currentPosition; };
 
     private:
-        CharDataVector data_;
-        size_t current_position_;
+        CharDataVector data;
+        size_t currentPosition;
     };
 }
 

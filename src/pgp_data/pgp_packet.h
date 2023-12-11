@@ -10,7 +10,7 @@
 #define cryptopg_PGPPacket_
 
 #include "pgp_packet_types.h"
-#include "../utils/data_buffer.h"
+#include "../utils/parsing_data_buffer.h"
 
 
 namespace cryptopglib::pgp_data {

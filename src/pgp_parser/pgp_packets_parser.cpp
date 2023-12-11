@@ -255,7 +255,7 @@ namespace
     using namespace pgp_data::packets;
     using namespace pgp_parser::packet_parsers;
 
-    int GetPacketLengthNewFormat(const unsigned char& ctb, DataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
+    int GetPacketLengthNewFormat(const unsigned char& ctb, ParsingDataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
     {
         packet_length = 0;
         char hdr[8]; // ????
@@ -316,7 +316,7 @@ namespace
         return 0;
     }
 
-    int GetPacketLengthOldFormat(const unsigned char& ctb, DataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
+    int GetPacketLengthOldFormat(const unsigned char& ctb, ParsingDataBuffer& data_buffer, unsigned long& packet_length, bool& partial)
     {
         // Get Packet tag
         PacketType packet_type = (PacketType)((ctb >> 2) & 0xf);
@@ -348,7 +348,7 @@ namespace
         return 0;
     }
     
-    int GetPacketLength(const unsigned char& c, DataBuffer& data_buffer, bool packet_format, unsigned long& packet_length, bool& partial)
+    int GetPacketLength(const unsigned char& c, ParsingDataBuffer& data_buffer, bool packet_format, unsigned long& packet_length, bool& partial)
     {
         if (packet_format) // new packet format
         {
@@ -570,7 +570,7 @@ namespace cryptopglib::pgp_parser {
             if (partial) {
                 packet = packet_parser->Parse(data_buffer_, partial, static_cast<int>(packet_length));
             } else {
-                DataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
+                ParsingDataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
                 packet = packet_parser->Parse(temp_buffer, partial, 0);
             }
 

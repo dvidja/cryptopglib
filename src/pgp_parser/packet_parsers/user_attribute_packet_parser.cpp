@@ -9,7 +9,7 @@
 #include "user_attribute_packet_parser.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    UserAttributePacket *UserAttributePacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    UserAttributePacket *UserAttributePacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         return nullptr;
     }
 }

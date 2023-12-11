@@ -16,7 +16,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     using pgp_data::packets::CompressedDataPacket;
     class CompressedDataPacketParser : public PacketParser {
     public:
-        CompressedDataPacket *Parse(DataBuffer &data_buffer, bool partial, int c) override;
+        CompressedDataPacket *Parse(ParsingDataBuffer &data_buffer, bool partial, int c) override;
 
     };
 }

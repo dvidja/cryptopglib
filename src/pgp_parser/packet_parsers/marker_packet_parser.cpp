@@ -9,7 +9,7 @@
 #include "marker_packet_parser.h"
 
 namespace cryptopglib::pgp_parser::packet_parsers {
-    MarkerPacket *MarkerPacketParser::Parse(DataBuffer &data_buffer, bool partial, int c) {
+    MarkerPacket *MarkerPacketParser::Parse(ParsingDataBuffer &data_buffer, bool partial, int c) {
         return nullptr;
     }
 }
