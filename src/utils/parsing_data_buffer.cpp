@@ -23,6 +23,10 @@ namespace cryptopglib {
         return data[currentPosition];
     }
 
+    unsigned char ParsingDataBuffer::GetCurrentByte() {
+        return data[currentPosition];
+    }
+
     unsigned char ParsingDataBuffer::GetNextByteNotEOF() {
         return GetNextByte() & 0xFF;
     }
@@ -49,10 +53,7 @@ namespace cryptopglib {
     }
 
     CharDataVector ParsingDataBuffer::GetRange(size_t start_pos, size_t last_pos) {
-        if (last_pos >= data.size()) {
-            return {};
-        }
-
+        assert(last_pos < data.size());
         CharDataVector result(data.begin() + start_pos, data.begin() + last_pos);
         currentPosition = last_pos;
         return result;
@@ -82,8 +83,6 @@ namespace cryptopglib {
 
     bool ParsingDataBuffer::Skip(unsigned long packet_length) {
         currentPosition += packet_length;
-
-
         return currentPosition < data.size();
     }
 }

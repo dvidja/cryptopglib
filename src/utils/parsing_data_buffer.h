@@ -19,6 +19,7 @@ namespace cryptopglib {
     public:
         ParsingDataBuffer(CharDataVector data);
         unsigned char GetNextByte();
+        unsigned char GetCurrentByte();
         unsigned char GetNextByteNotEOF();
         unsigned short GetNextTwoOctets();
         unsigned int GetNextFourOctets();
