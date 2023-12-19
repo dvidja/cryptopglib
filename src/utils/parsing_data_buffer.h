@@ -5,15 +5,27 @@
 //  Created by Anton Sarychev on 14.4.13.
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
-
-#ifndef cryptopg_DataBuffer_
-#define cryptopg_DataBuffer_
+#pragma once
 
 #include <iostream>
+#include <span>
 
 #include "../pgp_data/pgp_data_types.h"
 
 namespace cryptopglib {
+
+
+    class ParsingDataSubBuffer {
+    public:
+        explicit ParsingDataSubBuffer(std::span<unsigned char> d)
+            : data(d)
+        {
+        }
+
+    private:
+        std::span<unsigned char> data;
+    };
+
 
     class ParsingDataBuffer {
     public:
@@ -43,4 +55,3 @@ namespace cryptopglib {
     };
 }
 
-#endif /* cryptopg_DataBuffer_ */
