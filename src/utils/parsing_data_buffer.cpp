@@ -37,6 +37,30 @@ namespace cryptopglib {
         return a;
     }
 
+    ParsingDataSubBuffer ParsingDataBuffer::GetRange(size_t length) {
+        size_t end = length + currentPosition;
+
+        if (end > data.size()) {
+            return ParsingDataSubBuffer{std::span<unsigned char>(data.begin() + currentPosition, data.end())};
+        }
+
+        ParsingDataSubBuffer result(std::span<unsigned char>(data.begin() + currentPosition, data.begin() + end));
+        currentPosition += length;
+
+        return result;
+    }
+
+    ParsingDataSubBuffer ParsingDataBuffer::GetRange(size_t start_pos, size_t last_pos) {
+        assert(last_pos < data.size());
+        ParsingDataSubBuffer result(std::span<unsigned char>(data.begin() + start_pos, data.begin() + last_pos));
+        currentPosition = last_pos;
+        return result;
+    }
+
+    ParsingDataSubBuffer ParsingDataBuffer::GetRawData() {
+        return ParsingDataSubBuffer(std::span<unsigned char>(data.begin(), data.end()));
+    }
+
     CharDataVector ParsingDataBuffer::GetRangeOld(size_t length) {
         size_t end = length + currentPosition;
 
