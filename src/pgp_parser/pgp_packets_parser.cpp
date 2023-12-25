@@ -151,6 +151,7 @@ namespace {
     std::unique_ptr<cryptopglib::pgp_data::PGPPacket> ParsePacket(cryptopglib::PacketType packet_type, unsigned long packet_length, bool partial) {
         std::unique_ptr<cryptopglib::pgp_parser::packet_parsers::PacketParser> packet_parser
             = cryptopglib::pgp_parser::packet_parsers::GetPacketParser(packet_type);
+
         /*if (packet_parser) {
             std::unique_ptr<cryptopglib::pgp_data::PGPPacket> packet;
             if (partial) {

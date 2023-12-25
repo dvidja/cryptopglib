@@ -77,66 +77,45 @@ namespace cryptopglib::pgp_parser::packet_parsers {
     }
 
     std::unique_ptr<PacketParser> GetPacketParser(PacketType packet_type) {
-        std::unique_ptr<PacketParser> packet_parser(nullptr);
-
         switch (packet_type) {
             case PacketType::kNone:
-                throw (std::exception()); // todo: generate correct error
+                return nullptr;
             case PacketType::kPublicKeyEncryptedPacket:
-                packet_parser = std::make_unique<PublicKeyEncryptedPacketParser>();
-                break;
+                return std::make_unique<PublicKeyEncryptedPacketParser>();
             case PacketType::kSignaturePacket:
-                packet_parser = std::make_unique<SignaturePacketParser>();
-                break;
+                return std::make_unique<SignaturePacketParser>();
             case PacketType::kSymmetricKeyEncryptedSessionKeyPacket:
-                packet_parser = std::make_unique<SymmetricKeyEncryptedSessionKeyPacketParser>();
-                break;
+                return std::make_unique<SymmetricKeyEncryptedSessionKeyPacketParser>();
             case PacketType::kOnePassSignaturePacket:
-                packet_parser = std::make_unique<OnePassSignaturePacketParser>();
-                break;
+                return std::make_unique<OnePassSignaturePacketParser>();
             case PacketType::kSecretKeyPacket:
-                packet_parser = std::make_unique<SecretKeyPacketParser>();
-                break;
+                return std::make_unique<SecretKeyPacketParser>();
             case PacketType::kPublicKeyPacket:
-                packet_parser = std::make_unique<PublicKeyPacketParser>();
-                break;
+                return std::make_unique<PublicKeyPacketParser>();
             case PacketType::kSecretSubkeyPacket:
-                packet_parser = std::make_unique<SecretKeyPacketParser>();
-                break;
+                return std::make_unique<SecretKeyPacketParser>();
             case PacketType::kCompressedDataPacket:
-                packet_parser = std::make_unique<CompressedDataPacketParser>();
-                break;
+                return std::make_unique<CompressedDataPacketParser>();
             case PacketType::kSymmetricallyEncryptedDataPacket:
-                packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>();
-                break;
+                return std::make_unique<SymmetricallyEncryptedDataPacketParser>();
             case PacketType::kMarkerPacket:
-                packet_parser = std::make_unique<MarkerPacketParser>();
-                break;
+                return std::make_unique<MarkerPacketParser>();
             case PacketType::kLiteralDataPacket:
-                packet_parser = std::make_unique<LiteralDataPacketParser>();
-                break;
+                return std::make_unique<LiteralDataPacketParser>();
             case PacketType::kTrustPacket:
-                packet_parser = std::make_unique<TrustPacketParser>();
-                break;
+                return std::make_unique<TrustPacketParser>();
             case PacketType::kUserIDPacket:
-                packet_parser = std::make_unique<UserIDPacketParser>();
-                break;
+                return std::make_unique<UserIDPacketParser>();
             case PacketType::kPublicSubkeyPacket:
-                packet_parser = std::make_unique<PublicKeyPacketParser>();
-                break;
+                return std::make_unique<PublicKeyPacketParser>();
             case PacketType::kUserAttributePacket:
-                packet_parser = std::make_unique<UserAttributePacketParser>();
-                break;
+                return std::make_unique<UserAttributePacketParser>();
             case PacketType::kSymmetricEncryptedAndIntegrityProtectedDataPacket:
-                packet_parser = std::make_unique<SymmetricallyEncryptedDataPacketParser>(true);
-                break;
+                return std::make_unique<SymmetricallyEncryptedDataPacketParser>(true);
             case PacketType::kModificationDetectionCodePacket:
-                packet_parser = std::make_unique<ModificationDetectionCodePacketParser>();
-                break;
+                return std::make_unique<ModificationDetectionCodePacketParser>();
             default:
-                throw (std::exception()); // todo: generate correct exceprion
+                return nullptr;
         }
-
-        return packet_parser;
     }
 }
