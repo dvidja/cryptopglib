@@ -14,7 +14,6 @@
 
 namespace cryptopglib {
 
-
     class ParsingDataSubBuffer {
     public:
         explicit ParsingDataSubBuffer(std::span<unsigned char> d)

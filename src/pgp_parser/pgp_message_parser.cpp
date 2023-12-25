@@ -23,6 +23,7 @@
 
 //new
 namespace {
+
     class ParsingData {
     private:
         std::string_view data;
@@ -33,7 +34,6 @@ namespace {
         explicit ParsingData(std::string_view message)
                 : data(message)
                 , currentPosition(0) {
-
         }
 
         std::string_view GetNextLine() {

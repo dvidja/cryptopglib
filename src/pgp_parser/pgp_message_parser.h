@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Anton Sarychev. All rights reserved.
 //
 
-#ifndef cryptopg_PGPMessageParser_
-#define cryptopg_PGPMessageParser_
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -66,4 +65,3 @@ namespace cryptopglib::pgp_parser {
     };
 }
 
-#endif /* cryptopg_PGPMessageParser_ */
