@@ -36,23 +36,23 @@ namespace
             case kRSASignOnly:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
-                    packet->AddMPI(data_buffer.GetRange(length));
+                    packet->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    packet->AddMPI(data_buffer.GetRange(length));
+                    packet->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    packet->AddMPI(data_buffer.GetRange(length));
+                    packet->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    packet->AddMPI(data_buffer.GetRange(length));
+                    packet->AddMPI(data_buffer.GetRangeOld(length));
                 }
                 break;
             case kElgamal:
             case kDSA:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
-                    packet->AddMPI(data_buffer.GetRange(length));
+                    packet->AddMPI(data_buffer.GetRangeOld(length));
                 }
                 break;
                 
@@ -96,14 +96,14 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 }
                 case 1://salted s2k
                 {
-                    CharDataVector salt_value = data_buffer.GetRange(8);
+                    CharDataVector salt_value = data_buffer.GetRangeOld(8);
                     secret_key_packet->SetSaltValue(salt_value);
 
                     break;
                 }
                 case 3://iterated and salted
                 {
-                    CharDataVector salt_value = data_buffer.GetRange(8);
+                    CharDataVector salt_value = data_buffer.GetRangeOld(8);
                     secret_key_packet->SetSaltValue(salt_value);
 
                     unsigned int count = data_buffer.GetNextByte();
@@ -125,7 +125,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
             int length = symmetric_key_algo_impl != nullptr ? symmetric_key_algo_impl->GetCipherBlockSize() : 0;
             if (length != 0) {
-                CharDataVector initial_vector = data_buffer.GetRange(length);
+                CharDataVector initial_vector = data_buffer.GetRangeOld(length);
                 if (initial_vector.size() == length) {
                     secret_key_packet->SetInitialVector(initial_vector);
                 }
@@ -144,7 +144,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
             if (key_version == 4) {
                 // encrypted all rest data
-                secret_key_packet->AddMPI(data_buffer.GetRange(data_buffer.RestLength()));
+                secret_key_packet->AddMPI(data_buffer.GetRangeOld(data_buffer.RestLength()));
 
                 //other data extract after decryption
                 return secret_key_packet;
@@ -152,9 +152,9 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         }
 
         if (string_to_key_usage == 254) {
-            CharDataVector sha_hash = data_buffer.GetRange(20);
+            CharDataVector sha_hash = data_buffer.GetRangeOld(20);
         } else {
-            CharDataVector checksum = data_buffer.GetRange(2);
+            CharDataVector checksum = data_buffer.GetRangeOld(2);
         }
 
         return secret_key_packet;

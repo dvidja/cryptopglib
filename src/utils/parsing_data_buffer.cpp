@@ -37,7 +37,7 @@ namespace cryptopglib {
         return a;
     }
 
-    CharDataVector ParsingDataBuffer::GetRange(size_t length) {
+    CharDataVector ParsingDataBuffer::GetRangeOld(size_t length) {
         size_t end = length + currentPosition;
 
         if (end > data.size()) {
@@ -51,14 +51,14 @@ namespace cryptopglib {
         return {data.begin() + currentPosition, data.begin() + end};
     }
 
-    CharDataVector ParsingDataBuffer::GetRange(size_t start_pos, size_t last_pos) {
+    CharDataVector ParsingDataBuffer::GetRangeOld(size_t start_pos, size_t last_pos) {
         assert(last_pos < data.size());
         CharDataVector result(data.begin() + start_pos, data.begin() + last_pos);
         currentPosition = last_pos;
         return result;
     }
 
-    CharDataVector ParsingDataBuffer::GetRawData() {
+    CharDataVector ParsingDataBuffer::GetRawDataOld() {
         return data;
     }
 

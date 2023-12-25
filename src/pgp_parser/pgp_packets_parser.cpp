@@ -372,7 +372,7 @@ namespace cryptopglib::pgp_parser {
             } else {
                 if (user_id_number == current_user_id_number) {
                     CharDataVector temp_data(
-                            data_buffer_.GetRange(start_pos, data_buffer_.CurrentPosition() + packet_length));
+                            data_buffer_.GetRangeOld(start_pos, data_buffer_.CurrentPosition() + packet_length));
                     //CharDataVector temp_data(data_buffer_.GetRange(start_pos, data_buffer_.current_position() + packet_length));
                     user_id_data.push_back(0xB4);
                     user_id_data.push_back((packet_length >> 24) & 0xFF);
@@ -422,7 +422,7 @@ namespace cryptopglib::pgp_parser {
             } else {
                 if (key_number == current_key_number) {
                     //CharDataVector temp_data(data_buffer_.GetRange(start_pos, data_buffer_.current_position() + packet_length));
-                    CharDataVector temp_data(data_buffer_.GetRange(packet_length));
+                    CharDataVector temp_data(data_buffer_.GetRangeOld(packet_length));
 
                     key_data.push_back(0x99);
                     key_data.push_back((packet_length >> 8) & 0xFF);
@@ -484,11 +484,11 @@ namespace cryptopglib::pgp_parser {
                     }
                     if (n) {
                         //Hashed subpacket data
-                        data_buffer_.GetRange(n);
+                        data_buffer_.GetRangeOld(n);
                     }
                     size_t last_pos = data_buffer_.CurrentPosition();
 
-                    CharDataVector temp_data(data_buffer_.GetRange(start_pos, last_pos));
+                    CharDataVector temp_data(data_buffer_.GetRangeOld(start_pos, last_pos));
                     //CharDataVector temp_data(data_buffer_.GetRange(packet_length));
                 } else {
                     data_buffer_.Skip(packet_length);
@@ -532,7 +532,7 @@ namespace cryptopglib::pgp_parser {
             if (partial) {
                 packet = packet_parser->Parse(data_buffer_, partial, static_cast<int>(packet_length));
             } else {
-                ParsingDataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
+                ParsingDataBuffer temp_buffer(data_buffer_.GetRangeOld(packet_length));
                 packet = packet_parser->Parse(temp_buffer, partial, 0);
             }
 

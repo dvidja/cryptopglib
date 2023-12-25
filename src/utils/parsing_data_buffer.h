@@ -36,9 +36,9 @@ namespace cryptopglib {
         unsigned int GetNextFourOctets();
         bool Skip(unsigned long packet_length);
 
-        CharDataVector GetRange(size_t length);
-        CharDataVector GetRange(size_t start_pos, size_t last_pos);
-        CharDataVector GetRawData();
+        CharDataVector GetRangeOld(size_t length);
+        CharDataVector GetRangeOld(size_t start_pos, size_t last_pos);
+        CharDataVector GetRawDataOld();
 
         bool HasNextByte();
         void ResetCurrentPosition();

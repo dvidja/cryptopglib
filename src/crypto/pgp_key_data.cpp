@@ -369,23 +369,23 @@ namespace cryptopglib::crypto
                 case kRSASignOnly:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
-                    secret_key->AddMPI(data_buffer.GetRange(length));
+                    secret_key->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    secret_key->AddMPI(data_buffer.GetRange(length));
+                    secret_key->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    secret_key->AddMPI(data_buffer.GetRange(length));
+                    secret_key->AddMPI(data_buffer.GetRangeOld(length));
                     
                     length = GetMPIDataLength(data_buffer);
-                    secret_key->AddMPI(data_buffer.GetRange(length));
+                    secret_key->AddMPI(data_buffer.GetRangeOld(length));
                 }
                     break;
                 case kElgamal:
                 case kDSA:
                 {
                     size_t length = GetMPIDataLength(data_buffer);
-                    secret_key->AddMPI(data_buffer.GetRange(length));
+                    secret_key->AddMPI(data_buffer.GetRangeOld(length));
                 }
                     break;
                     
@@ -395,7 +395,7 @@ namespace cryptopglib::crypto
             
             if (secret_key->GetStringToKeyUsage() == 254)
             {
-                CharDataVector sha_hash = data_buffer.GetRange(20);
+                CharDataVector sha_hash = data_buffer.GetRangeOld(20);
                 
                 CharDataVector hash_result;
                 crypto::Sha1 sha1;
@@ -414,7 +414,7 @@ namespace cryptopglib::crypto
             }
             else
             {
-                CharDataVector checksum = data_buffer.GetRange(2);
+                CharDataVector checksum = data_buffer.GetRangeOld(2);
             }
         }
         

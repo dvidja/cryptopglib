@@ -18,7 +18,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         }
 
         ModificationDetectionCodePacket *packet = new ModificationDetectionCodePacket;
-        packet->SetData(data_buffer.GetRawData());
+        packet->SetData(data_buffer.GetRawDataOld());
 
         return packet;
     }

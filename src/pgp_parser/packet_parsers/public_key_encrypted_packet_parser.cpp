@@ -43,7 +43,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                     int l = data_buffer.GetNextTwoOctets();
                     l = (l + 7) / 8;
 
-                    CharDataVector mpi_data = data_buffer.GetRange(l);
+                    CharDataVector mpi_data = data_buffer.GetRangeOld(l);
                     packet->AddMPI(mpi_data);
                 }
             }
@@ -52,7 +52,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
             case kElgamal:
             case kDSA: {
-                CharDataVector mpis = data_buffer.GetRange(data_buffer.RestLength());
+                CharDataVector mpis = data_buffer.GetRangeOld(data_buffer.RestLength());
                 packet->AddMPI(mpis);
 
                 break;

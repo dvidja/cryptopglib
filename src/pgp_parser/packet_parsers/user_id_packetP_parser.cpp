@@ -15,7 +15,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         UserIDPacket *packet = new UserIDPacket();
 
-        CharDataVector name = data_buffer.GetRange(data_buffer.Length());
+        CharDataVector name = data_buffer.GetRangeOld(data_buffer.Length());
         packet->SetUserID(name);
 
         return packet;

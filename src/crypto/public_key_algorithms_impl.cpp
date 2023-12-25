@@ -320,12 +320,12 @@ namespace cryptopglib::crypto
 
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
-        CharDataVector mpi_data_a = data_buffer.GetRange(l);
+        CharDataVector mpi_data_a = data_buffer.GetRangeOld(l);
         BIGNUM* a = BN_bin2bn(&mpi_data_a[0], static_cast<int>(mpi_data_a.size()), nullptr);
         
         l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
-        CharDataVector mpi_data_b = data_buffer.GetRange(l);
+        CharDataVector mpi_data_b = data_buffer.GetRangeOld(l);
         BIGNUM* b = BN_bin2bn(&mpi_data_b[0], static_cast<int>(mpi_data_b.size()), nullptr);
         
         BN_CTX* ctx;
@@ -398,13 +398,13 @@ namespace cryptopglib::crypto
         int l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
         
-        CharDataVector mpi_data_r = data_buffer.GetRange(l);
+        CharDataVector mpi_data_r = data_buffer.GetRangeOld(l);
         auto r = BN_bin2bn(&mpi_data_r[0], static_cast<int>(mpi_data_r.size()), nullptr);
         
         l = data_buffer.GetNextTwoOctets();
         l = (l + 7) / 8;
         
-        CharDataVector mpi_data_s = data_buffer.GetRange(l);
+        CharDataVector mpi_data_s = data_buffer.GetRangeOld(l);
         auto s = BN_bin2bn(&mpi_data_s[0], static_cast<int>(mpi_data_s.size()), nullptr);
 
         DSA_set0_pqg(dsa_public_key, p, q, g);

@@ -46,16 +46,16 @@ namespace
         secret_key_packet_ptr->ClearMPIData();
         
         size_t length = GetMPIDataLength(data_buffer);
-        secret_key_packet_ptr->AddMPI(data_buffer.GetRange(length));
+        secret_key_packet_ptr->AddMPI(data_buffer.GetRangeOld(length));
         
         length = GetMPIDataLength(data_buffer);
-        secret_key_packet_ptr->AddMPI(data_buffer.GetRange(length));
+        secret_key_packet_ptr->AddMPI(data_buffer.GetRangeOld(length));
         
         length = GetMPIDataLength(data_buffer);
-        secret_key_packet_ptr->AddMPI(data_buffer.GetRange(length));
+        secret_key_packet_ptr->AddMPI(data_buffer.GetRangeOld(length));
         
         length = GetMPIDataLength(data_buffer);
-        secret_key_packet_ptr->AddMPI(data_buffer.GetRange(length));
+        secret_key_packet_ptr->AddMPI(data_buffer.GetRangeOld(length));
     }
     
     /// NOTE!!! Methood dublicated in PGPParser.cpp

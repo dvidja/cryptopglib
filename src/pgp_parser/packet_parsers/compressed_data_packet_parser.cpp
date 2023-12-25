@@ -23,12 +23,12 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 data_part_length = 1 << (c & 0x1f);
                 data_part_length--;
             } else {
-                packet->SetData(data_buffer.GetRange(data_buffer.RestLength()));
+                packet->SetData(data_buffer.GetRangeOld(data_buffer.RestLength()));
                 return packet;
             }
 
             do {
-                CharDataVector temp_data(data_buffer.GetRange(data_part_length));
+                CharDataVector temp_data(data_buffer.GetRangeOld(data_part_length));
 
                 result_data.insert(result_data.end(), temp_data.begin(), temp_data.end());
 
@@ -45,7 +45,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 }
             } while (data_buffer.RestLength() != 0);
         } else {
-            packet->SetData(data_buffer.GetRange(data_buffer.RestLength()));
+            packet->SetData(data_buffer.GetRangeOld(data_buffer.RestLength()));
         }
 
         return packet;

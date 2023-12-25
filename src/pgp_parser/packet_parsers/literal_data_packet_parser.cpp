@@ -22,12 +22,12 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         int file_name_length = data_buffer.GetNextByte();
         if (file_name_length != 0) {
-            packet->SetFileName(data_buffer.GetRange(file_name_length));
+            packet->SetFileName(data_buffer.GetRangeOld(file_name_length));
         }
 
         data_buffer.GetNextFourOctets();
 
-        CharDataVector data = data_buffer.GetRange(data_buffer.RestLength());
+        CharDataVector data = data_buffer.GetRangeOld(data_buffer.RestLength());
 
         packet->SetData(data);
 
@@ -54,7 +54,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         data_part_length--;
         if (file_name_length != 0) {
             if (data_part_length >= file_name_length) {
-                packet->SetFileName(data_buffer.GetRange(file_name_length));
+                packet->SetFileName(data_buffer.GetRangeOld(file_name_length));
                 data_part_length -= file_name_length;
             } else {
                 //TODO: !!!!!
@@ -82,7 +82,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         CharDataVector result_data;
 
         do {
-            CharDataVector temp_data(data_buffer.GetRange(data_part_length));
+            CharDataVector temp_data(data_buffer.GetRangeOld(data_part_length));
 
             result_data.insert(result_data.end(), temp_data.begin(), temp_data.end());
 

@@ -81,14 +81,14 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 int l = data_buffer.GetNextTwoOctets();
                 l = (l + 7) / 8;
 
-                CharDataVector mpi_data = data_buffer.GetRange(l);
+                CharDataVector mpi_data = data_buffer.GetRangeOld(l);
                 packet->AddMPI(mpi_data);
             }
                 return packet;
 
             case kDSA: {
                 // !!! for DSA we read all data
-                CharDataVector mpis = data_buffer.GetRange(data_buffer.RestLength());
+                CharDataVector mpis = data_buffer.GetRangeOld(data_buffer.RestLength());
                 packet->AddMPI(mpis);
             }
                 return packet;
@@ -97,7 +97,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 break;
         }
 
-        data_buffer.GetRange(data_buffer.RestLength());
+        data_buffer.GetRangeOld(data_buffer.RestLength());
 
         return nullptr;
     }
@@ -122,7 +122,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         }
         if (n) {
             //Hashed subpacket data
-            ParseSubPacket(data_buffer.GetRange(n), packet, true);
+            ParseSubPacket(data_buffer.GetRangeOld(n), packet, true);
         }
 
         n = data_buffer.GetNextTwoOctets();
@@ -132,7 +132,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         }
         if (n) {
             // Unhashed subpasket data
-            ParseSubPacket(data_buffer.GetRange(n), packet, false);
+            ParseSubPacket(data_buffer.GetRangeOld(n), packet, false);
         }
 
         if (data_buffer.RestLength() < 5) {
@@ -151,14 +151,14 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 int l = data_buffer.GetNextTwoOctets();
                 l = (l + 7) / 8;
 
-                CharDataVector mpi_data = data_buffer.GetRange(l);
+                CharDataVector mpi_data = data_buffer.GetRangeOld(l);
                 packet->AddMPI(mpi_data);
             }
                 return packet;
 
             case kDSA: {
                 // !!! for DSA we read all data
-                CharDataVector mpis = data_buffer.GetRange(data_buffer.RestLength());
+                CharDataVector mpis = data_buffer.GetRangeOld(data_buffer.RestLength());
                 packet->AddMPI(mpis);
             }
                 return packet;
@@ -167,7 +167,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 break;
         }
 
-        data_buffer.GetRange(data_buffer.RestLength());
+        data_buffer.GetRangeOld(data_buffer.RestLength());
 
         return nullptr;
     }
@@ -193,7 +193,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
 
         switch (subpacket_type) {
             case SST_ISSUER: {
-                CharDataVector subpacket_data = data_buffer.GetRange(subpacket_length - 1);
+                CharDataVector subpacket_data = data_buffer.GetRangeOld(subpacket_length - 1);
                 if (subpacket_data.size() != 8) {
                     break;
                 }
@@ -216,7 +216,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_SIGNATURE_CREATION_TIME: {
-                CharDataVector subpacket_data = data_buffer.GetRange(subpacket_length - 1);
+                CharDataVector subpacket_data = data_buffer.GetRangeOld(subpacket_length - 1);
                 if (subpacket_data.size() != 4) {
                     break;
                 }
@@ -231,15 +231,15 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_EMBEDDED_SIGNATURE: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
                 SignaturePacketParser embeded_signature_parser;
                 embeded_signature_parser.Parse(subpacket_data, false, 0);
             }
                 break;
             case SST_KEY_EXPIRATION_TIME: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
 
                 if (subpacket_data.Length() != 4) {
                     break;
@@ -250,8 +250,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_SIGNATURE_EXPIRATION_TIME: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
 
                 if (subpacket_data.Length() != 4) {
                     break;
@@ -262,8 +262,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_PREFERRED_HASH_ALGO: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
 
                 std::vector<HashAlgorithms> prefered_hash_algo;
                 for (int i = 0; i < subpacket_data.Length(); ++i) {
@@ -275,8 +275,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_PREFERRED_SYMMETRIC_ALGO: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
 
                 std::vector<SymmetricKeyAlgorithms> prefered_chiper_algo;
                 for (int i = 0; i < subpacket_data.Length(); ++i) {
@@ -288,8 +288,8 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             }
                 break;
             case SST_PREFERRED_COMPRESSION_ALGO: {
-                ParsingDataBuffer subpacket_data(data_buffer.GetRange(subpacket_length - 1));
-                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawData(), hashed);
+                ParsingDataBuffer subpacket_data(data_buffer.GetRangeOld(subpacket_length - 1));
+                packet->AddSubPacketData(subpacket_type, subpacket_data.GetRawDataOld(), hashed);
 
                 std::vector<CompressionAlgorithms> prefered_compression_algo;
                 for (int i = 0; i < subpacket_data.Length(); ++i) {
@@ -302,12 +302,12 @@ namespace cryptopglib::pgp_parser::packet_parsers {
                 break;
 
             default:
-                packet->AddSubPacketData(subpacket_type, data_buffer.GetRange(subpacket_length - 1), hashed);
+                packet->AddSubPacketData(subpacket_type, data_buffer.GetRangeOld(subpacket_length - 1), hashed);
                 break;
         }
 
         if (data_buffer.RestLength() != 0) {
-            ParseSubPacket(data_buffer.GetRange(data_buffer.RestLength()), packet, hashed);
+            ParseSubPacket(data_buffer.GetRangeOld(data_buffer.RestLength()), packet, hashed);
         }
     }
 }

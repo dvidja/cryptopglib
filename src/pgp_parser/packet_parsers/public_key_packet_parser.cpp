@@ -71,42 +71,42 @@ namespace cryptopglib::pgp_parser::packet_parsers {
             case kRSAEncryptOnly:
             case kRSASignOnly: {
                 size_t length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
                 packet->SetKeySize(length * 8);
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
             }
 
                 break;
 
             case kElgamal: {
                 size_t length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
                 packet->SetKeySize(length * 8);
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
             }
 
                 break;
 
             case kDSA: {
                 size_t length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
                 packet->SetKeySize(length * 8);
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
 
                 length = GetMPIDataLength(data_buffer);
-                packet->AddMPI(data_buffer.GetRange(length));
+                packet->AddMPI(data_buffer.GetRangeOld(length));
             }
 
                 break;
@@ -124,7 +124,7 @@ namespace cryptopglib::pgp_parser::packet_parsers {
         int a2 = (length >> 8) & 0xFF;
         fingerprint.push_back(a2);
         fingerprint.push_back(a1);
-        CharDataVector tmp_data = data_buffer.GetRawData();
+        CharDataVector tmp_data = data_buffer.GetRawDataOld();
         fingerprint.insert(fingerprint.end(), tmp_data.begin(), tmp_data.begin() + length);
 
         CharDataVector hash;
