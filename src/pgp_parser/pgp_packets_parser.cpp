@@ -148,10 +148,11 @@ namespace {
         return GetPacketLengthOldFormat(c, parsingData);
     }
 
-    /*void ParsePacket(cryptopglib::PacketType packet_type, unsigned long packet_length, bool partial) {
-        std::unique_ptr<PacketParser> packet_parser = CreatePacketParser(packet_type);
-        if (packet_parser) {
-            PGPPacket *packet = nullptr;
+    std::unique_ptr<cryptopglib::pgp_data::PGPPacket> ParsePacket(cryptopglib::PacketType packet_type, unsigned long packet_length, bool partial) {
+        std::unique_ptr<cryptopglib::pgp_parser::packet_parsers::PacketParser> packet_parser
+            = cryptopglib::pgp_parser::packet_parsers::GetPacketParser(packet_type);
+        /*if (packet_parser) {
+            std::unique_ptr<cryptopglib::pgp_data::PGPPacket> packet;
             if (partial) {
                 packet = packet_parser->Parse(data_buffer_, partial, static_cast<int>(packet_length));
             } else {
@@ -164,13 +165,12 @@ namespace {
             }
         } else {
             SkipPacket(packet_length, partial);
-        }
+        }*/
 
-        return;
-    }*/
+        return nullptr;
+    }
 
-
-    std::unique_ptr<cryptopglib::pgp_data::PGPPacket*> ParsePacket(cryptopglib::ParsingDataBuffer& parsingData) {
+    std::unique_ptr<cryptopglib::pgp_data::PGPPacket> ParsePacket(cryptopglib::ParsingDataBuffer& parsingData) {
         if (!parsingData.HasNextByte()) {
             return nullptr;
         }
@@ -185,15 +185,13 @@ namespace {
 
         auto [packetLength, partial] = GetPacketLength(c, parsingData, packetFormat);
 
-        //ParsePacket(packetType, packetLength, partial);
-
-        return {};
+        return ParsePacket(packetType, packetLength, partial);
     }
 }
 
 namespace cryptopglib::pgp_parser {
-    std::vector<std::unique_ptr<pgp_data::PGPPacket*>>ParsePackets(std::vector<unsigned char>& data) {
-        std::vector<std::unique_ptr<pgp_data::PGPPacket*>> packets;
+    std::vector<std::unique_ptr<pgp_data::PGPPacket>>ParsePackets(std::vector<unsigned char>& data) {
+        std::vector<std::unique_ptr<pgp_data::PGPPacket>> packets;
 
         cryptopglib::ParsingDataBuffer parsingData(data);
         while (parsingData.HasNextByte()) {
@@ -209,6 +207,11 @@ namespace cryptopglib::pgp_parser {
         return packets;
     }
 }
+
+
+
+
+/// next the old
 
 
 namespace

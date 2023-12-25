@@ -18,7 +18,7 @@
 #include "packet_parsers/packet_parser.h"
 
 namespace cryptopglib::pgp_parser {
-    std::vector<std::unique_ptr<pgp_data::PGPPacket*>>ParsePackets(std::vector<unsigned char>& data);
+    std::vector<std::unique_ptr<pgp_data::PGPPacket>>ParsePackets(std::vector<unsigned char>& data);
 }
 
 
