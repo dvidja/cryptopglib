@@ -14,7 +14,13 @@
 namespace cryptopglib {
     ParsingDataBuffer::ParsingDataBuffer(CharDataVector data)
             : currentPosition(0)
-            , data(std::move(data)) {
+            , data(data)
+            , dataHandler(data){
+    }
+
+    ParsingDataBuffer::ParsingDataBuffer(std::span<unsigned char> data)
+            : currentPosition(0)
+            , dataHandler(data){
     }
 
     unsigned char ParsingDataBuffer::GetNextByte() {
@@ -37,28 +43,30 @@ namespace cryptopglib {
         return a;
     }
 
-    ParsingDataSubBuffer ParsingDataBuffer::GetRange(size_t length) {
+    ParsingDataBuffer ParsingDataBuffer::GetRange(size_t length) {
         size_t end = length + currentPosition;
 
         if (end > data.size()) {
-            return ParsingDataSubBuffer{std::span<unsigned char>(data.begin() + currentPosition, data.end())};
+            return ParsingDataBuffer{std::span<unsigned char>(data.begin() + currentPosition, data.end())};
         }
 
-        ParsingDataSubBuffer result(std::span<unsigned char>(data.begin() + currentPosition, data.begin() + end));
+        auto temp_span = std::span<unsigned char>(data.begin() + currentPosition, data.begin() + end);
+        //ParsingDataBuffer result(std::span<unsigned char>(data.begin() + currentPosition, data.begin() + end));
         currentPosition += length;
 
-        return result;
+        return ParsingDataBuffer(temp_span);
     }
 
-    ParsingDataSubBuffer ParsingDataBuffer::GetRange(size_t start_pos, size_t last_pos) {
+    ParsingDataBuffer ParsingDataBuffer::GetRange(size_t start_pos, size_t last_pos) {
         assert(last_pos < data.size());
-        ParsingDataSubBuffer result(std::span<unsigned char>(data.begin() + start_pos, data.begin() + last_pos));
+        auto temp_span = std::span<unsigned char>(data.begin() + start_pos, data.begin() + last_pos);
+        //ParsingDataBuffer result(std::span<unsigned char>(data.begin() + start_pos, data.begin() + last_pos));
         currentPosition = last_pos;
-        return result;
+        return ParsingDataBuffer(temp_span);
     }
 
-    ParsingDataSubBuffer ParsingDataBuffer::GetRawData() {
-        return ParsingDataSubBuffer(std::span<unsigned char>(data.begin(), data.end()));
+    ParsingDataBuffer ParsingDataBuffer::GetRawData() {
+        return ParsingDataBuffer(std::span<unsigned char>(data.begin(), data.end()));
     }
 
     CharDataVector ParsingDataBuffer::GetRangeOld(size_t length) {

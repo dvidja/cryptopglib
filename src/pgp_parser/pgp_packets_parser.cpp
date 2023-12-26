@@ -148,13 +148,16 @@ namespace {
         return GetPacketLengthOldFormat(c, parsingData);
     }
 
-    std::unique_ptr<cryptopglib::pgp_data::PGPPacket> ParsePacket(cryptopglib::PacketType packet_type, unsigned long packet_length, bool partial) {
+    std::unique_ptr<cryptopglib::pgp_data::PGPPacket> ParsePacket(cryptopglib::ParsingDataBuffer& parsingData,
+                                                                  cryptopglib::PacketType packet_type,
+                                                                  unsigned long packet_length,
+                                                                  bool partial) {
         std::unique_ptr<cryptopglib::pgp_parser::packet_parsers::PacketParser> packet_parser
             = cryptopglib::pgp_parser::packet_parsers::GetPacketParser(packet_type);
 
-        /*if (packet_parser) {
+        if (packet_parser) {
             std::unique_ptr<cryptopglib::pgp_data::PGPPacket> packet;
-            if (partial) {
+            /*if (partial) {
                 packet = packet_parser->Parse(data_buffer_, partial, static_cast<int>(packet_length));
             } else {
                 DataBuffer temp_buffer(data_buffer_.GetRange(packet_length));
@@ -163,10 +166,10 @@ namespace {
 
             if (packet != nullptr) {
                 packets_.push_back(std::shared_ptr<PGPPacket>(packet));
-            }
+            }*/
         } else {
-            SkipPacket(packet_length, partial);
-        }*/
+            //SkipPacket(packet_length, partial);
+        }
 
         return nullptr;
     }
@@ -186,7 +189,7 @@ namespace {
 
         auto [packetLength, partial] = GetPacketLength(c, parsingData, packetFormat);
 
-        return ParsePacket(packetType, packetLength, partial);
+        return ParsePacket(parsingData, packetType, packetLength, partial);
     }
 }
 

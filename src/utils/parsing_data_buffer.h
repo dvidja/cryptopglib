@@ -13,22 +13,24 @@
 #include "../pgp_data/pgp_data_types.h"
 
 namespace cryptopglib {
-
-    class ParsingDataSubBuffer {
-    public:
-        explicit ParsingDataSubBuffer(std::span<unsigned char> d)
-            : data(d)
-        {
+    union DataHandler {
+        std::vector<unsigned char> owned_data;
+        std::span<unsigned char> unowned_data;
+        DataHandler(std::vector<unsigned char> data)
+            : owned_data(std::move(data)){
         }
+        DataHandler(std::span<unsigned char> data)
+                : unowned_data(data){
+        }
+        ~DataHandler() {
 
-    private:
-        std::span<unsigned char> data;
+        }
     };
-
 
     class ParsingDataBuffer {
     public:
         ParsingDataBuffer(CharDataVector data);
+        ParsingDataBuffer(std::span<unsigned char> data);
         unsigned char GetNextByte();
         unsigned char GetCurrentByte();
         unsigned char GetNextByteNotEOF();
@@ -36,9 +38,9 @@ namespace cryptopglib {
         unsigned int GetNextFourOctets();
         bool Skip(unsigned long packet_length);
 
-        ParsingDataSubBuffer GetRange(size_t length);
-        ParsingDataSubBuffer GetRange(size_t start_pos, size_t last_pos);
-        ParsingDataSubBuffer GetRawData();
+        ParsingDataBuffer GetRange(size_t length);
+        ParsingDataBuffer GetRange(size_t start_pos, size_t last_pos);
+        ParsingDataBuffer GetRawData();
 
         CharDataVector GetRangeOld(size_t length);
         CharDataVector GetRangeOld(size_t start_pos, size_t last_pos);
@@ -53,8 +55,10 @@ namespace cryptopglib {
         size_t CurrentPosition() const { return currentPosition; };
 
     private:
-        CharDataVector data;
         size_t currentPosition;
+        std::vector<unsigned char> data;
+
+        DataHandler dataHandler;
     };
 }
 
